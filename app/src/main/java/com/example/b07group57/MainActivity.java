@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /* A simple way to write data to the database, you can figure out the rest, the URL is our database URL
+        Make sure to look up how to structure a database (just ask GPT honestly)
 
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://b07-group-57-default-rtdb.firebaseio.com/");
         DatabaseReference myRef = db.getReference("message");
