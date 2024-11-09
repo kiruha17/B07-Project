@@ -1,14 +1,14 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.google.gms.google.services)
+    id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.b07demosummer2024"
+    namespace = "com.example.b07group57"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.b07demosummer2024"
+        applicationId = "com.example.b07group57"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -39,4 +39,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.google.firebase.database)
 }
