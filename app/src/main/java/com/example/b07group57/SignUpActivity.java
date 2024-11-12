@@ -36,10 +36,10 @@ public class SignUpActivity extends AppCompatActivity {
         emailTextView = findViewById(R.id.email_input);
         passwordTextView = findViewById(R.id.password_input);
         conPasswordTextView = findViewById(R.id.conpassword);
-        nameTextView = findViewById(R.id.user_name); //Send to user class to store data later
+        nameTextView = findViewById(R.id.user_name);
         Button regBtn = findViewById(R.id.register);
 
-        regBtn.onClickListener(new View.onClickListener() {
+        regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registerNewUser();
@@ -90,21 +90,50 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    //Registration is Successful
-                    Toast.makeText(getApplicationContext(),
-                            "Registration successful", Toast.LENGTH_LONG).show();
+                    mAuth.getCurrentUser().sendEmailVerification()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(getApplicationContext(),
+                                        "Registration successful. Please verify your email.",
+                                        Toast.LENGTH_LONG).show();
 
-                    Intent intent = new Intent(SignUpActivity.this, HomeFragment.this); //Home
-                    startActivity(intent);
-
+                                showVerificationDialog();
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(),
+                                        "Registration failed, Please try again later",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
                 else {
-                    //Registration Failed
                     Toast.makeText(getApplicationContext(),
-                            "Registration failed" + "Please try again later",
+                            "Registration failed, Please try again later",
                             Toast.LENGTH_LONG).show();
                 }
             }
         });
+    }
+
+    private void showVerificationDialog(){
+        Toast.makeText(this, "Please check your inbox and verify your email.",
+                Toast.LENGTH_LONG).show();
+
+        // Check if email is verified
+        if (mAuth.getCurrentUser().isEmailVerified()) {
+            //Send the name to be added to the database here
+
+
+            Intent intent = new Intent(SignUpActivity.this, Login_page_fragment);
+            startActivity(intent);
+            finish();
+        } else {
+            // Email not verified yet
+            Toast.makeText(this, "Please verify your email before logging in.",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }
