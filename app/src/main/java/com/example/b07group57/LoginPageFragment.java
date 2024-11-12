@@ -11,26 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class LoginHomeFragment extends Fragment {
+public class LoginPageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.login_home_fragment, container, false);
-
-        Button buttonLoginview = view.findViewById(R.id.buttonLoginview);
-        Button buttonSignupview = view.findViewById(R.id.buttonSignupview);
+        View view = inflater.inflate(R.layout.login_page_fragment, container, false);
 
 
-        buttonLoginview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new LoginPageFragment());
-            }
-        });
-        buttonSignupview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { loadFragment(new ManageItemsFragment());}
-        });
 
         return view;
     }
