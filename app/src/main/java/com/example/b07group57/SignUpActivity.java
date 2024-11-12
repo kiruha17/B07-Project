@@ -22,23 +22,24 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText emailTextView, passwordTextView;
-    private Button Btn;
+    private EditText emailTextView, passwordTextView, conPasswordTextView, nameTextView;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(TeMP); //Replace TeMP with the registration activity screen
+        setContentView(R.layout.signup_page_fragment);
 
         mAuth = FirebaseAuth.getInstance();
 
-        //Initialize our email, password, the button ids being pressed,
-        emailTextView = findViewById(R.id.email); //Email being the text name
-        passwordTextView = findViewById(R.id.password); // Password being the text name
-        Btn = findViewById(R.id.buttonRegister); // Register button
+        //Initialize fields
+        emailTextView = findViewById(R.id.email_input);
+        passwordTextView = findViewById(R.id.password_input);
+        conPasswordTextView = findViewById(R.id.conpassword);
+        nameTextView = findViewById(R.id.user_name); //Send to user class to store data later
+        Button regBtn = findViewById(R.id.register);
 
-        Btn.onClickListener(new View.onClickListener() { //Listening to button press
+        regBtn.onClickListener(new View.onClickListener() {
             @Override
             public void onClick(View v) {
                 registerNewUser();
@@ -48,9 +49,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void registerNewUser(){
-        String email, password;
+        String email, password, conPassword, name;
         email = emailTextView.getText().toString();
         password = passwordTextView.getText().toString();
+        conPassword = conPasswordTextView.getText().toString();
+        name = nameTextView.getText().toString();
 
         //Validations for input email and password
         if (TextUtils.isEmpty(email)){
@@ -63,6 +66,24 @@ public class SignUpActivity extends AppCompatActivity {
                     "Please enter a password!", Toast.LENGTH_LONG).show();
             return;
         }
+        if (TextUtils.isEmpty(conPassword)){
+            Toast.makeText(getApplicationContext(),
+                    "Please confirm your password",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (TextUtils.isEmpty(name)){
+            Toast.makeText(getApplicationContext(),
+                    "Please enter your name",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!password.equals(conPassword)){
+            Toast.makeText(getApplicationContext(),
+                    "Passwords do not match",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -73,8 +94,9 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             "Registration successful", Toast.LENGTH_LONG).show();
 
-                    //Intent intent = new Intent(SignUpActivity.this, MainActivity.this);
-                    //startActivity(intent);
+                    Intent intent = new Intent(SignUpActivity.this, HomeFragment.this); //Home
+                    startActivity(intent);
+
                 }
                 else {
                     //Registration Failed
