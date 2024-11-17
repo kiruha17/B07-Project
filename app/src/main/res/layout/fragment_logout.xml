@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- ログアウトボタン -->
     <Button
         android:id="@+id/logout_button"
         android:layout_width="match_parent"
