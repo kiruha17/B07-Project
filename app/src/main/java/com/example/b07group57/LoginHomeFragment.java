@@ -29,7 +29,7 @@ public class LoginHomeFragment extends Fragment {
         });
         buttonSignupview.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { loadFragment(new ManageItemsFragment());}
+            public void onClick(View v) { loadFragment(new SignUpPageFragment());}
         });
 
         return view;

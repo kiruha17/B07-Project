@@ -11,13 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class LoginPageFragment extends Fragment {
+public class SignUpPageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.login_page_fragment, container, false);
-        Button buttonLoginview = view.findViewById(R.id.login_button);
-
+        View view = inflater.inflate(R.layout.signup_page_fragment, container, false);
+        Button buttonLoginview = view.findViewById(R.id.register);
 
 
         return view;
@@ -29,4 +28,7 @@ public class LoginPageFragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+
 }
+
