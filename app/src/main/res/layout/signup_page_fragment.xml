@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
-    tools:context=".LoginPageFragment">
-
+    tools:context=".SignUpPageFragment">
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
@@ -25,15 +24,32 @@
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="247dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="40dp"
                 android:src="@drawable/logo2" />
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/user_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_background"
+                android:drawableStart="@drawable/person_icon"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColorHint="#009999" />
+
+
+            <EditText
+                android:id="@+id/email_input"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/edittext_background"
                 android:drawableStart="@drawable/email"
@@ -45,11 +61,11 @@
                 android:textColorHint="#009999" />
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/password_input"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/edittext_background"
                 android:drawableStart="@drawable/lock"
@@ -59,23 +75,37 @@
                 android:inputType="text"
                 android:padding="8dp"
                 android:textColorHint="#009999" />
+            <EditText
+                android:id="@+id/conpassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_background"
+                android:drawableStart="@drawable/lock"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Confirm Password"
+                android:inputType="text"
+                android:padding="8dp"
+                android:textColorHint="#009999" />
 
             <Button
-                android:id="@+id/login_button"
+                android:id="@+id/register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:padding="16dp"
                 android:textColor="#009999"
                 android:backgroundTint="#D8DBE2"
                 android:textSize="20dp"
-                android:text="Login" />
+                android:text="Register" />
 
 
         </LinearLayout>
 
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
