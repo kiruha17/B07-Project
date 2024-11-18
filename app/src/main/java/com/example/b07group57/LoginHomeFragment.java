@@ -27,9 +27,11 @@ public class LoginHomeFragment extends Fragment {
                 loadFragment(new LoginPageFragment());
             }
         });
-        buttonSignupview.setOnClickListener(new View.OnClickListener() {
+        buttonLoginview.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { loadFragment(new SignUpPageFragment());}
+            public void onClick(View v) {
+                loadFragment(new SignUpPageFragment());
+            }
         });
 
         return view;
