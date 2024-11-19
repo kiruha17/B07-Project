@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         if (isLoggedIn) {
             if (currentTime - loginTimestamp < thirtyDaysInMillis) {
                 // if login session is still valid, move to homepage
-                startActivity(new Intent(this, LoginHomeFragment.class));
+                startActivity(new Intent(this, HomePageFragment.class));
                 finish();
             } else {
                 // if the session has expired, make user login again
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // success
                     saveLoginState();
-                    startActivity(new Intent(this, LoginHomeFragment.class)); // HomeActivity.class
+                    startActivity(new Intent(this, HomePageFragment.class)); // HomeActivity.class
                     finish();
                 }
                 else {

@@ -58,7 +58,7 @@
                 android:hint="Email"
                 android:inputType="text"
                 android:padding="8dp"
-                android:textColorHint="#009999" />
+                android:textColorHint="#009999"  />
 
             <EditText
                 android:id="@+id/password_input"
