@@ -40,14 +40,8 @@ public class ResetPasswordFragment extends Fragment {
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        ResetPasswordEnterNewPasswordFragment emailSentFragment = new ResetPasswordEnterNewPasswordFragment();
-
-                        Bundle args = new Bundle();
-                        args.putString("user_email", email);
-                        emailSentFragment.setArguments(args);
-
-                        // Navigate to the next fragment
-                        getParentFragmentManager().beginTransaction()
+                        ResetPasswordEmailSentFragment emailSentFragment = new ResetPasswordEmailSentFragment();
+                        requireActivity().getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, emailSentFragment)
                                 .addToBackStack(null)
                                 .commit();
