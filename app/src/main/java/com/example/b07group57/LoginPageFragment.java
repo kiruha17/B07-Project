@@ -19,7 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 public class LoginPageFragment extends Fragment {
 
     private EditText emailField, passwordField;
-    private Button loginButton;
+    private Button loginButton, forgotPasswordButton;
 
     @Nullable
     @Override
@@ -30,6 +30,7 @@ public class LoginPageFragment extends Fragment {
         emailField = view.findViewById(R.id.email);
         passwordField = view.findViewById(R.id.password);
         loginButton = view.findViewById(R.id.login_button);
+        forgotPasswordButton = view.findViewById(R.id.forgot_password_button);
 
         // Initially disable the login button
         loginButton.setEnabled(false);
@@ -58,8 +59,11 @@ public class LoginPageFragment extends Fragment {
 
         // Set the login button click listener
         loginButton.setOnClickListener(v -> {
-            Log.d("LoginPageFragment", "Login button clicked!");
             navigateToLogoutPage();
+        });
+
+        forgotPasswordButton.setOnClickListener(v -> {
+            navigateToResetPasswordPage();
         });
 
         return view;
@@ -70,7 +74,16 @@ public class LoginPageFragment extends Fragment {
         Fragment logoutFragment = new LogoutPageFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, logoutFragment);
-        transaction.addToBackStack(null); // Add to back stack so user can navigate back
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void navigateToResetPasswordPage() {
+        // Navigate to ResetPasswordEmailInputFragment
+        Fragment resetPasswordFragment = new ResetPasswordFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, resetPasswordFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 }
