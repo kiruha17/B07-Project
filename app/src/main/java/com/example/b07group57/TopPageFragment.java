@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 public class TopPageFragment extends Fragment {
 
     private Button logoutButton;
+    private Button acfButton;
 
     @Nullable
     @Override
@@ -23,11 +24,16 @@ public class TopPageFragment extends Fragment {
 
         // Find the logout button
         logoutButton = view.findViewById(R.id.logout_button);
+        acfButton = view.findViewById(R.id.acf_button);
 
         // Set onClickListener for logout
         logoutButton.setOnClickListener(v -> {
             // Perform logout operation (clear login state, etc.)
             loadFragment(new LogoutPageFragment());
+        });
+
+        acfButton.setOnClickListener(v -> {
+            loadFragment(new AnnualCarbonFootprintSurveyFragment());
         });
 
         // Set up any other UI elements here (e.g., display user info)
