@@ -1,5 +1,10 @@
 package com.example.b07group57;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -10,16 +15,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class LoginPageFragment extends Fragment {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
+public class LoginPageFragment extends Fragment {
+    // FirebaseAuth
+    private FirebaseAuth mAuth;
     private EditText emailField, passwordField;
     private Button loginButton, forgotPasswordButton;
+    private Activity activity = getActivity();
 
     @Nullable
     @Override
@@ -34,6 +46,31 @@ public class LoginPageFragment extends Fragment {
 
         // Initially disable the login button
         loginButton.setEnabled(false);
+
+        // initialize FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
+
+        // check login state from SharedPreferences
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        long loginTimestamp = sharedPreferences.getLong("loginTimestamp", 0);
+
+        long currentTime = System.currentTimeMillis();
+        long thirtyDaysInMillis = 30L * 24 * 60 * 60 * 1000;  // convert 30 days into millisecond
+
+        if (isLoggedIn) {
+            if (currentTime - loginTimestamp < thirtyDaysInMillis) {
+                // if login session is still valid, move to top page
+                navigateTopPage();
+            }
+            else {
+                // if the session has expired, make user login again
+                Toast.makeText(getActivity(), "Your session has expired. Please log in again.", Toast.LENGTH_SHORT).show();
+                resetState();
+            }
+        } else {
+            Toast.makeText(activity, "Please log in.", Toast.LENGTH_SHORT).show();
+        }
 
         // Add a TextWatcher to dynamically enable the button
         TextWatcher textWatcher = new TextWatcher() {
@@ -57,9 +94,35 @@ public class LoginPageFragment extends Fragment {
         emailField.addTextChangedListener(textWatcher);
         passwordField.addTextChangedListener(textWatcher);
 
-        // Set the login button click listener
         loginButton.setOnClickListener(v -> {
-            navigateToLogoutPage();
+            String email = emailField.getText().toString().trim();
+            String password = passwordField.getText().toString().trim();
+            // Firebase login
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, task -> {
+                if (task.isSuccessful()) {
+                    // success
+                    saveLoginState();
+                    navigateTopPage();
+                }
+                else {
+                    // handle specific Firebase exceptions
+                    String errorMessage;
+                    if (task.getException() != null) {
+                        try {
+                            throw task.getException();
+                        } catch (FirebaseAuthInvalidCredentialsException e) {
+                            errorMessage = "Invalid credentials. Please check your email and password.";
+                        } catch (FirebaseAuthInvalidUserException e) {
+                            errorMessage = "No account found with this email.";
+                        } catch (Exception e) {
+                            errorMessage = "Authentication failed: " + e.getMessage();
+                        }
+                    } else {
+                        errorMessage = "Unknown error occurred.";
+                    }
+                    Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         forgotPasswordButton.setOnClickListener(v -> {
@@ -69,15 +132,6 @@ public class LoginPageFragment extends Fragment {
         return view;
     }
 
-    private void navigateToLogoutPage() {
-        // Navigate to LogoutPageFragment
-        Fragment logoutFragment = new LogoutPageFragment();
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, logoutFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
     private void navigateToResetPasswordPage() {
         // Navigate to ResetPasswordEmailInputFragment
         Fragment resetPasswordFragment = new ResetPasswordFragment();
@@ -85,5 +139,30 @@ public class LoginPageFragment extends Fragment {
         transaction.replace(R.id.fragment_container, resetPasswordFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void navigateTopPage() {
+        // Navigate to ResetPasswordEmailInputFragment
+        Fragment TopPageFragment = new TopPageFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, TopPageFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void saveLoginState() {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", true);
+        editor.putLong("loginTimestamp", System.currentTimeMillis()); // Save time stamp of login date
+        editor.apply();
+    }
+
+    private void resetState() {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", false); // reset login state
+        editor.putLong("loginTimestamp", 0);   // reset time stamp
+        editor.apply();
     }
 }

@@ -11,36 +11,35 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class HomePageFragment extends Fragment {
+public class TopPageFragment extends Fragment {
+
+    private Button logoutButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_page_fragment, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.top_page_fragment, container, false);
 
-        Button buttonLoginView = view.findViewById(R.id.buttonLoginView);
-        Button buttonSignupView = view.findViewById(R.id.buttonSignupView);
+        // Find the logout button
+        logoutButton = view.findViewById(R.id.logout_button);
 
-
-        buttonLoginView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new LoginPageFragment());
-            }
+        // Set onClickListener for logout
+        logoutButton.setOnClickListener(v -> {
+            // Perform logout operation (clear login state, etc.)
+            loadFragment(new LogoutPageFragment());
         });
-        buttonSignupView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new SignUpPageFragment());
-            }
-        });
+
+        // Set up any other UI elements here (e.g., display user info)
 
         return view;
     }
 
     private void loadFragment(Fragment fragment) {
+        // FragmentTransaction to replace the current fragment with the new one
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(null);  // Add to back stack so the user can navigate back
         transaction.commit();
     }
 }

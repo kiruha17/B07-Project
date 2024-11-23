@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D8DBE2"
-    tools:context=".LoginHomeFragment">
+    tools:context=".HomePageFragment">
 
 
     <Button
-        android:id="@+id/buttonLoginview"
+        android:id="@+id/buttonLoginView"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
@@ -20,15 +20,15 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
-        android:id="@+id/buttonSignupview"
+        android:id="@+id/buttonSignupView"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="#009999"
         android:text="SignUp"
-        app:layout_constraintEnd_toEndOf="@+id/buttonLoginview"
-        app:layout_constraintStart_toStartOf="@+id/buttonLoginview"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLoginview" />
+        app:layout_constraintEnd_toEndOf="@+id/buttonLoginView"
+        app:layout_constraintStart_toStartOf="@+id/buttonLoginView"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLoginView" />
 
     <TextView
         android:id="@+id/textView3"
