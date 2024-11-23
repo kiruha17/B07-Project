@@ -17,17 +17,17 @@ public class HomePageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_page_fragment, container, false);
 
-        Button buttonLoginview = view.findViewById(R.id.buttonLoginview);
-        Button buttonSignupview = view.findViewById(R.id.buttonSignupview);
+        Button buttonLoginView = view.findViewById(R.id.buttonLoginView);
+        Button buttonSignupView = view.findViewById(R.id.buttonSignupView);
 
 
-        buttonLoginview.setOnClickListener(new View.OnClickListener() {
+        buttonLoginView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new LoginPageFragment());
             }
         });
-        buttonSignupview.setOnClickListener(new View.OnClickListener() {
+        buttonSignupView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new SignUpPageFragment());
