@@ -5,18 +5,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class AnnualCarbonFootprintSurveyFragment extends Fragment {
+
+    private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.annual_carbon_footprint_survey_fragment, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         Spinner spinnerCountry = view.findViewById(R.id.spinner_country);
         RadioGroup radioGroupCarOwner = view.findViewById(R.id.car_owner_or_not);
@@ -45,6 +65,7 @@ public class AnnualCarbonFootprintSurveyFragment extends Fragment {
         Spinner spinnerBuySecondHand = view.findViewById(R.id.spinner_buy_second_hand);
         Spinner spinnerBuyElectronics = view.findViewById(R.id.spinner_buy_electronics);
         Spinner spinnerRecycle = view.findViewById(R.id.spinner_recycle);
+        Button confirmButton = view.findViewById(R.id.confirm_button);
 
         ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(
                 requireContext(),
@@ -226,6 +247,65 @@ public class AnnualCarbonFootprintSurveyFragment extends Fragment {
                 R.layout.spinner_item);
         recycleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRecycle.setAdapter(recycleAdapter);
+
+        confirmButton.setOnClickListener(v -> {
+            try {
+                // Create a map to store user responses
+                Map<String, Object> surveyData = new HashMap<>();
+                surveyData.put("country", spinnerCountry.getSelectedItem().toString());
+
+                int carOwnerId = radioGroupCarOwner.getCheckedRadioButtonId();
+                RadioButton carOwnerButton = view.findViewById(carOwnerId);
+                surveyData.put("carOwner", carOwnerButton.getText().toString());
+
+                surveyData.put("carType", spinnerCarType.getSelectedItem().toString());
+                surveyData.put("publicTransportFreq", spinnerPublicTransportFreq.getSelectedItem().toString());
+                surveyData.put("distanceDriven", spinnerDistanceDriven.getSelectedItem().toString());
+                surveyData.put("timeOnPublicTransport", spinnerTimeSpentOnPublicTransport.getSelectedItem().toString());
+                surveyData.put("shortHaulFlights", spinnerShortHaulFlights.getSelectedItem().toString());
+                surveyData.put("longHaulFlights", spinnerLongHaulFlights.getSelectedItem().toString());
+
+                int dietId = radioGroupDiet.getCheckedRadioButtonId();
+                RadioButton dietButton = view.findViewById(dietId);
+                surveyData.put("diet", dietButton.getText().toString());
+
+                surveyData.put("beefConsumption", spinnerBeef.getSelectedItem().toString());
+                surveyData.put("porkConsumption", spinnerPork.getSelectedItem().toString());
+                surveyData.put("chickenConsumption", spinnerChicken.getSelectedItem().toString());
+                surveyData.put("fishConsumption", spinnerFish.getSelectedItem().toString());
+                surveyData.put("foodWaste", spinnerFoodWaste.getSelectedItem().toString());
+
+                surveyData.put("homeType", spinnerHomeType.getSelectedItem().toString());
+                surveyData.put("homePeople", spinnerHomePeople.getSelectedItem().toString());
+                surveyData.put("homeSize", spinnerHomeSize.getSelectedItem().toString());
+                surveyData.put("homeHeater", spinnerHomeHeater.getSelectedItem().toString());
+                surveyData.put("electricityBill", spinnerElectricityBill.getSelectedItem().toString());
+                surveyData.put("waterHeater", spinnerWaterHeater.getSelectedItem().toString());
+                surveyData.put("renewableEnergy", spinnerRenewableEnergy.getSelectedItem().toString());
+
+                surveyData.put("buyClothes", spinnerBuyClothes.getSelectedItem().toString());
+                surveyData.put("buySecondHand", spinnerBuySecondHand.getSelectedItem().toString());
+                surveyData.put("buyElectronics", spinnerBuyElectronics.getSelectedItem().toString());
+                surveyData.put("recycle", spinnerRecycle.getSelectedItem().toString());
+
+                // Convert survey data to JSON (optional for debugging)
+                JSONObject surveyJson = new JSONObject(surveyData);
+                System.out.println(surveyJson);
+
+                // Store the data in Firebase under the user's UID
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                if (currentUser != null) {
+                    String userId = currentUser.getUid();
+                    databaseReference.child("users").child(userId).child("surveyData").setValue(surveyData)
+                            .addOnSuccessListener(aVoid -> Toast.makeText(requireContext(), "Survey submitted successfully!", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to submit survey: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                } else {
+                    Toast.makeText(requireContext(), "No user logged in. Please log in first.", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(requireContext(), "An error occurred: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }

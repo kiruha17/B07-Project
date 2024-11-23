@@ -479,6 +479,17 @@
                 android:spinnerMode="dropdown"
                 android:layout_marginBottom="20dp"/>
 
+            <Button
+                android:id="@+id/confirm_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#009999"
+                android:text="Confirm"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="30dp"
+                />
+
         </LinearLayout>
     </ScrollView>
 
