@@ -15,6 +15,7 @@ public class TopPageFragment extends Fragment {
 
     private Button logoutButton;
     private Button acfButton;
+    private Button ecoHubButton;
 
     @Nullable
     @Override
@@ -25,6 +26,7 @@ public class TopPageFragment extends Fragment {
         // Find the logout button
         logoutButton = view.findViewById(R.id.logout_button);
         acfButton = view.findViewById(R.id.acf_button);
+        ecoHubButton = view.findViewById(R.id.eco_hub_button);
 
         // Set onClickListener for logout
         logoutButton.setOnClickListener(v -> {
@@ -34,6 +36,10 @@ public class TopPageFragment extends Fragment {
 
         acfButton.setOnClickListener(v -> {
             loadFragment(new AnnualCarbonFootprintSurveyFragment());
+        });
+
+        ecoHubButton.setOnClickListener(v -> {
+            loadFragment(new EcoHubFragment());
         });
 
         // Set up any other UI elements here (e.g., display user info)
