@@ -22,13 +22,13 @@
         android:layout_height="wrap_content"
         android:text="Annual Carbon Footprint" />
 
-    <!-- Temporary Eco Hub Button -->
+    <!-- Temporary Main Menu Button -->
 
     <Button
-        android:id="@+id/eco_hub_button"
+        android:id="@+id/main_menu_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eco Hub" />
+        android:text="Main Menu" />
 
     <!-- Temporary Eco Gauge Button -->
 

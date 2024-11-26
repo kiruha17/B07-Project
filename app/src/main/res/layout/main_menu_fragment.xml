@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainMenuFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d8dbe2">
+
+
+    <ImageView
+        android:id="@+id/PlanetzeName"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="50dp"
+        android:src="@drawable/logo"
+        android:contentDescription="planetze"
+        app:layout_constraintEnd_toStartOf="@+id/planetze_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/planetzeDesc1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="10dp"
+        android:text="Start Tracking"
+        android:textColor="#009999"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/planetze_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PlanetzeName" />
+
+    <TextView
+        android:id="@+id/planetzeDesc2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="Start Changing"
+        android:textColor="#009999"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/planetze_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/planetzeDesc1" />
+
+    <ImageView
+        android:id="@+id/planetze_logo"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="planetze logo"
+        android:src="@drawable/logo2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/PlanetzeName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:id="@+id/row1"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/planetze_logo">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="20dp">
+
+            <RelativeLayout
+                android:id="@+id/ecotrackercard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#d8dbe2">
+
+                <TextView
+                    android:id="@+id/ecotracker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ecotrackerpic"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:text="Eco Tracker"
+                    android:textColor="#009999"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/ecotrackerpic"
+                    android:layout_width="73dp"
+                    android:layout_height="73dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/eco_tracker" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            app:cardElevation="20dp"
+            app:cardCornerRadius="20dp"
+            android:background="#d8dbe2">
+
+            <RelativeLayout
+                android:id="@+id/ecogaugecard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#d8dbe2">
+
+                <TextView
+                    android:id="@+id/ecogauge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ecogaugepic"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif"
+                    android:text="Eco Gauge"
+                    android:textStyle="bold"
+                    android:textColor="#009999"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/ecogaugepic"
+                    android:layout_width="73dp"
+                    android:layout_height="73dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/eco_gauge" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:id="@+id/row2"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row1">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="20dp">
+
+            <RelativeLayout
+                android:id="@+id/Ecohubcard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#d8dbe2">
+
+                <TextView
+                    android:id="@+id/ecohub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ecohubpic"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:text="Eco Hub"
+                    android:textColor="#009999"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/ecohubpic"
+                    android:layout_width="73dp"
+                    android:layout_height="73dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/eco_hub" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            app:cardElevation="20dp"
+            app:cardCornerRadius="20dp"
+            android:background="#d8dbe2">
+
+            <RelativeLayout
+                android:id="@+id/ecobalancecard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#d8dbe2">
+
+                <TextView
+                    android:id="@+id/ecobalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ecobalancepic"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:text="Eco Balance"
+                    android:textColor="#009999"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/ecobalancepic"
+                    android:layout_width="73dp"
+                    android:layout_height="73dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/eco_balance" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:id="@+id/row3"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:padding="10dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/row2">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="20dp">
+
+            <RelativeLayout
+                android:id="@+id/Ecoagentcard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#d8dbe2">
+
+                <TextView
+                    android:id="@+id/ecoagent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ecoagentpic"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:text="Eco Agent"
+                    android:textColor="#009999"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/ecoagentpic"
+                    android:layout_width="73dp"
+                    android:layout_height="73dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/eco_agent" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
