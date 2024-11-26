@@ -366,7 +366,8 @@
         <item>None</item>
         <item>1</item>
         <item>2</item>
-        <item>3 or more</item>
+        <item>3</item>
+        <item>4 or more</item>
     </string-array>
     
     <string-array name="recycle">
