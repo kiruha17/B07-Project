@@ -66,11 +66,133 @@ public class ConsumptionCalculator {
 
     public static double calculateRecycle(String buyClothes, String buyElectronics, String response, double currentTotal) {
 
-        double newTotal;
-
-
+        switch (response) {
+            case "Never":
+                return currentTotal;
+            case "Occasionally":
+                return currentTotal - calculateRecycleOccasionally(buyClothes, buyElectronics);
+            case "Frequently":
+                return currentTotal - calculateRecycleFrequently(buyClothes, buyElectronics);
+            case "Always":
+                return currentTotal - calculateRecycleAlways(buyClothes, buyElectronics);
+        }
 
         Log.e("calculateRecycle","None of the recycle data matches");
         return Double.NEGATIVE_INFINITY;
+    }
+
+    // Returns the reduction
+    public static double calculateRecycleOccasionally(String buyClothes, String buyElectronics) {
+
+        double reduction = 0;
+
+        switch (buyClothes) {
+            case "Monthly":
+            case "Quarterly":
+                reduction += 54;
+                break;
+            case "Annually":
+                reduction += 15;
+                break;
+            case "Rarely":
+                reduction += 0.75;
+                break;
+        }
+
+        switch (buyElectronics) {
+            case "None":
+                reduction += 0;
+                break;
+            case "1":
+                reduction += 45;
+                break;
+            case "2":
+                reduction += 60;
+                break;
+            case "3":
+                reduction += 90;
+                break;
+            case "4 or more":
+                reduction += 120;
+                break;
+        }
+
+        return reduction;
+    }
+
+    public static double calculateRecycleFrequently(String buyClothes, String buyElectronics) {
+
+        double reduction = 0;
+
+        switch (buyClothes) {
+            case "Monthly":
+            case "Quarterly":
+                reduction += 108;
+                break;
+            case "Annually":
+                reduction += 30;
+                break;
+            case "Rarely":
+                reduction += 1.5;
+                break;
+        }
+
+        switch (buyElectronics) {
+            case "None":
+                reduction += 0;
+                break;
+            case "1":
+                reduction += 60;
+                break;
+            case "2":
+                reduction += 120;
+                break;
+            case "3":
+                reduction += 180;
+                break;
+            case "4 or more":
+                reduction += 240;
+                break;
+        }
+
+        return reduction;
+    }
+
+    public static double calculateRecycleAlways(String buyClothes, String buyElectronics) {
+
+        double reduction = 0;
+
+        switch (buyClothes) {
+            case "Monthly":
+            case "Quarterly":
+                reduction += 180;
+                break;
+            case "Annually":
+                reduction += 50;
+                break;
+            case "Rarely":
+                reduction += 2.5;
+                break;
+        }
+
+        switch (buyElectronics) {
+            case "None":
+                reduction += 0;
+                break;
+            case "1":
+                reduction += 90;
+                break;
+            case "2":
+                reduction += 180;
+                break;
+            case "3":
+                reduction += 270;
+                break;
+            case "4 or more":
+                reduction += 360;
+                break;
+        }
+
+        return reduction;
     }
 }
