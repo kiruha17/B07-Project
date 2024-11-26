@@ -1,6 +1,8 @@
 [versions]
 agp = "8.4.1"
 firebaseBom = "33.5.1"
+firebaseDatabaseVersion = "20.3.3"
+jbcrypt = "0.4"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -14,7 +16,9 @@ firebaseAuth = "23.1.0"
 
 [libraries]
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-database-v2033 = { module = "com.google.firebase:firebase-database", version.ref = "firebaseDatabaseVersion" }
 google-firebase-database = { module = "com.google.firebase:firebase-database" }
+jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
