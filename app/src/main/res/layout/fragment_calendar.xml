@@ -8,7 +8,7 @@
     android:background="@color/color_white"
     tools:context=".MainActivity">
 
-    <!-- カレンダーを表示するセクション -->
+    <!-- Calendar -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewCalendar"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 日付選択 -->
+            <!-- Choose Date -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp" />
 
-            <!-- カレンダー -->
+            <!-- Calendar -->
             <CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- 円グラフと詳細 -->
+    <!-- Pie Chart and Details -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewGraph"
         android:layout_width="match_parent"
@@ -59,64 +59,35 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <!-- 円グラフ -->
+            <!-- PieChart -->
             <org.eazegraph.lib.charts.PieChart
-                android:id="@+id/pieChart"
+                android:id="@+id/piechart"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:padding="6dp"
-                android:layout_margin="15dp" />
+                android:layout_weight="1"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="15dp"
+                />
 
-            <!-- グラフデータのラベル -->
+            <!-- Data Label -->
             <LinearLayout
+                android:id="@+id/labelContainer"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:orientation="vertical"
                 android:gravity="center_vertical">
 
-                <!-- 各データのラベル例 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp">
+                <!-- add with method -->
 
-                    <View
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:background="@color/colorPrimary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Category A: 40%" />
-                </LinearLayout>
-
-                <!-- 他のカテゴリ -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp">
-
-                    <View
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:background="@color/colorAccent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Category B: 30%" />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- 活動詳細の表示 -->
+    <!-- Activity Details -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewDetails"
         android:layout_width="match_parent"
@@ -151,7 +122,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:layout_marginBottom="10dp" />
 
-            <!-- 詳細ボタン -->
+            <!-- Details Button -->
             <Button
                 android:id="@+id/btnDetails"
                 android:layout_width="wrap_content"

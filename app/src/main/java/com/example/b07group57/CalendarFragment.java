@@ -1,106 +1,164 @@
+package com.example.b07group57;
+
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
 
 public class CalendarFragment extends Fragment {
 
-    private DatePicker datePicker;
-    private EditText activityLog;
-    private Button saveActivityButton;
-    private TextView selectedDateTextView;
+    private DatabaseReference mDatabase;
+    private PieChart pieChart;
+    private TextView tvSelectedDate, tvActivityDetails;
+    private Button btnDetails;
 
-    private FirebaseFirestore db;
+    public CalendarFragment() {
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_calendar, container, false);
+    }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        // Initialize Firestore
-        db = FirebaseFirestore.getInstance();
+        // Firebaseのインスタンスを取得
+        // mDatabase = FirebaseDatabase.getInstance().getReference("CO2Emission");
 
-        // Initialize views
-        datePicker = view.findViewById(R.id.date_picker);
-        activityLog = view.findViewById(R.id.activity_log);
-        saveActivityButton = view.findViewById(R.id.save_activity_button);
-        selectedDateTextView = view.findViewById(R.id.selected_date);
+        // UIの参照を取得
+        pieChart = view.findViewById(R.id.piechart);
+        tvSelectedDate = view.findViewById(R.id.tvSelectedDate);
+        tvActivityDetails = view.findViewById(R.id.tvActivityDetails);
+        btnDetails = view.findViewById(R.id.btnDetails);
 
-        // Set up the DatePicker listener
-        datePicker.init(
-                datePicker.getYear(),
-                datePicker.getMonth(),
-                datePicker.getDayOfMonth(),
-                (view1, year, monthOfYear, dayOfMonth) -> {
-                    String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                    selectedDateTextView.setText("Selected Date: " + selectedDate);
-                });
+        // カレンダーの選択日付を取得
+        CalendarView calendarView = view.findViewById(R.id.calendarView);
+        long currentDate = System.currentTimeMillis();
 
-        // Set up the save button listener
-        saveActivityButton.setOnClickListener(v -> saveActivityToDatabase());
+        String selectedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date(currentDate));
+        tvSelectedDate.setText("Selected Date: " + selectedDate);
 
-        return view;
+        calendarView.setDate(currentDate, true, true);
+        calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
+            String changedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+            tvSelectedDate.setText("Selected Date: " + changedDate);
+            loadEmissionData(changedDate);
+        });
+
+        loadEmissionData(selectedDate);
     }
 
-    // Save the activity to Firestore
-    private void saveActivityToDatabase() {
-        String activity = activityLog.getText().toString().trim();
-        if (activity.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter activity details", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        int year = datePicker.getYear();
-        int month = datePicker.getMonth() + 1; // Firestore stores months as 1-indexed
-        int day = datePicker.getDayOfMonth();
+    private void loadEmissionData(String selectedDate) {
+//        mDatabase.child(selectedDate).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                float transportation = 0, electricity = 0, food = 0, clothing = 0, other = 0;
+//
+//                // データが存在する場合に値を取得
+//                if (dataSnapshot.child("Transportation").exists()) {
+//                    transportation = dataSnapshot.child("Transportation").getValue(Float.class);
+//                }
+//                if (dataSnapshot.child("Electricity").exists()) {
+//                    electricity = dataSnapshot.child("Electricity").getValue(Float.class);
+//                }
+//                if (dataSnapshot.child("Food").exists()) {
+//                    food = dataSnapshot.child("Food").getValue(Float.class);
+//                }
+//                if (dataSnapshot.child("Clothing").exists()) {
+//                    clothing = dataSnapshot.child("Clothing").getValue(Float.class);
+//                }
+//                if (dataSnapshot.child("Other").exists()) {
+//                    other = dataSnapshot.child("Other").getValue(Float.class);
+//                }
 
-        // Format the date as "YYYY-MM-DD"
-        String selectedDate = year + "-" + month + "-" + day;
+                float transportation = 25, electricity = 15, food = 10, clothing = 30, other = 20;
 
-        // Create a new activity log object
-        ActivityLog newActivity = new ActivityLog(selectedDate, activity);
+                // PieChartにデータを追加
+                pieChart.clearChart(); // 既存データをクリア
+                pieChart.addPieSlice(new PieModel("Transportation", transportation, Color.parseColor("#FFA726")));
+                pieChart.addPieSlice(new PieModel("Electricity", electricity, Color.parseColor("#66BB6A")));
+                pieChart.addPieSlice(new PieModel("Food", food, Color.parseColor("#EF5350")));
+                pieChart.addPieSlice(new PieModel("Clothing", clothing, Color.parseColor("#29B6F6")));
+                pieChart.addPieSlice(new PieModel("Other", other, Color.parseColor("#FFEB3B")));
 
-        // Save the activity to Firestore
-        db.collection("activity_logs")
-                .document(selectedDate)
-                .set(newActivity)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getContext(), "Activity saved successfully", Toast.LENGTH_SHORT).show();
-                    activityLog.setText(""); // Clear the input field after saving
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Failed to save activity", Toast.LENGTH_SHORT).show();
-                });
+                // アニメーションを開始
+                pieChart.startAnimation();
+
+                // 横のラベルと値を更新
+                updateLabels(transportation, electricity, food, clothing, other);
+
+                // Firebaseから活動データを取得して表示する処理を追加
+                // 仮のデータ
+                tvActivityDetails.setText("Activity data for " + selectedDate);
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.e("FirebaseError", "Failed: " + databaseError.getMessage());
+//                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
-    // ActivityLog class to represent the data structure for Firestore
-    public static class ActivityLog {
-        private String date;
-        private String activity;
+    // 横のラベルと値を更新
+    private void updateLabels(float transportation, float electricity, float food, float clothing, float other) {
+        LinearLayout labelContainer = getView().findViewById(R.id.labelContainer);
 
-        public ActivityLog(String date, String activity) {
-            this.date = date;
-            this.activity = activity;
-        }
+        // 現在のレイアウトの子ビューをクリア
+        labelContainer.removeAllViews();
 
-        public String getDate() {
-            return date;
-        }
+        // ラベルと値を追加
+        addLabel(labelContainer, "Transportation", transportation, Color.parseColor("#FFA726"));
+        addLabel(labelContainer, "Electricity", electricity, Color.parseColor("#66BB6A"));
+        addLabel(labelContainer, "Food", food, Color.parseColor("#EF5350"));
+        addLabel(labelContainer, "Clothing", clothing, Color.parseColor("#29B6F6"));
+        addLabel(labelContainer, "Other", other, Color.parseColor("#FFEB3B"));
+    }
 
-        public String getActivity() {
-            return activity;
-        }
+    // ラベルを追加するメソッド
+    private void addLabel(LinearLayout container, String category, float value, int color) {
+        LinearLayout labelLayout = new LinearLayout(getContext());
+        labelLayout.setOrientation(LinearLayout.HORIZONTAL);
+        labelLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        // 色付きの小さなサンプルビュー
+        View colorView = new View(getContext());
+        colorView.setLayoutParams(new LinearLayout.LayoutParams(15, 15));
+        colorView.setBackgroundColor(color);
+
+        // テキストビューにカテゴリ名と値を表示
+        TextView textView = new TextView(getContext());
+        textView.setText(category + ": " + value + "%");
+        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        textView.setPadding(10, 0, 0, 0);
+
+        // 追加
+        labelLayout.addView(colorView);
+        labelLayout.addView(textView);
+        container.addView(labelLayout);
     }
 }
