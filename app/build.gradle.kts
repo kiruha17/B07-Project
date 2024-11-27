@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
+    implementation(libs.fragment.testing)
     // implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -60,8 +61,9 @@ dependencies {
     implementation("com.google.firebase:firebase-database:20.5.3")
 
     implementation ("androidx.test.espresso:espresso-core:3.6.1")
-    implementation ("androidx.test.ext:junit:1.1.5")
-    implementation ("androidx.test:core:1.5.0")
-    implementation ("androidx.test:rules:1.5.0")
+    implementation ("androidx.test.ext:junit:1.2.1")
+    implementation ("androidx.test:core:1.6.1")
+    implementation ("androidx.test:rules:1.6.1")
+    implementation ("androidx.core:core:1.10.1")
     implementation(libs.firebase.database.v2033)
 }
