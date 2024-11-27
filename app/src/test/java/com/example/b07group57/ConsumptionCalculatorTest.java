@@ -4,7 +4,7 @@ package com.example.b07group57;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.example.b07group57.models.ConsumptionCalculator;
+import com.example.b07group57.utils.ConsumptionCalculator;
 import com.example.b07group57.models.SurveyData;
 
 public class ConsumptionCalculatorTest {
