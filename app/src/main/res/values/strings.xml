@@ -377,5 +377,28 @@
         <item>Frequently</item>
         <item>Always</item>
     </string-array>
-    
+
+    <string-array name="transportation_types">
+        <item>Drive</item>
+        <item>Bus</item>
+        <item>Subway</item>
+        <item>Train</item>
+        <item>Flight</item>
+    </string-array>
+
+    <string-array name="food_types">
+        <item>Beef</item>
+        <item>Pork</item>
+        <item>Chicken</item>
+        <item>Fish</item>
+        <item>Plant-based</item>
+    </string-array>
+
+    <string-array name="shopping_types">
+        <item>Clothes</item>
+        <item>Electronics</item>
+        <item>Energy Bills</item>
+        <item>Other Purchases</item>
+    </string-array>
+
 </resources>
