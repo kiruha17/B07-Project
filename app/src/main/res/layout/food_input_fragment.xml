@@ -26,7 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(number of servings)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
     </LinearLayout>
 
     <!-- Pork Section -->
@@ -49,7 +51,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(number of servings)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
     </LinearLayout>
 
     <!-- Chicken Section -->
@@ -72,7 +76,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(number of servings)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
     </LinearLayout>
 
     <!-- Fish Section -->
@@ -95,7 +101,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(number of servings)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
     </LinearLayout>
 
     <!-- Plant-based Section -->
@@ -118,7 +126,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(number of servings)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
     </LinearLayout>
-
 </LinearLayout>
