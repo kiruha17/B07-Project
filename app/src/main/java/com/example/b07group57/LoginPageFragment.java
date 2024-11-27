@@ -139,9 +139,9 @@ public class LoginPageFragment extends Fragment {
 
     private void navigateTopPage() {
         // Navigate to TopPageFragment
-        Fragment topPageFragment = new TopPageFragment();
+        Fragment mainMenuFragment = new MainMenuFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, topPageFragment);
+        transaction.replace(R.id.fragment_container, mainMenuFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

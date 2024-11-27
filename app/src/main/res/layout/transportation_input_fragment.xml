@@ -1,6 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<!-- transportation_input_fields.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Drive Section -->
+    <LinearLayout
+        android:id="@+id/driveContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Drive"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/driveInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(km)"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <!-- Cycling or Walking Section -->
+    <LinearLayout
+        android:id="@+id/cyclingWalkingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cycling or Walking"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/cyclingWalkingInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(km)"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <!-- Bus Section -->
+    <LinearLayout
+        android:id="@+id/busContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bus"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/busInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(hours)"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <!-- Train Section -->
+    <LinearLayout
+        android:id="@+id/trainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Train"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/trainInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(hours)"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <!-- Subway Section -->
+    <LinearLayout
+        android:id="@+id/subwayContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Subway"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/subwayInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(hours)"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <!-- Short Flight Section -->
+    <LinearLayout
+        android:id="@+id/shortFlightContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Short Flight (less than 1,500 km)"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/shortFlightInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(count)"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <!-- Long Flight Section -->
+    <LinearLayout
+        android:id="@+id/longFlightContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Long Flight (more than 1,500 km)"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/longFlightInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(count)"
+            android:inputType="number" />
+    </LinearLayout>
+
+</LinearLayout>
