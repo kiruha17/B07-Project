@@ -50,25 +50,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
-            <LinearLayout
-                android:id="@+id/defaultDevicePair"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-                <EditText
-                    android:id="@+id/electronicDeviceTypeInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="type (e.g. smartphone,laptop,TV)"
-                    android:inputType="text" />
-                <EditText
-                    android:id="@+id/electronicDeviceInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="(quantity)"
-                    android:inputType="number" />
-            </LinearLayout>
         </LinearLayout>
 
         <!-- Add more Electronic Device inputs -->
@@ -102,25 +83,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
-            <LinearLayout
-                android:id="@+id/defaultOtherPair"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-                <EditText
-                    android:id="@+id/otherTypeInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="type (e.g. furniture,appliances)"
-                    android:inputType="text" />
-                <EditText
-                    android:id="@+id/otherInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="(quantity)"
-                    android:inputType="number" />
-            </LinearLayout>
         </LinearLayout>
 
         <!-- Add more Other inputs -->
