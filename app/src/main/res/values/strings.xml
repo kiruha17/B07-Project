@@ -217,7 +217,6 @@
     </string-array>
 
     <string-array name="car_type">
-        <item>Select</item>
         <item>Gasoline</item>
         <item>Diesel</item>
         <item>Hybrid</item>
@@ -226,7 +225,6 @@
     </string-array>
     
     <string-array name="public_transport_freq">
-        <item>Select</item>
         <item>Never</item>
         <item>Occasionally (1 to 2 times per week)</item>
         <item>Frequently (3 to 4 times per week)</item>
@@ -234,7 +232,6 @@
     </string-array>
 
     <string-array name="distance_driven">
-        <item>Select</item>
         <item>Up to 5,000 km (3,000 miles)</item>
         <item>5,000–10,000 km (3,000–6,000 miles)</item>
         <item>10,000–15,000 km (6,000–9,000 miles)</item>
@@ -244,7 +241,6 @@
     </string-array>
     
     <string-array name="time_spent_on_public_transport">
-        <item>Select</item>
         <item>Under 1 hour</item>
         <item>1–3 hours</item>
         <item>3–5 hours</item>
@@ -253,7 +249,6 @@
     </string-array>
 
     <string-array name="short_haul_flights">
-        <item>Select</item>
         <item>None</item>
         <item>1-2 flights</item>
         <item>3-5 flights</item>
@@ -262,7 +257,6 @@
     </string-array>
 
     <string-array name="long_haul_flights">
-        <item>Select</item>
         <item>None</item>
         <item>1–2 flights</item>
         <item>3–5 flights</item>
@@ -271,7 +265,6 @@
     </string-array>
 
     <string-array name="meat_freq">
-        <item>Select</item>
         <item>Daily</item>
         <item>Frequently (3–5 times/week)</item>
         <item>Occasionally (1–2 times/week)</item>
@@ -279,7 +272,6 @@
     </string-array>
 
     <string-array name="food_waste">
-        <item>Select</item>
         <item>Never</item>
         <item>Rarely</item>
         <item>Occasionally</item>
@@ -287,7 +279,6 @@
     </string-array>
     
     <string-array name="home_type">
-        <item>Select</item>
         <item>Detached house</item>
         <item>Semi-detached house</item>
         <item>Townhouse</item>
@@ -296,7 +287,6 @@
     </string-array>
 
     <string-array name="home_people">
-        <item>Select</item>
         <item>1</item>
         <item>2</item>
         <item>3-4</item>
@@ -304,14 +294,12 @@
     </string-array>
     
     <string-array name="home_size">
-        <item>Select</item>
         <item>Under 1000 sq. ft.</item>
         <item>1000-2000 sq. ft.</item>
         <item>Over 2000 sq. ft.</item>
     </string-array>
 
     <string-array name="home_heater">
-        <item>Select</item>
         <item>Natural Gas</item>
         <item>Electricity</item>
         <item>Oil</item>
@@ -321,7 +309,6 @@
     </string-array>
     
     <string-array name="electricity_bill">
-        <item>Select</item>
         <item>Under $50</item>
         <item>$50-$100</item>
         <item>$100-$150</item>
@@ -330,7 +317,6 @@
     </string-array>
     
     <string-array name="water_heater">
-        <item>Select</item>
         <item>Natural Gas</item>
         <item>Electricity</item>
         <item>Oil</item>
@@ -340,14 +326,12 @@
     </string-array>
     
     <string-array name="renewable_energy">
-        <item>Select</item>
         <item>Yes, primarily (more than 50% of energy use)</item>
         <item>Yes, partially (less than 50% of energy use)</item>
         <item>No</item>
     </string-array>
 
     <string-array name="buy_clothes">
-        <item>Select</item>
         <item>Monthly</item>
         <item>Quarterly</item>
         <item>Annually</item>
@@ -355,14 +339,12 @@
     </string-array>
 
     <string-array name="buy_second_hand">
-        <item>Select</item>
         <item>Yes, regularly</item>
         <item>Yes, occasionally</item>
         <item>No</item>
     </string-array>
     
     <string-array name="buy_electronics">
-        <item>Select</item>
         <item>None</item>
         <item>1</item>
         <item>2</item>
@@ -371,7 +353,6 @@
     </string-array>
     
     <string-array name="recycle">
-        <item>Select</item>
         <item>Never</item>
         <item>Occasionally</item>
         <item>Frequently</item>

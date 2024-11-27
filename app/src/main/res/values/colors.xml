@@ -2,6 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_gray">#d8dbe2</color>
+    <color name="medium_gray">#a9bcd0</color>
+    <color name="primary_teal">#009999</color>
+    <color name="dark_gray">#373f51</color>
+    <color name="background_black">#1b1b1e</color>
 
     <color name="colorPrimary">#024265</color>
     <color name="colorPrimaryDark">#024265</color>
