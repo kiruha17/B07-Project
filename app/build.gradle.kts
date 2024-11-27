@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.b07group57"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.b07group57"
@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
-    implementation(libs.fragment.testing)
+    // implementation(libs.fragment.testing)
     // implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -55,15 +55,15 @@ dependencies {
     implementation(libs.google.firebase.database)
 
     // Chart and graph library
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("com.github.blackfizz:eazegraph:1.2.2@aar")
-    implementation("com.nineoldandroids:library:2.4.0")
-    implementation("com.google.firebase:firebase-database:20.5.3")
+    implementation(libs.cardview)
+    implementation(libs.eazegraph)
+    implementation(libs.library)
+    implementation(libs.firebase.database.v2053)
 
-    implementation ("androidx.test.espresso:espresso-core:3.6.1")
-    implementation ("androidx.test.ext:junit:1.2.1")
-    implementation ("androidx.test:core:1.6.1")
-    implementation ("androidx.test:rules:1.6.1")
-    implementation ("androidx.core:core:1.10.1")
+    implementation (libs.espresso.core.v361)
+    implementation (libs.androidx.junit.v121)
+    implementation (libs.core)
+    implementation (libs.rules)
+    implementation (libs.androidx.core)
     implementation(libs.firebase.database.v2033)
 }

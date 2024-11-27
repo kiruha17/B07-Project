@@ -1,12 +1,20 @@
 [versions]
 agp = "8.4.1"
+androidxJunit = "1.2.1"
+cardview = "1.0.0"
+core = "1.6.1"
+coreVersion = "1.15.0"
+eazegraph = "1.2.2"
+espressoCoreVersion = "3.6.1"
 firebaseBom = "33.5.1"
 firebaseDatabaseVersion = "20.3.3"
+googleFirebaseDatabase = "20.5.3"
 jbcrypt = "0.4"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
+library = "2.4.0"
 material = "1.10.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
@@ -15,19 +23,28 @@ firebaseDatabase = "21.0.0"
 firebaseAuth = "23.1.0"
 
 [libraries]
+androidx-core = { module = "androidx.core:core", version.ref = "coreVersion" }
+androidx-junit-v121 = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
+cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+core = { module = "androidx.test:core", version.ref = "core" }
+eazegraph = { module = "com.github.blackfizz:eazegraph", version.ref = "eazegraph" }
+espresso-core-v361 = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-database-v2033 = { module = "com.google.firebase:firebase-database", version.ref = "firebaseDatabaseVersion" }
+firebase-database-v2053 = { module = "com.google.firebase:firebase-database", version.ref = "googleFirebaseDatabase" }
 google-firebase-database = { module = "com.google.firebase:firebase-database" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+library = { module = "com.nineoldandroids:library", version.ref = "library" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+rules = { module = "androidx.test:rules", version.ref = "core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
