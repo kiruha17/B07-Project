@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- shopping_input_fields.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Clothing Section -->
+    <LinearLayout
+        android:id="@+id/clothingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clothing"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/clothingInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(quantity)"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <!-- Electronic Device Section -->
+    <LinearLayout
+        android:id="@+id/electronicDeviceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Electronic Device"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <LinearLayout
+            android:id="@+id/devicePairs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <LinearLayout
+                android:id="@+id/defaultDevicePair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <EditText
+                    android:id="@+id/electronicDeviceTypeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="type (e.g. smartphone,laptop,TV)"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/electronicDeviceInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="(quantity)"
+                    android:inputType="number" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Add more Electronic Device inputs -->
+        <Button
+            android:id="@+id/addElectronicDeviceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Add Field"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <!-- Other Section -->
+    <LinearLayout
+        android:id="@+id/otherContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Other"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <LinearLayout
+            android:id="@+id/otherPairs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <LinearLayout
+                android:id="@+id/defaultOtherPair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <EditText
+                    android:id="@+id/otherTypeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="type (e.g. furniture,appliances)"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/otherInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="(quantity)"
+                    android:inputType="number" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Add more Other inputs -->
+        <Button
+            android:id="@+id/addOtherButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ Add Field"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <!-- Energy Bills Section -->
+    <LinearLayout
+        android:id="@+id/energyBillsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Energy Bills"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/electricityBillsInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Electricity (bill amount)"
+            android:inputType="number" />
+        <EditText
+            android:id="@+id/gasBillsInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Gas (bill amount)"
+            android:inputType="number" />
+        <EditText
+            android:id="@+id/waterBillsInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Water (bill amount)"
+            android:inputType="number" />
+    </LinearLayout>
+</LinearLayout>

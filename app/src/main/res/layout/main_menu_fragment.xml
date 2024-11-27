@@ -83,7 +83,8 @@
                 android:id="@+id/ecotrackercard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#d8dbe2">
+                android:background="#d8dbe2"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/ecotracker"
@@ -120,7 +121,8 @@
                 android:id="@+id/ecogaugecard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#d8dbe2">
+                android:background="#d8dbe2"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/ecogauge"
@@ -166,10 +168,11 @@
             app:cardElevation="20dp">
 
             <RelativeLayout
-                android:id="@+id/Ecohubcard"
+                android:id="@+id/ecohubcard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#d8dbe2">
+                android:background="#d8dbe2"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/ecohub"
@@ -206,7 +209,8 @@
                 android:id="@+id/ecobalancecard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#d8dbe2">
+                android:background="#d8dbe2"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/ecobalance"
@@ -252,10 +256,11 @@
             app:cardElevation="20dp">
 
             <RelativeLayout
-                android:id="@+id/Ecoagentcard"
+                android:id="@+id/ecoagentcard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#d8dbe2">
+                android:background="#d8dbe2"
+                android:clickable="true">
 
                 <TextView
                     android:id="@+id/ecoagent"

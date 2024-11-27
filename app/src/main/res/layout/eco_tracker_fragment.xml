@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="24dp"
+    tools:context=".EcoTrackerFragment">
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Transportation Section -->
+            <LinearLayout
+                android:id="@+id/transportationSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:onClick="toggleTransportationSection">
+
+                <TextView
+                    android:id="@+id/transportationCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Transportation"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/transportationInputFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:visibility="gone">
+                <include
+                    android:id="@+id/shoppingInputFieldsContent"
+                    layout="@layout/transportation_input_fragment" />
+            </LinearLayout>
+
+            <!-- Food Consumption Section -->
+            <LinearLayout
+                android:id="@+id/foodSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:onClick="toggleFoodSection">
+
+                <TextView
+                    android:id="@+id/foodCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Food Consumption"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/foodInputFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:visibility="gone">
+                <include
+                    android:id="@+id/shoppingInputFieldsContent"
+                    layout="@layout/food_input_fragment" />
+            </LinearLayout>
+
+            <!-- Shopping Section -->
+            <LinearLayout
+                android:id="@+id/shoppingSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:onClick="toggleShoppingSection">
+
+                <TextView
+                    android:id="@+id/shoppingCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shopping"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/shoppingInputFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:visibility="gone">
+                <include
+                    android:id="@+id/shoppingInputFieldsContent"
+                    layout="@layout/shopping_input_fragment" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
