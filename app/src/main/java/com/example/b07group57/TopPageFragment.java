@@ -45,7 +45,7 @@ public class TopPageFragment extends Fragment {
         });
 
         ecoGaugeButton.setOnClickListener(v -> {
-            loadFragment(new EcoGaugeWeeklyFragment());
+            loadFragment(new EcoGaugeFragment());
         });
 
         // Set up any other UI elements here (e.g., display user info)
