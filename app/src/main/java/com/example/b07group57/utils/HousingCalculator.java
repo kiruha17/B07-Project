@@ -2,10 +2,10 @@ package com.example.b07group57.utils;
 
 import android.util.Log;
 
-import com.example.b07group57.models.SurveyData;
+//import com.example.b07group57.models.SurveyData;
 
 public class HousingCalculator {
-
+/*
     public static double calculateHousing(SurveyData data) {
 
         double total = 0;
@@ -79,4 +79,5 @@ public class HousingCalculator {
 
         return -1;
     }
+    */
 }

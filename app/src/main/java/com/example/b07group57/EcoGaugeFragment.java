@@ -22,11 +22,16 @@ public class EcoGaugeFragment extends Fragment {
         // Dynamically add the GraphFragment
         getChildFragmentManager()
                 .beginTransaction()
+                .replace(R.id.timeNavBar, new TimeNavigationBarFragment()) // Replace placeholder with GraphFragment
+                .commit();
+        getChildFragmentManager()
+                .beginTransaction()
                 .replace(R.id.Graph, new EcoGaugeTotalGraphFragment()) // Replace placeholder with GraphFragment
                 .commit();
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.pieChart, new BreakdownPieChart()) // Replace placeholder with GraphFragment
                 .commit();
+
     }
 }

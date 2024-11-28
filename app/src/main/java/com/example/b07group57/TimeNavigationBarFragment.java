@@ -12,13 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
 public class TimeNavigationBarFragment extends Fragment {
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_time_navigation_bar, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -41,7 +42,6 @@ public class TimeNavigationBarFragment extends Fragment {
             loadFragment(new EcoGaugeYearlyFragment());
         });
     }
-
     private void loadFragment(Fragment fragment) {
         // FragmentTransaction to replace the current fragment with the new one
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -50,6 +50,5 @@ public class TimeNavigationBarFragment extends Fragment {
         transaction.commit();
     }
 }
-
 
 
