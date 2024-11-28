@@ -30,20 +30,25 @@ public class CalendarFragmentTest {
 
     @Before
     public void setUp() {
-        // Activityを起動し、Fragmentを読み込む
         ActivityScenario.launch(MainActivity.class).onActivity(activity -> {
-            // フラグメントをアクティビティに追加
-            activity.setContentView(R.layout.activity_main); // フラグメントのコンテナが含まれていることを確認
+            activity.setContentView(R.layout.activity_main);
 
-            // フラグメントを置き換える
             FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, new CalendarFragment());
             transaction.commit();
         });
 
-        // Fragmentが表示されるまで待機
         Espresso.onView(withId(R.id.fragment_container)).perform(waitForView());
         Espresso.onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testInteraction() {
+        try {
+            Thread.sleep(120000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ViewAction waitForView() {
@@ -60,7 +65,6 @@ public class CalendarFragmentTest {
 
             @Override
             public void perform(UiController uiController, View view) {
-                // ビューが表示されるまで待機
                 uiController.loopMainThreadUntilIdle();
             }
         };
@@ -68,28 +72,16 @@ public class CalendarFragmentTest {
 
     @Test
     public void testUIUpdatesWhenDateChanged() {
-        // CalendarViewが表示されていることを確認
         onView(withId(R.id.calendarView)).check(matches(isDisplayed()));
-
-        // カレンダーの日付をクリックして変更（ここでは例として2024-11-25をクリック）
         onView(withId(R.id.calendarView)).perform(click());
-
-        // TextViewに選択した日付が表示されていることを確認
         onView(withId(R.id.tvSelectedDate)).check(matches(withText("Selected Date: 2024-11-25")));
-
-        // PieChartが表示されていることを確認
         onView(withId(R.id.piechart)).check(matches(isDisplayed()));
-
-        // "Transportation"カテゴリがPieChartに表示されているかを確認
         onView(allOf(withText("Transportation"), isDisplayed())).check(matches(withText("Transportation: 25%")));
     }
 
     @Test
     public void testPieChartUpdates() {
-        // PieChartが表示されていることを確認
         onView(withId(R.id.piechart)).check(matches(isDisplayed()));
-
-        // 仮のデータが正しく反映されているかを確認
         onView(allOf(withText("Transportation"), isDisplayed())).check(matches(withText("Transportation: 25%")));
         onView(allOf(withText("Electricity"), isDisplayed())).check(matches(withText("Electricity: 15%")));
         onView(allOf(withText("Food"), isDisplayed())).check(matches(withText("Food: 10%")));

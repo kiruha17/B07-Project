@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="24dp"
+    android:background="@color/white"
     tools:context=".EcoTrackerFragment">
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -26,8 +27,7 @@
                 android:padding="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:onClick="toggleTransportationSection">
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/transportationCategory"
@@ -60,8 +60,7 @@
                 android:padding="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:onClick="toggleFoodSection">
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/foodCategory"
@@ -94,8 +93,7 @@
                 android:padding="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:onClick="toggleShoppingSection">
+                android:background="?android:attr/selectableItemBackground">
 
                 <TextView
                     android:id="@+id/shoppingCategory"
@@ -128,6 +126,12 @@
                 android:backgroundTint="@color/colorAccent"
                 android:layout_margin="20dp"
                 android:padding="12dp"/>
+            <TextView
+                android:id="@+id/emissionsResultText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emissions: 0 kg CO2e"
+                android:padding="16dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

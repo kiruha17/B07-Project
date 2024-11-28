@@ -31,11 +31,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    testOptions {
-        emulatorControl {
-            enable = true
-        }
-    }
+//    testOptions {
+//        emulatorControl {
+//            enable = true
+//        }
+//    }
 }
 
 dependencies {
@@ -46,8 +46,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
-    // implementation(libs.fragment.testing)
-    implementation(libs.fragment.testing)
+    implementation(libs.androidx.fragment.testing)
     // implementation(libs.fragment.testing)
     // implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
