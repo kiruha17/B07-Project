@@ -250,9 +250,9 @@
 
     <string-array name="short_haul_flights">
         <item>None</item>
-        <item>1-2 flights</item>
-        <item>3-5 flights</item>
-        <item>6-10 flights</item>
+        <item>1–2 flights</item>
+        <item>3–5 flights</item>
+        <item>6–10 flights</item>
         <item>More than 10 flights</item>
     </string-array>
 
