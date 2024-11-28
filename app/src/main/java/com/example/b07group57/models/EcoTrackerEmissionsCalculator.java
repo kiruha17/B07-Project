@@ -12,7 +12,7 @@ public class EcoTrackerEmissionsCalculator {
                 return 0;
             case "Flight":
                 if (unit.equals("Short-Haul")) {
-                    return 112.5; // Spreadsheet data for 1 Short Haul flight
+                    return inputAmount * 112.5; // Spreadsheet data for 1 Short Haul flight
                 }
                 else {
                     return inputAmount * 412.5; // Spreadsheet data for 1 Long Haul flight
