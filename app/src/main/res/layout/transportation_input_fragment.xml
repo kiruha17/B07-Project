@@ -21,6 +21,17 @@
             android:textStyle="bold"
             android:background="?android:attr/selectableItemBackground"
             android:padding="8dp" />
+        <LinearLayout
+            android:id="@+id/fuelTypeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <Spinner
+                android:id="@+id/fuelTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <EditText
             android:id="@+id/driveInput"
             android:layout_width="match_parent"

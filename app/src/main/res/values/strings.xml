@@ -382,4 +382,11 @@
         <item>Other Purchases</item>
     </string-array>
 
+    <string-array name="fuel_types">
+        <item>Gasoline</item>
+        <item>Diesel</item>
+        <item>Hybrid</item>
+        <item>Electric</item>
+    </string-array>
+
 </resources>

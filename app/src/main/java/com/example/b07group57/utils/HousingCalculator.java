@@ -63,7 +63,7 @@ public class HousingCalculator {
     }
 
     private static double calculateSemiDetachedHouse(String homePeople, String homeSize,
-                                                      String heater, String electricityBill,) {
+                                                      String heater, String electricityBill) {
 
         return -1;
     }
