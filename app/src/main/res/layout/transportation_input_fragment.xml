@@ -26,7 +26,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(km)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
     <!-- Cycling or Walking Section -->
@@ -49,7 +51,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(km)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
     <!-- Bus Section -->
@@ -72,7 +76,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(hours)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
     <!-- Train Section -->
@@ -95,7 +101,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(hours)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
     <!-- Subway Section -->
@@ -118,7 +126,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(hours)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
     <!-- Short Flight Section -->
@@ -141,7 +151,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(count)"
-            android:inputType="number" />
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
     </LinearLayout>
 
     <!-- Long Flight Section -->
@@ -164,7 +176,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="(count)"
-            android:inputType="number" />
-    </LinearLayout>
-
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+    </LinearLayout>>
 </LinearLayout>

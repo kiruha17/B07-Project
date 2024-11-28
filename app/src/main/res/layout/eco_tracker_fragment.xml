@@ -118,7 +118,17 @@
                     android:id="@+id/shoppingInputFieldsContent"
                     layout="@layout/shopping_input_fragment" />
             </LinearLayout>
-
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/colorAccent"
+                android:layout_margin="20dp"
+                android:padding="12dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

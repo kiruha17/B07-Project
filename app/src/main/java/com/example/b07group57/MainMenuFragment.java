@@ -24,7 +24,7 @@ public class MainMenuFragment extends Fragment {
         RelativeLayout ecoAgentCard = view.findViewById(R.id.ecoagentcard);
 
         ecoTrackerCard.setOnClickListener(v -> {
-            loadFragment(new EcoTrackerFragment());
+            loadFragment(new CalendarFragment());
         });
 
         ecoGaugeCard.setOnClickListener(v -> {

@@ -38,6 +38,16 @@ public class EcoTrackerFragmentTest {
     }
 
     @Test
+    public void testInteraction() {
+        try {
+            Thread.sleep(120000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test
     public void testCategoryToggle() {
         // 各カテゴリーがクリック可能であることを確認
         onView(withId(R.id.transportationCategory)).check(ViewAssertions.matches(isDisplayed()));
@@ -47,6 +57,12 @@ public class EcoTrackerFragmentTest {
         // カテゴリーが画面外にあってもスクロールして表示させる
         onView(withId(R.id.transportationCategory)).perform(click());
         onView(withId(R.id.transportationSection)).perform(scrollTo()).check(ViewAssertions.matches(isDisplayed()));
+        try {
+            Thread.sleep(5000); // Wait for 2 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         onView(withId(R.id.transportationCategory)).perform(click());
 //        onView(withId(R.id.transportationSection)).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -54,6 +70,12 @@ public class EcoTrackerFragmentTest {
         // 食品カテゴリーをスクロールしてクリックし、セクションの表示/非表示が切り替わることを確認
         onView(withId(R.id.foodCategory)).perform(click());
         onView(withId(R.id.foodSection)).perform(scrollTo()).check(ViewAssertions.matches(isDisplayed()));
+        try {
+            Thread.sleep(5000); // Wait for 2 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         onView(withId(R.id.foodCategory)).perform(click());
 //        onView(withId(R.id.foodSection)).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -61,15 +83,15 @@ public class EcoTrackerFragmentTest {
         // 他のカテゴリー（transportation, shopping）も同様にスクロールしてテスト
         onView(withId(R.id.shoppingCategory)).perform(click());
         onView(withId(R.id.shoppingSection)).perform(scrollTo()).check(ViewAssertions.matches(isDisplayed()));
-
-        onView(withId(R.id.shoppingCategory)).perform(click());
-////        onView(withId(R.id.shoppingSection)).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
-
         try {
-            Thread.sleep(10000); // Wait for 2 seconds
+            Thread.sleep(5000); // Wait for 2 seconds
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+
+        onView(withId(R.id.shoppingCategory)).perform(click());
+////        onView(withId(R.id.shoppingSection)).check(ViewAssertions.matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
 
 }

@@ -1,6 +1,8 @@
-package com.example.b07group57.models;
+package com.example.b07group57.utils;
 
 import android.util.Log;
+
+import com.example.b07group57.models.SurveyData;
 
 public class ConsumptionCalculator {
 
@@ -16,7 +18,7 @@ public class ConsumptionCalculator {
         return total;
     }
 
-    public static double calculateBuyClothes(String response) {
+    private static double calculateBuyClothes(String response) {
 
         switch (response) {
             case "Monthly":
@@ -32,7 +34,7 @@ public class ConsumptionCalculator {
         return Double.NEGATIVE_INFINITY;
     }
 
-    public static double calculateBuySecondHand(String response, double currentTotal) {
+    private static double calculateBuySecondHand(String response, double currentTotal) {
 
         switch (response) {
             case "Yes, regularly":
@@ -46,7 +48,7 @@ public class ConsumptionCalculator {
         return Double.NEGATIVE_INFINITY;
     }
 
-    public static double calculateBuyElectronics(String response) {
+    private static double calculateBuyElectronics(String response) {
 
         switch (response) {
             case "None":
@@ -64,7 +66,7 @@ public class ConsumptionCalculator {
         return Double.NEGATIVE_INFINITY;
     }
 
-    public static double calculateRecycle(String buyClothes, String buyElectronics, String response, double currentTotal) {
+    private static double calculateRecycle(String buyClothes, String buyElectronics, String response, double currentTotal) {
 
         switch (response) {
             case "Never":
@@ -82,7 +84,7 @@ public class ConsumptionCalculator {
     }
 
     // Returns the reduction
-    public static double calculateRecycleOccasionally(String buyClothes, String buyElectronics) {
+    private static double calculateRecycleOccasionally(String buyClothes, String buyElectronics) {
 
         double reduction = 0;
 
@@ -120,7 +122,7 @@ public class ConsumptionCalculator {
         return reduction;
     }
 
-    public static double calculateRecycleFrequently(String buyClothes, String buyElectronics) {
+    private static double calculateRecycleFrequently(String buyClothes, String buyElectronics) {
 
         double reduction = 0;
 
@@ -158,7 +160,7 @@ public class ConsumptionCalculator {
         return reduction;
     }
 
-    public static double calculateRecycleAlways(String buyClothes, String buyElectronics) {
+    private static double calculateRecycleAlways(String buyClothes, String buyElectronics) {
 
         double reduction = 0;
 
