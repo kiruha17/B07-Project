@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
-    implementation(libs.fragment.testing)
+    //implementation(libs.fragment.testing)
     // implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.google.firebase.database)
 
     // Chart and graph library
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.github.blackfizz:eazegraph:1.2.2@aar")
     implementation("com.nineoldandroids:library:2.4.0")
@@ -67,3 +68,4 @@ dependencies {
     implementation ("androidx.core:core:1.10.1")
     implementation(libs.firebase.database.v2033)
 }
+
