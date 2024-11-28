@@ -250,9 +250,9 @@
 
     <string-array name="short_haul_flights">
         <item>None</item>
-        <item>1-2 flights</item>
-        <item>3-5 flights</item>
-        <item>6-10 flights</item>
+        <item>1–2 flights</item>
+        <item>3–5 flights</item>
+        <item>6–10 flights</item>
         <item>More than 10 flights</item>
     </string-array>
 
@@ -358,5 +358,35 @@
         <item>Frequently</item>
         <item>Always</item>
     </string-array>
-    
+
+    <string-array name="transportation_types">
+        <item>Drive</item>
+        <item>Bus</item>
+        <item>Subway</item>
+        <item>Train</item>
+        <item>Flight</item>
+    </string-array>
+
+    <string-array name="food_types">
+        <item>Beef</item>
+        <item>Pork</item>
+        <item>Chicken</item>
+        <item>Fish</item>
+        <item>Plant-based</item>
+    </string-array>
+
+    <string-array name="shopping_types">
+        <item>Clothes</item>
+        <item>Electronics</item>
+        <item>Energy Bills</item>
+        <item>Other Purchases</item>
+    </string-array>
+
+    <string-array name="fuel_types">
+        <item>Gasoline</item>
+        <item>Diesel</item>
+        <item>Hybrid</item>
+        <item>Electric</item>
+    </string-array>
+
 </resources>

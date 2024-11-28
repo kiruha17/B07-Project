@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- food_input_fields.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Beef Section -->
+    <LinearLayout
+        android:id="@+id/beefContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Beef"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/beefInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(number of servings)"
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+    </LinearLayout>
+
+    <!-- Pork Section -->
+    <LinearLayout
+        android:id="@+id/porkContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pork"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/porkInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(number of servings)"
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+    </LinearLayout>
+
+    <!-- Chicken Section -->
+    <LinearLayout
+        android:id="@+id/chickenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chicken"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/chickenInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(number of servings)"
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+    </LinearLayout>
+
+    <!-- Fish Section -->
+    <LinearLayout
+        android:id="@+id/fishContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fish"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/fishInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(number of servings)"
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+    </LinearLayout>
+
+    <!-- Plant-based Section -->
+    <LinearLayout
+        android:id="@+id/plantBasedContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Plant-based"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+        <EditText
+            android:id="@+id/plantBasedInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="(number of servings)"
+            android:inputType="number"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+    </LinearLayout>
+</LinearLayout>
