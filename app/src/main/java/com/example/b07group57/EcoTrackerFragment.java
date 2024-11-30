@@ -18,6 +18,7 @@ import androidx.core.widget.NestedScrollView;
 import android.widget.Toast;
 
 import com.example.b07group57.models.EcoTrackerEmissionsCalculator;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,6 +146,23 @@ public class EcoTrackerFragment extends Fragment {
         if (getArguments() != null) {
             selectedDate = getArguments().getString("selectedDate", "");
         }
+
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.tracker) {
+                loadFragment(new EcoTrackerFragment());
+            } else if (item.getItemId() == R.id.gauge_nav) {
+                loadFragment(new ExampleGaugeFragment());
+            } else if (item.getItemId() == R.id.hub_nav) {
+                loadFragment(new EcoHubFragment());
+            } else if (item.getItemId() == R.id.balance_nav) {
+                loadFragment(new ExampleGaugeFragment());
+            } else if (item.getItemId() == R.id.agent_nav) {
+                loadFragment(new ExampleGaugeFragment());
+            }
+            return true;
+
+        });
 
         return view;
     }
