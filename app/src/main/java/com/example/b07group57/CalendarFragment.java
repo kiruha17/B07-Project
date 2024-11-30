@@ -67,7 +67,11 @@ public class CalendarFragment extends Fragment {
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new EcoTrackerFragment());
+                EcoTrackerFragment ecoTrackerFragment = new EcoTrackerFragment();
+                Bundle args = new Bundle();
+                args.putString("selectedDate", tvSelectedDate.getText().toString().replace("Selected Date: ", ""));
+                ecoTrackerFragment.setArguments(args);
+                loadFragment(ecoTrackerFragment);
             }
         });
     }
