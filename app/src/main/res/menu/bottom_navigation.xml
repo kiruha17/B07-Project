@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <item
+        android:icon="@drawable/eco_tracker"
+        android:id="@+id/tracker"
+        android:title="Tracker"/>
+
+    <item
+        android:icon="@drawable/eco_gauge"
+        android:id="@+id/gauge_nav"
+        android:title="Gauge"/>
+
+    <item
+        android:icon="@drawable/eco_hub"
+        android:id="@+id/hub_nav"
+        android:title="Hub"/>
+
+    <item
+        android:icon="@drawable/eco_balance"
+        android:id="@+id/balance_nav"
+        android:title="Balance"/>
+
+    <item
+        android:icon="@drawable/eco_agent"
+        android:id="@+id/agent_nav"
+        android:title="Agent"/>
+
+
+</menu>
