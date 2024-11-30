@@ -25,13 +25,13 @@ public class EcoHubFragment extends Fragment {
             if (item.getItemId() == R.id.tracker) {
                 loadFragment(new EcoTrackerFragment());
             } else if (item.getItemId() == R.id.gauge_nav) {
-                loadFragment(new ExampleGaugeFragment());
+                loadFragment(new ExampleFeatureFragment());
             } else if (item.getItemId() == R.id.hub_nav) {
                 loadFragment(new EcoHubFragment());
             } else if (item.getItemId() == R.id.balance_nav) {
-                loadFragment(new ExampleGaugeFragment());
+                loadFragment(new ExampleFeatureFragment());
             } else if (item.getItemId() == R.id.agent_nav) {
-                loadFragment(new ExampleGaugeFragment());
+                loadFragment(new ExampleFeatureFragment());
             }
             return true;
 
