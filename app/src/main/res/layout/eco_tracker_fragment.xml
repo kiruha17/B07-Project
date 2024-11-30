@@ -122,15 +122,15 @@
                 android:layout_height="wrap_content"
                 android:text="Edit"
                 android:layout_marginTop="16dp"
-                android:textColor="@android:color/white"
-                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/button_text_color"
+                android:backgroundTint="@color/button_color"
                 android:layout_margin="20dp"
                 android:padding="12dp"/>
             <TextView
                 android:id="@+id/emissionsResultText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Emissions: 0 kg CO2e"
+                android:text="Emissions: 0.00 kg CO2e"
                 android:padding="16dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
