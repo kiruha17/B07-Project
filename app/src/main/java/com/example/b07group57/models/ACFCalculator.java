@@ -2,12 +2,15 @@ package com.example.b07group57.models;
 
 import androidx.annotation.NonNull;
 
+import com.example.b07group57.utils.ConsumptionCalculator;
+import com.example.b07group57.utils.FoodCalculator;
+import com.example.b07group57.utils.HousingCalculator;
+import com.example.b07group57.utils.TransportationCalculator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.example.b07group57.models.SurveyData;
 
 public class ACFCalculator {
     private final DatabaseReference usersRef;
@@ -40,19 +43,16 @@ public class ACFCalculator {
     }
 
     // Calculate carbon footprint based on survey data
-    private double calculateFootprint(SurveyData data) {
-        double footprint = 0;
+    public static double calculateTotalEmissions(Context context, SurveyData data) {
 
-        //Placeholder Reference, delete afterwards
-        //---------------------------------------
-        //---------------------------------------
-        if (data.beefConsumption != null && data.beefConsumption.equalsIgnoreCase("Daily")) {
-            footprint += 1500; // Example: kg CO2/year
-        }
-        //---------------------------------------
-        //---------------------------------------
-        //---------------------------------------
+        double totalEmissions = 0;
 
-        return footprint;
+        // Call each calculator and add emissions
+        totalEmissions += HousingCalculator.calculateHousing(context, data);
+        totalEmissions += TransportationCalculator.calculateTransportation(data);
+        totalEmissions += FoodCalculator.calculateFood(data);
+        totalEmissions += ConsumptionCalculator.calculateConsumption(data);
+
+        return totalEmissions;
     }
 }
