@@ -289,13 +289,13 @@
     <string-array name="home_people">
         <item>1</item>
         <item>2</item>
-        <item>3-4</item>
+        <item>3 to 4</item>
         <item>5 or more</item>
     </string-array>
     
     <string-array name="home_size">
         <item>Under 1000 sq. ft.</item>
-        <item>1000-2000 sq. ft.</item>
+        <item>1000–2000 sq. ft.</item>
         <item>Over 2000 sq. ft.</item>
     </string-array>
 
@@ -321,7 +321,7 @@
         <item>Electricity</item>
         <item>Oil</item>
         <item>Propane</item>
-        <item>Solar</item>
+        <item>Wood</item>
         <item>Other</item>
     </string-array>
     

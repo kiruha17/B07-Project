@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.b07group57"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 26
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -39,6 +39,12 @@ android {
 }
 
 dependencies {
+    configurations.all {
+        resolutionStrategy {
+            force("androidx.test:runner:1.6.1")
+        }
+    }
+
     implementation(libs.jbcrypt)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -65,4 +71,10 @@ dependencies {
     implementation (libs.rules)
     implementation (libs.androidx.core)
     implementation(libs.firebase.database.v2033)
+    implementation(libs.poi)
+    implementation(libs.poi.ooxml)
+    androidTestImplementation(libs.androidx.junit.v121)
+    androidTestImplementation(libs.androidx.rules.v150)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.espresso.core.v361)
 }
