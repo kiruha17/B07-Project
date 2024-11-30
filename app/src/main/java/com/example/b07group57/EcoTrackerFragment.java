@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.TextKeyListener;
 import android.util.Log;
@@ -171,7 +172,7 @@ public class EcoTrackerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        showSavedData(selectedDate, new DataLoadedCallback() {
+        showSavedData(selectedDate, new TrackerDataLoadedCallBack() {
             @Override
             public void onDataLoaded() {
                 enableSaveButtonIfValid();
@@ -184,11 +185,11 @@ public class EcoTrackerFragment extends Fragment {
         });
     }
 
-    interface DataLoadedCallback {
+    interface TrackerDataLoadedCallBack {
         void onDataLoaded();
     }
     // Function to get data from firebase and set default UI
-    private void showSavedData(String date, DataLoadedCallback callback) {
+    private void showSavedData(String date, TrackerDataLoadedCallBack callback) {
         final int totalTasks = 3;
         final AtomicInteger completedTasks = new AtomicInteger(0);
 
@@ -312,7 +313,7 @@ public class EcoTrackerFragment extends Fragment {
         }, date, "other");
     }
 
-    private void checkIfAllTasksCompleted(DataLoadedCallback callback, AtomicInteger completedTasks, int totalTasks) {
+    private void checkIfAllTasksCompleted(TrackerDataLoadedCallBack callback, AtomicInteger completedTasks, int totalTasks) {
         if (completedTasks.incrementAndGet() == totalTasks) {
             if (callback != null) {
                 callback.onDataLoaded();
@@ -478,24 +479,41 @@ public class EcoTrackerFragment extends Fragment {
 
     private void enableEditText(boolean isEnabled) {
         keyListener(driveInput, isEnabled);
+        driveInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(cyclingWalkingInput, isEnabled);
+        cyclingWalkingInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(busInput, isEnabled);
+        busInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(trainInput, isEnabled);
+        trainInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(subwayInput, isEnabled);
+        subwayInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(shortFlightInput, isEnabled);
+        shortFlightInput.setInputType(InputType.TYPE_CLASS_NUMBER);
         keyListener(longFlightInput, isEnabled);
+        longFlightInput.setInputType(InputType.TYPE_CLASS_NUMBER);
         keyListener(beefInput, isEnabled);
+        beefInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(porkInput, isEnabled);
+        porkInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(chickenInput, isEnabled);
+        chickenInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(fishInput, isEnabled);
+        fishInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(plantBasedInput, isEnabled);
+        plantBasedInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(clothingInput, isEnabled);
+        clothingInput.setInputType(InputType.TYPE_CLASS_NUMBER);
         keyListener(electricityBillsInput, isEnabled);
+        electricityBillsInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(gasBillsInput, isEnabled);
+        gasBillsInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         keyListener(waterBillsInput, isEnabled);
+        waterBillsInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         for (EditText inputTypeText : inputTypeTextList) {
             keyListener(inputTypeText, isEnabled);
+            inputTypeText.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
         for (EditText inputText : inputTextList) {
             keyListener(inputText, isEnabled);
@@ -628,6 +646,13 @@ public class EcoTrackerFragment extends Fragment {
         EcoTrackerFragmentModel m = new EcoTrackerFragmentModel();
         m.saveDailyInputDB(inputData, electronicsData, otherData, co2eData, electronicsDataCO2, otherDataCO2, selectedDate);
     }
+
+    private void logMap(String tag, HashMap<String, Object> map) {
+        for (String key : map.keySet()) {
+            Log.d(tag, "Key: " + key + ", Value: " + map.get(key));
+        }
+    }
+
     private void setAddDeleteButtonsEnabled(boolean isEnabled) {
         for (TextView deleteText : deleteTextList) {
             deleteText.setClickable(isEnabled);
