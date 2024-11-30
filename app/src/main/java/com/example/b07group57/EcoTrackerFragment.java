@@ -30,8 +30,8 @@ public class EcoTrackerFragment extends Fragment {
     private Spinner fuelTypeSpinner;
     private boolean isEditable = false;
     private List<TextView> deleteTextList = new ArrayList<>();
-    private List<TextView> inputTypeTextList = new ArrayList<>();
-    private List<TextView> inputTextList = new ArrayList<>();
+    private List<EditText> inputTypeTextList = new ArrayList<>();
+    private List<EditText> inputTextList = new ArrayList<>();
 
     public EcoTrackerFragment() {
     }
@@ -158,8 +158,12 @@ public class EcoTrackerFragment extends Fragment {
 
         EditText newTypeInput = new EditText(getContext());
         newTypeInput.setHint(type);
+        newTypeInput.setFocusable(false);
+        newTypeInput.setFocusableInTouchMode(false);
         EditText newInput = new EditText(getContext());
         newInput.setHint("(quantity)");
+        newInput.setFocusable(false);
+        newInput.setFocusableInTouchMode(false);
 
         TextView deleteText = createDeleteText(getContext(), newPair);
 
@@ -218,43 +222,61 @@ public class EcoTrackerFragment extends Fragment {
     private void enableEditText(boolean isEnabled) {
         driveInput.setFocusable(isEnabled);
         driveInput.setFocusableInTouchMode(isEnabled);
+        driveInput.clearFocus();
         cyclingWalkingInput.setFocusable(isEnabled);
         cyclingWalkingInput.setFocusableInTouchMode(isEnabled);
+        cyclingWalkingInput.clearFocus();
         busInput.setFocusable(isEnabled);
         busInput.setFocusableInTouchMode(isEnabled);
+        busInput.clearFocus();
         trainInput.setFocusable(isEnabled);
         trainInput.setFocusableInTouchMode(isEnabled);
+        trainInput.clearFocus();
         subwayInput.setFocusable(isEnabled);
         subwayInput.setFocusableInTouchMode(isEnabled);
+        subwayInput.clearFocus();
         shortFlightInput.setFocusable(isEnabled);
         shortFlightInput.setFocusableInTouchMode(isEnabled);
+        shortFlightInput.clearFocus();
         longFlightInput.setFocusable(isEnabled);
         longFlightInput.setFocusableInTouchMode(isEnabled);
+        longFlightInput.clearFocus();
         beefInput.setFocusable(isEnabled);
         beefInput.setFocusableInTouchMode(isEnabled);
+        beefInput.clearFocus();
         porkInput.setFocusable(isEnabled);
         porkInput.setFocusableInTouchMode(isEnabled);
+        porkInput.clearFocus();
         chickenInput.setFocusable(isEnabled);
         chickenInput.setFocusableInTouchMode(isEnabled);
+        chickenInput.clearFocus();
         fishInput.setFocusable(isEnabled);
         fishInput.setFocusableInTouchMode(isEnabled);
+        fishInput.clearFocus();
         plantBasedInput.setFocusable(isEnabled);
         plantBasedInput.setFocusableInTouchMode(isEnabled);
+        plantBasedInput.clearFocus();
         clothingInput.setFocusable(isEnabled);
         clothingInput.setFocusableInTouchMode(isEnabled);
+        clothingInput.clearFocus();
         electricityBillsInput.setFocusable(isEnabled);
         electricityBillsInput.setFocusableInTouchMode(isEnabled);
+        electricityBillsInput.clearFocus();
         gasBillsInput.setFocusable(isEnabled);
         gasBillsInput.setFocusableInTouchMode(isEnabled);
+        gasBillsInput.clearFocus();
         waterBillsInput.setFocusable(isEnabled);
         waterBillsInput.setFocusableInTouchMode(isEnabled);
-        for (TextView inputTypeText : inputTypeTextList) {
+        waterBillsInput.clearFocus();
+        for (EditText inputTypeText : inputTypeTextList) {
             inputTypeText.setFocusable(isEnabled);
             inputTypeText.setFocusableInTouchMode(isEnabled);
+            inputTypeText.clearFocus();
         }
-        for (TextView inputText : inputTextList) {
+        for (EditText inputText : inputTextList) {
             inputText.setFocusable(isEnabled);
             inputText.setFocusableInTouchMode(isEnabled);
+            inputText.clearFocus();
         }
     }
 
