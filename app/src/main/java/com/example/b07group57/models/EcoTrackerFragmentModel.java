@@ -15,7 +15,7 @@ public class EcoTrackerFragmentModel {
 
     private FirebaseAuth mAuth;
 
-    public EcoTrackerFragmentModel(){
+    public EcoTrackerFragmentModel() {
         db = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
     }

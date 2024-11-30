@@ -1,13 +1,20 @@
 package com.example.b07group57;
 
+import static android.text.InputType.TYPE_CLASS_NUMBER;
+
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.TextKeyListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,19 +22,25 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.core.widget.NestedScrollView;
 import android.widget.Toast;
 
+import com.example.b07group57.models.DailyDataLoader;
 import com.example.b07group57.models.EcoTrackerEmissionsCalculator;
 import com.example.b07group57.models.EcoTrackerFragmentModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class EcoTrackerFragment extends Fragment {
-    private String selectedDate;
+    private String selectedDate, selectedFuelType;
     private EditText driveInput, cyclingWalkingInput, busInput, trainInput, subwayInput, shortFlightInput,
             longFlightInput, beefInput, porkInput, chickenInput, fishInput, plantBasedInput,
             clothingInput, electricityBillsInput, gasBillsInput, waterBillsInput;
@@ -39,7 +52,7 @@ public class EcoTrackerFragment extends Fragment {
     private List<LinearLayout> otherInputs = new ArrayList<>();
     private List<EditText> inputTypeTextList = new ArrayList<>();
     private List<EditText> inputTextList = new ArrayList<>();
-
+    private ArrayAdapter<CharSequence> adapter;
     private boolean isValid;
 
     public EcoTrackerFragment() {
@@ -51,6 +64,11 @@ public class EcoTrackerFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.eco_tracker_fragment, container, false);
+
+        //Grabs the current date the user has selected
+        if (getArguments() != null) {
+            selectedDate = getArguments().getString("selectedDate", "");
+        }
 
         // Set up the TextView for each category title
         LinearLayout transportationSection = view.findViewById(R.id.transportationSection);
@@ -105,17 +123,23 @@ public class EcoTrackerFragment extends Fragment {
         // Set up listeners for "Add Field" buttons
         LinearLayout devicePairs = view.findViewById(R.id.devicePairs);
         LinearLayout otherPairs = view.findViewById(R.id.otherPairs);
-        addElectronicDeviceButton.setOnClickListener(v -> addNewInput("type (e.g. smartphone, laptop, TV)", devicePairs, "electronics"));
-        addOtherButton.setOnClickListener(v -> addNewInput("type (e.g. furniture, appliances)", otherPairs, "other"));
+        addElectronicDeviceButton.setOnClickListener(v -> {
+            addNewInput("type (e.g. smartphone, laptop, TV)", devicePairs, "electronics");
+            enableSaveButtonIfValid();
+        });
+        addOtherButton.setOnClickListener(v -> {
+            addNewInput("type (e.g. furniture, appliances)", otherPairs, "other");
+            enableSaveButtonIfValid();
+        });
 
         btnEdit.setOnClickListener(v -> {
             if (isEditable) {
-                calculateEmissions();
-                savetoDB();
-                enableEditText(false);
                 setSpinnerEditable(false);
                 btnEdit.setText("Edit");
                 setAddDeleteButtonsEnabled(false);
+                enableEditText(false);
+                calculateEmissions();
+                savetoDB();
             } else {
                 enableEditText(true);
                 setSpinnerEditable(true);
@@ -127,32 +151,174 @@ public class EcoTrackerFragment extends Fragment {
 
         // default settings
         fuelTypeSpinner = view.findViewById(R.id.fuelTypeSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+        adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.fuel_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fuelTypeSpinner.setAdapter(adapter);
         fuelTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedFuelType = parentView.getItemAtPosition(position).toString();
+                selectedFuelType = parentView.getItemAtPosition(position).toString();
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // Handle case when no item is selected
-            }
+            public void onNothingSelected(AdapterView<?> parentView) {}
         });
-        setAddDeleteButtonsEnabled(isEditable);
-        enableEditText(isEditable);
-        setSpinnerEditable(isEditable);
-
-        //Grabs the current date the user has selected
-        if (getArguments() != null) {
-            selectedDate = getArguments().getString("selectedDate", "");
-        }
+        selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
 
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        showSavedData(selectedDate, new DataLoadedCallback() {
+            @Override
+            public void onDataLoaded() {
+                enableSaveButtonIfValid();
+                enableEditText(false);
+                setSpinnerEditable(false);
+                btnEdit.setText("Edit");
+                setAddDeleteButtonsEnabled(false);
+                calculateEmissions();
+            }
+        });
+    }
+
+    interface DataLoadedCallback {
+        void onDataLoaded();
+    }
+    // Function to get data from firebase and set default UI
+    private void showSavedData(String date, DataLoadedCallback callback) {
+        final int totalTasks = 3;
+        final AtomicInteger completedTasks = new AtomicInteger(0);
+
+        DailyDataLoader dailyDataLoader = new DailyDataLoader();
+        dailyDataLoader.loadInputData(new DailyDataLoader.DataLoadCallback() {
+            @Override
+            public void onDataLoaded(HashMap<String, Object> inputData) {
+                // If there exists a data
+                if (inputData != null) {
+                    for (Map.Entry<String, Object> entry : inputData.entrySet()) {
+                        String key = entry.getKey();
+                        Object value = entry.getValue();
+                        switch (key) {
+                            case "Gasoline":
+                                fuelTypeSpinner.setSelection(adapter.getPosition("Gasoline"));
+                                selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
+                                driveInput.setText(String.valueOf(value));
+                                break;
+                            case "Diesel":
+                                fuelTypeSpinner.setSelection(adapter.getPosition("Diesel"));
+                                selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
+                                driveInput.setText(String.valueOf(value));
+                                break;
+                            case "Hybrid":
+                                fuelTypeSpinner.setSelection(adapter.getPosition("Hybrid"));
+                                selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
+                                driveInput.setText(String.valueOf(value));
+                                break;
+                            case "Electric":
+                                fuelTypeSpinner.setSelection(adapter.getPosition("Electric"));
+                                selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
+                                driveInput.setText(String.valueOf(value));
+                                break;
+                            case "CyclingWalking":
+                                cyclingWalkingInput.setText(String.valueOf(value));
+                                break;
+                            case "Bus":
+                                busInput.setText(String.valueOf(value));
+                                break;
+                            case "Train":
+                                trainInput.setText(String.valueOf(value));
+                                break;
+                            case "Subway":
+                                subwayInput.setText(String.valueOf(value));
+                                break;
+                            case "ShortFlight":
+                                shortFlightInput.setText(String.valueOf(value));
+                                break;
+                            case "LongFlight":
+                                longFlightInput.setText(String.valueOf(value));
+                                break;
+                            case "Beef":
+                                beefInput.setText(String.valueOf(value));
+                                break;
+                            case "Pork":
+                                porkInput.setText(String.valueOf(value));
+                                break;
+                            case "Chicken":
+                                chickenInput.setText(String.valueOf(value));
+                                break;
+                            case "Fish":
+                                fishInput.setText(String.valueOf(value));
+                                break;
+                            case "PlantBased":
+                                plantBasedInput.setText(String.valueOf(value));
+                                break;
+                            case "Clothing":
+                                clothingInput.setText(String.valueOf(value));
+                                break;
+                            case "Electricity":
+                                electricityBillsInput.setText(String.valueOf(value));
+                                break;
+                            case "Gas":
+                                gasBillsInput.setText(String.valueOf(value));
+                                break;
+                            case "Water":
+                                waterBillsInput.setText(String.valueOf(value));
+                        }
+                    }
+                }
+                checkIfAllTasksCompleted(callback, completedTasks, totalTasks);
+            }
+        }, date);
+
+        dailyDataLoader.loadElectronicsOrOtherData(new DailyDataLoader.DataLoadCallback() {
+            @Override
+            public void onDataLoaded(HashMap<String, Object> electronicsOrOtherData) {
+                if (electronicsOrOtherData != null) {
+                    for (Map.Entry<String, Object> entry : electronicsOrOtherData.entrySet()) {
+                        String key = entry.getKey();
+                        Object value = entry.getValue();
+                        LinearLayout devicePairs = getView().findViewById(R.id.devicePairs);
+                        LinearLayout newPair = addNewInput("type (e.g. smartphone, laptop, TV)", devicePairs, "electronics");
+                        EditText newInputType = (EditText) newPair.getChildAt(1);
+                        newInputType.setText(key);
+                        EditText newInputValue = (EditText) newPair.getChildAt(2);
+                        newInputValue.setText(String.valueOf(value));
+                    }
+                }
+                checkIfAllTasksCompleted(callback, completedTasks, totalTasks);
+            }
+        }, date, "electronics");
+
+        dailyDataLoader.loadElectronicsOrOtherData(new DailyDataLoader.DataLoadCallback() {
+            @Override
+            public void onDataLoaded(HashMap<String, Object> electronicsOrOtherData) {
+                if (electronicsOrOtherData != null) {
+                    for (Map.Entry<String, Object> entry : electronicsOrOtherData.entrySet()) {
+                        String key = entry.getKey();
+                        Object value = entry.getValue();
+                        LinearLayout otherPairs = getView().findViewById(R.id.otherPairs);
+                        LinearLayout newPair = addNewInput("type (e.g. furniture, appliances)", otherPairs, "other");
+                        EditText newInputType = (EditText) newPair.getChildAt(1);
+                        newInputType.setText(key);
+                        EditText newInputValue = (EditText) newPair.getChildAt(2);
+                        newInputValue.setText(String.valueOf(value));
+                    }
+                }
+                checkIfAllTasksCompleted(callback, completedTasks, totalTasks);
+            }
+        }, date, "other");
+    }
+
+    private void checkIfAllTasksCompleted(DataLoadedCallback callback, AtomicInteger completedTasks, int totalTasks) {
+        if (completedTasks.incrementAndGet() == totalTasks) {
+            if (callback != null) {
+                callback.onDataLoaded();
+            }
+        }
+    }
 
     private void setSpinnerEditable(boolean isEnabled) {
         fuelTypeSpinner.setEnabled(isEnabled);  // Enable or disable spinner based on isEditable state
@@ -167,7 +333,7 @@ public class EcoTrackerFragment extends Fragment {
         }
     }
 
-    private void addNewInput(String type, LinearLayout parent, String category) {
+    private LinearLayout addNewInput(String type, LinearLayout parent, String category) {
         LinearLayout newPair = new LinearLayout(getContext());
         newPair.setOrientation(LinearLayout.VERTICAL);
 
@@ -175,6 +341,7 @@ public class EcoTrackerFragment extends Fragment {
         newTypeInput.setHint(type);
         EditText newInput = new EditText(getContext());
         newInput.setHint("(quantity)");
+        newInput.setInputType(TYPE_CLASS_NUMBER);
 
         TextView deleteText = createDeleteText(getContext(), newPair);
 
@@ -200,7 +367,9 @@ public class EcoTrackerFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+                enableSaveButtonIfValid();
+            }
         });
 
         newInput.addTextChangedListener(new TextWatcher() {
@@ -213,10 +382,10 @@ public class EcoTrackerFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+                enableSaveButtonIfValid();
+            }
         });
-
-        enableSaveButtonIfValid();
 
         // Store the input data in the appropriate category
         if ("electronics".equals(category)) {
@@ -224,18 +393,14 @@ public class EcoTrackerFragment extends Fragment {
         } else if ("other".equals(category)) {
             otherInputs.add(newPair);  // Store in other inputs list
         }
+
+        return newPair;
     }
 
     private void enableSaveButtonIfValid() {
         boolean tempValid = true;
         for (EditText typeInput : inputTypeTextList) {
             if (!validateInput(typeInput)) {
-                tempValid = false;
-            }
-        }
-
-        for (EditText input : inputTextList) {
-            if (!isValidInteger(input)) {
                 tempValid = false;
             }
         }
@@ -261,24 +426,6 @@ public class EcoTrackerFragment extends Fragment {
     private boolean containsInvalidCharacters(String text) {
         return text.contains("/") || text.contains(".") || text.contains("#")
                 || text.contains("$") || text.contains("[") || text.contains("]");
-    }
-
-    private boolean isValidInteger(EditText input) {
-        String text = input.getText().toString().trim();
-
-        if (text.isEmpty()) {
-            input.setError(null);
-            return true;
-        }
-
-        try {
-            Integer.parseInt(text);
-            input.setError(null);
-            return true;
-        } catch (NumberFormatException e) {
-            input.setError("Please enter a valid integer");
-            return false;
-        }
     }
 
     public TextView createDeleteText(Context context, ViewGroup parentLayout) {
@@ -311,8 +458,12 @@ public class EcoTrackerFragment extends Fragment {
             EditText typeInput = (EditText) parentLayout.getChildAt(1);
             EditText quantityInput = (EditText) parentLayout.getChildAt(2);
             ViewGroup grandParentLayout = (ViewGroup) parentLayout.getParent();
-            inputTextList.remove(quantityInput);
             inputTypeTextList.remove(typeInput);
+            Log.d("typeInput", "Value : " + typeInput.getText()); // for debug
+            inputTextList.remove(quantityInput);
+            Log.d("quantityInput", "Value : " + quantityInput.getText()); // for debug
+            electronicsInputs.remove(parentLayout);
+            otherInputs.remove(parentLayout);
             grandParentLayout.removeView(parentLayout);
         }
     }
@@ -326,63 +477,56 @@ public class EcoTrackerFragment extends Fragment {
     }
 
     private void enableEditText(boolean isEnabled) {
-        driveInput.setFocusable(isEnabled);
-        driveInput.setFocusableInTouchMode(isEnabled);
-        cyclingWalkingInput.setFocusable(isEnabled);
-        cyclingWalkingInput.setFocusableInTouchMode(isEnabled);
-        busInput.setFocusable(isEnabled);
-        busInput.setFocusableInTouchMode(isEnabled);
-        trainInput.setFocusable(isEnabled);
-        trainInput.setFocusableInTouchMode(isEnabled);
-        subwayInput.setFocusable(isEnabled);
-        subwayInput.setFocusableInTouchMode(isEnabled);
-        shortFlightInput.setFocusable(isEnabled);
-        shortFlightInput.setFocusableInTouchMode(isEnabled);
-        longFlightInput.setFocusable(isEnabled);
-        longFlightInput.setFocusableInTouchMode(isEnabled);
-        beefInput.setFocusable(isEnabled);
-        beefInput.setFocusableInTouchMode(isEnabled);
-        porkInput.setFocusable(isEnabled);
-        porkInput.setFocusableInTouchMode(isEnabled);
-        chickenInput.setFocusable(isEnabled);
-        chickenInput.setFocusableInTouchMode(isEnabled);
-        fishInput.setFocusable(isEnabled);
-        fishInput.setFocusableInTouchMode(isEnabled);
-        plantBasedInput.setFocusable(isEnabled);
-        plantBasedInput.setFocusableInTouchMode(isEnabled);
-        clothingInput.setFocusable(isEnabled);
-        clothingInput.setFocusableInTouchMode(isEnabled);
-        electricityBillsInput.setFocusable(isEnabled);
-        electricityBillsInput.setFocusableInTouchMode(isEnabled);
-        gasBillsInput.setFocusable(isEnabled);
-        gasBillsInput.setFocusableInTouchMode(isEnabled);
-        waterBillsInput.setFocusable(isEnabled);
-        waterBillsInput.setFocusableInTouchMode(isEnabled);
+        keyListener(driveInput, isEnabled);
+        keyListener(cyclingWalkingInput, isEnabled);
+        keyListener(busInput, isEnabled);
+        keyListener(trainInput, isEnabled);
+        keyListener(subwayInput, isEnabled);
+        keyListener(shortFlightInput, isEnabled);
+        keyListener(longFlightInput, isEnabled);
+        keyListener(beefInput, isEnabled);
+        keyListener(porkInput, isEnabled);
+        keyListener(chickenInput, isEnabled);
+        keyListener(fishInput, isEnabled);
+        keyListener(plantBasedInput, isEnabled);
+        keyListener(clothingInput, isEnabled);
+        keyListener(electricityBillsInput, isEnabled);
+        keyListener(gasBillsInput, isEnabled);
+        keyListener(waterBillsInput, isEnabled);
+
         for (EditText inputTypeText : inputTypeTextList) {
-            inputTypeText.setFocusable(isEnabled);
-            inputTypeText.setFocusableInTouchMode(isEnabled);
+            keyListener(inputTypeText, isEnabled);
         }
         for (EditText inputText : inputTextList) {
-            inputText.setFocusable(isEnabled);
-            inputText.setFocusableInTouchMode(isEnabled);
+            keyListener(inputText, isEnabled);
+        }
+    }
+
+    private void keyListener (EditText text, boolean isEnabled) {
+        text.setFocusable(isEnabled);
+        text.setFocusableInTouchMode(isEnabled);
+        if (!isEnabled) {
+            text.setKeyListener(null);
+        } else {
+            text.setKeyListener(TextKeyListener.getInstance());
         }
     }
 
     private void savetoDB() {
         // Collect data from all inputs
         HashMap<String, Object> inputData = new HashMap<>();
-        inputData.put("Drive", getDoubleFromEditText(driveInput));
-        inputData.put("Cycling or Walking", getDoubleFromEditText(cyclingWalkingInput));
+        inputData.put(selectedFuelType, getDoubleFromEditText(driveInput));
+        inputData.put("CyclingWalking", getDoubleFromEditText(cyclingWalkingInput));
         inputData.put("Bus", getDoubleFromEditText(busInput));
         inputData.put("Train", getDoubleFromEditText(trainInput));
         inputData.put("Subway", getDoubleFromEditText(subwayInput));
-        inputData.put("Short Flight", getDoubleFromEditText(shortFlightInput));
-        inputData.put("Long Flight", getDoubleFromEditText(longFlightInput));
+        inputData.put("ShortFlight", getDoubleFromEditText(shortFlightInput));
+        inputData.put("LongFlight", getDoubleFromEditText(longFlightInput));
         inputData.put("Beef", getDoubleFromEditText(beefInput));
         inputData.put("Pork", getDoubleFromEditText(porkInput));
         inputData.put("Chicken", getDoubleFromEditText(chickenInput));
         inputData.put("Fish", getDoubleFromEditText(fishInput));
-        inputData.put("Plant Based", getDoubleFromEditText(plantBasedInput));
+        inputData.put("PlantBased", getDoubleFromEditText(plantBasedInput));
         inputData.put("Clothing", getDoubleFromEditText(clothingInput));
         inputData.put("Electricity", getDoubleFromEditText(electricityBillsInput));
         inputData.put("Gas", getDoubleFromEditText(gasBillsInput));
@@ -392,7 +536,17 @@ public class EcoTrackerFragment extends Fragment {
         for (int i = 0; i < electronicsInputs.size(); i++) {
             EditText typeInput = (EditText) electronicsInputs.get(i).getChildAt(1);  // Get type input
             EditText quantityInput = (EditText) electronicsInputs.get(i).getChildAt(2);  // Get quantity input
-            electronicsData.put(typeInput.getText().toString(), getDoubleFromEditText(quantityInput));
+
+            String type = typeInput.getText().toString();
+            double quantity = getDoubleFromEditText(quantityInput);
+
+            // Check if the key exists, and if so, add the new value to the existing value
+            if (electronicsData.containsKey(type)) {
+                double existingQuantity = (double) electronicsData.get(type);
+                electronicsData.put(type, existingQuantity + quantity);
+            } else {
+                electronicsData.put(type, quantity);
+            }
         }
 
         // Collect Other Inputs
@@ -400,27 +554,37 @@ public class EcoTrackerFragment extends Fragment {
         for (int i = 0; i < otherInputs.size(); i++) {
             EditText typeInput = (EditText) otherInputs.get(i).getChildAt(1);  // Get type input
             EditText quantityInput = (EditText) otherInputs.get(i).getChildAt(2);  // Get quantity input
-            otherData.put(typeInput.getText().toString(), getDoubleFromEditText(quantityInput));
+
+            String type = typeInput.getText().toString();
+            double quantity = getDoubleFromEditText(quantityInput);
+
+            // Check if the key exists, and if so, add the new value to the existing value
+            if (otherData.containsKey(type)) {
+                double existingQuantity = (double) otherData.get(type);
+                otherData.put(type, existingQuantity + quantity);
+            } else {
+                otherData.put(type, quantity);
+            }
         }
 
-        // Combine all inputs
-        inputData.putAll(electronicsData);
-        inputData.putAll(otherData);
+//        // Combine all inputs
+//        inputData.putAll(electronicsData);
+//        inputData.putAll(otherData);
 
         //Calculate individual CO2e
         HashMap<String, Object> co2eData = new HashMap<>();
         co2eData.put("Drive", EcoTrackerEmissionsCalculator.calculateEmissions("Drive Personal Vehicle", getDoubleFromEditText(driveInput), "Gasoline"));
-        co2eData.put("Cycling or Walking", EcoTrackerEmissionsCalculator.calculateEmissions("Cycling or Walking", getDoubleFromEditText(cyclingWalkingInput), ""));
+        co2eData.put("CyclingWalking", EcoTrackerEmissionsCalculator.calculateEmissions("Cycling or Walking", getDoubleFromEditText(cyclingWalkingInput), ""));
         co2eData.put("Bus", EcoTrackerEmissionsCalculator.calculateEmissions("Take Public Transportation", getDoubleFromEditText(busInput), "Bus"));
         co2eData.put("Train", EcoTrackerEmissionsCalculator.calculateEmissions("Take Public Transportation", getDoubleFromEditText(trainInput), "Train"));
         co2eData.put("Subway", EcoTrackerEmissionsCalculator.calculateEmissions("Take Public Transportation", getDoubleFromEditText(subwayInput), "Subway"));
-        co2eData.put("Short Flight", EcoTrackerEmissionsCalculator.calculateEmissions("Flight", getDoubleFromEditText(shortFlightInput), "Short-Haul"));
-        co2eData.put("Long Flight", EcoTrackerEmissionsCalculator.calculateEmissions("Flight", getDoubleFromEditText(longFlightInput), "Long-Haul"));
+        co2eData.put("ShortFlight", EcoTrackerEmissionsCalculator.calculateEmissions("Flight", getDoubleFromEditText(shortFlightInput), "Short-Haul"));
+        co2eData.put("LongFlight", EcoTrackerEmissionsCalculator.calculateEmissions("Flight", getDoubleFromEditText(longFlightInput), "Long-Haul"));
         co2eData.put("Beef", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(beefInput), "Beef"));
         co2eData.put("Pork", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(porkInput), "Pork"));
         co2eData.put("Chicken", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(chickenInput), "Chicken"));
         co2eData.put("Fish", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(fishInput), "Fish"));
-        co2eData.put("Plant Based", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(plantBasedInput), "Plant-based"));
+        co2eData.put("PlantBased", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(plantBasedInput), "Plant-based"));
         co2eData.put("Clothing", EcoTrackerEmissionsCalculator.calculateEmissions("Buy New Clothes", getDoubleFromEditText(clothingInput), ""));
         co2eData.put("Electricity", EcoTrackerEmissionsCalculator.calculateEmissions("Energy Bills", getDoubleFromEditText(electricityBillsInput), "Electricity"));
         co2eData.put("Gas", EcoTrackerEmissionsCalculator.calculateEmissions("Energy Bills", getDoubleFromEditText(gasBillsInput), "Gas"));
@@ -431,7 +595,16 @@ public class EcoTrackerFragment extends Fragment {
             EditText typeInput = (EditText) electronicsInputs.get(i).getChildAt(1);  // Get type input
             EditText quantityInput = (EditText) electronicsInputs.get(i).getChildAt(2);  // Get quantity input
             double emissions = EcoTrackerEmissionsCalculator.calculateEmissions("Buy Electronics", getDoubleFromEditText(quantityInput), "");
-            electronicsDataCO2.put(typeInput.getText().toString(), emissions);
+
+            String type = typeInput.getText().toString();
+            if (electronicsDataCO2.containsKey(type)) {
+                // Key exists, add emissions to the existing value
+                double existingEmissions = (double) electronicsDataCO2.get(type);
+                electronicsDataCO2.put(type, existingEmissions + emissions);
+            } else {
+                // New key, add it to the map
+                electronicsDataCO2.put(type, emissions);
+            }
         }
 
         // Collect Other Inputs
@@ -440,9 +613,17 @@ public class EcoTrackerFragment extends Fragment {
             EditText typeInput = (EditText) otherInputs.get(i).getChildAt(1);  // Get type input
             EditText quantityInput = (EditText) otherInputs.get(i).getChildAt(2);  // Get quantity input
             double emissions = EcoTrackerEmissionsCalculator.calculateEmissions("Other Purchases", getDoubleFromEditText(quantityInput), "");
-            otherDataCO2.put(typeInput.getText().toString(), emissions);
-        }
 
+            String type = typeInput.getText().toString();
+            if (otherDataCO2.containsKey(type)) {
+                // Key exists, add emissions to the existing value
+                double existingEmissions = (double) otherDataCO2.get(type);
+                otherDataCO2.put(type, existingEmissions + emissions);
+            } else {
+                // New key, add it to the map
+                otherDataCO2.put(type, emissions);
+            }
+        }
 
         EcoTrackerFragmentModel m = new EcoTrackerFragmentModel();
         m.saveDailyInputDB(inputData, electronicsData, otherData, co2eData, electronicsDataCO2, otherDataCO2, selectedDate);
