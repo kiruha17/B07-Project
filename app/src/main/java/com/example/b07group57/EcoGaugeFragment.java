@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.b07group57.utils.EcoGaugeCalculator;
+
 public class EcoGaugeFragment extends Fragment {
     @Nullable
     @Override
