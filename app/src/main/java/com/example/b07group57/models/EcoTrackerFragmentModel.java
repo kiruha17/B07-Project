@@ -1,5 +1,7 @@
-package com.example.b07group57;
+package com.example.b07group57.models;
 
+
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,11 +20,22 @@ public class EcoTrackerFragmentModel {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    void saveDailyInputDB(HashMap<String, Object> inputData, HashMap<String, Object> electronics, HashMap<String, Object> other,
-                          HashMap<String, Object> co2EData, HashMap<String, Object> electronicCo2, HashMap<String, Object> otherCo2, String selectedDate){
+    public void saveDailyInputDB(HashMap<String, Object> inputData, HashMap<String, Object> electronics, HashMap<String, Object> other,
+                                 HashMap<String, Object> co2EData, HashMap<String, Object> electronicCo2, HashMap<String, Object> otherCo2, String selectedDate){
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if (currentUser != null){
+        Log.d("EcoTrackerModel", "Selected date: " + selectedDate);
+
+        // saveDailyInputDB
+        logMap("EcoTrackerModel-inputData", inputData);
+        logMap("EcoTrackerModel-electronics", electronics);
+        logMap("EcoTrackerModel-other", other);
+        logMap("EcoTrackerModel-co2EData", co2EData);
+        logMap("EcoTrackerModel-electronicCo2", electronicCo2);
+        logMap("EcoTrackerModel-otherCo2", otherCo2);
+
+
+        if (currentUser != null) {
             String userId = currentUser.getUid();
             db.child("users").child(userId).child("ecoTrackerDaily").child(selectedDate).child("inputAmount").setValue(inputData);
             db.child("users").child(userId).child("ecoTrackerDaily").child(selectedDate).child("inputAmount").child("electronics").setValue(electronics);
@@ -33,4 +46,9 @@ public class EcoTrackerFragmentModel {
         }
     }
 
+    private void logMap(String tag, HashMap<String, Object> map) {
+        for (String key : map.keySet()) {
+            Log.d(tag, "Key: " + key + ", Value: " + map.get(key));
+        }
+    }
 }

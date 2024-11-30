@@ -2,6 +2,8 @@ package com.example.b07group57;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import androidx.core.widget.NestedScrollView;
 import android.widget.Toast;
 
 import com.example.b07group57.models.EcoTrackerEmissionsCalculator;
+import com.example.b07group57.models.EcoTrackerFragmentModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +39,8 @@ public class EcoTrackerFragment extends Fragment {
     private List<LinearLayout> otherInputs = new ArrayList<>();
     private List<EditText> inputTypeTextList = new ArrayList<>();
     private List<EditText> inputTextList = new ArrayList<>();
+
+    private boolean isValid;
 
     public EcoTrackerFragment() {
     }
@@ -60,6 +65,7 @@ public class EcoTrackerFragment extends Fragment {
         // Handle the NestedScrollView
         NestedScrollView scrollView = view.findViewById(R.id.nestedScrollView);
 
+        isValid = true;
         driveInput = view.findViewById(R.id.driveInput);
         cyclingWalkingInput = view.findViewById(R.id.cyclingWalkingInput);
         busInput = view.findViewById(R.id.busInput);
@@ -135,8 +141,6 @@ public class EcoTrackerFragment extends Fragment {
                 // Handle case when no item is selected
             }
         });
-        addNewInput("type (e.g. smartphone, laptop, TV)", devicePairs, "electronics");
-        addNewInput("type (e.g. furniture, appliances)", otherPairs, "other");
         setAddDeleteButtonsEnabled(isEditable);
         enableEditText(isEditable);
         setSpinnerEditable(isEditable);
@@ -186,11 +190,94 @@ public class EcoTrackerFragment extends Fragment {
 
         parent.addView(newPair);
 
+        newTypeInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                enableSaveButtonIfValid();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        newInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                enableSaveButtonIfValid();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        enableSaveButtonIfValid();
+
         // Store the input data in the appropriate category
         if ("electronics".equals(category)) {
             electronicsInputs.add(newPair);  // Store in electronics inputs list
         } else if ("other".equals(category)) {
             otherInputs.add(newPair);  // Store in other inputs list
+        }
+    }
+
+    private void enableSaveButtonIfValid() {
+        boolean tempValid = true;
+        for (EditText typeInput : inputTypeTextList) {
+            if (!validateInput(typeInput)) {
+                tempValid = false;
+            }
+        }
+
+        for (EditText input : inputTextList) {
+            if (!isValidInteger(input)) {
+                tempValid = false;
+            }
+        }
+
+        isValid = tempValid;
+        btnEdit.setEnabled(isValid);
+    }
+
+    private boolean validateInput(EditText input) {
+        String text = input.getText().toString();
+
+        if (text.trim().isEmpty()) {
+            input.setError("This field cannot be empty");
+            return false;
+        }
+        if (containsInvalidCharacters(text)) {
+            input.setError("Input contains invalid characters");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean containsInvalidCharacters(String text) {
+        return text.contains("/") || text.contains(".") || text.contains("#")
+                || text.contains("$") || text.contains("[") || text.contains("]");
+    }
+
+    private boolean isValidInteger(EditText input) {
+        String text = input.getText().toString().trim();
+
+        if (text.isEmpty()) {
+            input.setError(null);
+            return true;
+        }
+
+        try {
+            Integer.parseInt(text);
+            input.setError(null);
+            return true;
+        } catch (NumberFormatException e) {
+            input.setError("Please enter a valid integer");
+            return false;
         }
     }
 
@@ -212,6 +299,7 @@ public class EcoTrackerFragment extends Fragment {
         deleteText.setOnClickListener(v -> {
             deleteTextList.remove(deleteText);
             deletePair(parentLayout);
+            enableSaveButtonIfValid();
         });
         deleteTextList.add(deleteText);
 
@@ -220,7 +308,11 @@ public class EcoTrackerFragment extends Fragment {
 
     public void deletePair(ViewGroup parentLayout) {
         if (parentLayout != null && parentLayout.getParent() instanceof ViewGroup) {
+            EditText typeInput = (EditText) parentLayout.getChildAt(1);
+            EditText quantityInput = (EditText) parentLayout.getChildAt(2);
             ViewGroup grandParentLayout = (ViewGroup) parentLayout.getParent();
+            inputTextList.remove(quantityInput);
+            inputTypeTextList.remove(typeInput);
             grandParentLayout.removeView(parentLayout);
         }
     }
@@ -280,17 +372,17 @@ public class EcoTrackerFragment extends Fragment {
         // Collect data from all inputs
         HashMap<String, Object> inputData = new HashMap<>();
         inputData.put("Drive", getDoubleFromEditText(driveInput));
-        inputData.put("CyclingWalking", getDoubleFromEditText(cyclingWalkingInput));
+        inputData.put("Cycling or Walking", getDoubleFromEditText(cyclingWalkingInput));
         inputData.put("Bus", getDoubleFromEditText(busInput));
         inputData.put("Train", getDoubleFromEditText(trainInput));
         inputData.put("Subway", getDoubleFromEditText(subwayInput));
-        inputData.put("ShortFlight", getDoubleFromEditText(shortFlightInput));
-        inputData.put("LongFlight", getDoubleFromEditText(longFlightInput));
+        inputData.put("Short Flight", getDoubleFromEditText(shortFlightInput));
+        inputData.put("Long Flight", getDoubleFromEditText(longFlightInput));
         inputData.put("Beef", getDoubleFromEditText(beefInput));
         inputData.put("Pork", getDoubleFromEditText(porkInput));
         inputData.put("Chicken", getDoubleFromEditText(chickenInput));
         inputData.put("Fish", getDoubleFromEditText(fishInput));
-        inputData.put("PlantBased", getDoubleFromEditText(plantBasedInput));
+        inputData.put("Plant Based", getDoubleFromEditText(plantBasedInput));
         inputData.put("Clothing", getDoubleFromEditText(clothingInput));
         inputData.put("Electricity", getDoubleFromEditText(electricityBillsInput));
         inputData.put("Gas", getDoubleFromEditText(gasBillsInput));
@@ -318,17 +410,17 @@ public class EcoTrackerFragment extends Fragment {
         //Calculate individual CO2e
         HashMap<String, Object> co2eData = new HashMap<>();
         co2eData.put("Drive", EcoTrackerEmissionsCalculator.calculateEmissions("Drive Personal Vehicle", getDoubleFromEditText(driveInput), "Gasoline"));
-        co2eData.put("CyclingWalking", EcoTrackerEmissionsCalculator.calculateEmissions("Cycling or Walking", getDoubleFromEditText(cyclingWalkingInput), ""));
+        co2eData.put("Cycling or Walking", EcoTrackerEmissionsCalculator.calculateEmissions("Cycling or Walking", getDoubleFromEditText(cyclingWalkingInput), ""));
         co2eData.put("Bus", EcoTrackerEmissionsCalculator.calculateEmissions("Take Public Transportation", getDoubleFromEditText(busInput), "Bus"));
         co2eData.put("Train", EcoTrackerEmissionsCalculator.calculateEmissions("Take Public Transportation", getDoubleFromEditText(trainInput), "Train"));
         co2eData.put("Subway", EcoTrackerEmissionsCalculator.calculateEmissions("Take Public Transportation", getDoubleFromEditText(subwayInput), "Subway"));
-        co2eData.put("ShortFlight", EcoTrackerEmissionsCalculator.calculateEmissions("Flight", getDoubleFromEditText(shortFlightInput), "Short-Haul"));
-        co2eData.put("LongFlight", EcoTrackerEmissionsCalculator.calculateEmissions("Flight", getDoubleFromEditText(longFlightInput), "Long-Haul"));
+        co2eData.put("Short Flight", EcoTrackerEmissionsCalculator.calculateEmissions("Flight", getDoubleFromEditText(shortFlightInput), "Short-Haul"));
+        co2eData.put("Long Flight", EcoTrackerEmissionsCalculator.calculateEmissions("Flight", getDoubleFromEditText(longFlightInput), "Long-Haul"));
         co2eData.put("Beef", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(beefInput), "Beef"));
         co2eData.put("Pork", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(porkInput), "Pork"));
         co2eData.put("Chicken", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(chickenInput), "Chicken"));
         co2eData.put("Fish", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(fishInput), "Fish"));
-        co2eData.put("PlantBased", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(plantBasedInput), "Plant-based"));
+        co2eData.put("Plant Based", EcoTrackerEmissionsCalculator.calculateEmissions("Meal", getDoubleFromEditText(plantBasedInput), "Plant-based"));
         co2eData.put("Clothing", EcoTrackerEmissionsCalculator.calculateEmissions("Buy New Clothes", getDoubleFromEditText(clothingInput), ""));
         co2eData.put("Electricity", EcoTrackerEmissionsCalculator.calculateEmissions("Energy Bills", getDoubleFromEditText(electricityBillsInput), "Electricity"));
         co2eData.put("Gas", EcoTrackerEmissionsCalculator.calculateEmissions("Energy Bills", getDoubleFromEditText(gasBillsInput), "Gas"));
@@ -407,6 +499,17 @@ public class EcoTrackerFragment extends Fragment {
         totalEmissions += EcoTrackerEmissionsCalculator.calculateEmissions("Energy Bills", electricityBillsAmount, "Electricity");
         totalEmissions += EcoTrackerEmissionsCalculator.calculateEmissions("Energy Bills", gasBillsAmount, "Gas");
         totalEmissions += EcoTrackerEmissionsCalculator.calculateEmissions("Energy Bills", waterBillsAmount, "Water");
+
+        for (int i = 0; i < electronicsInputs.size(); i++) {// Get type input
+            EditText quantityInput = (EditText) electronicsInputs.get(i).getChildAt(2);  // Get quantity input
+            totalEmissions += EcoTrackerEmissionsCalculator.calculateEmissions("Buy Electronics", getDoubleFromEditText(quantityInput), "");
+        }
+
+        for (int i = 0; i < otherInputs.size(); i++) {
+            EditText quantityInput = (EditText) otherInputs.get(i).getChildAt(2);  // Get quantity input
+            totalEmissions += EcoTrackerEmissionsCalculator.calculateEmissions("Other Purchases", getDoubleFromEditText(quantityInput), "");
+        }
+
 
         // Update the result TextView
         TextView emissionsResultText = getView().findViewById(R.id.emissionsResultText);
