@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.widget.Toast;
 
 import com.example.b07group57.models.EcoTrackerEmissionsCalculator;
@@ -249,6 +251,13 @@ public class EcoTrackerFragment extends Fragment {
             // Scroll to the view within the scroll view, ensuring it stays visible within the viewport
             scrollView.smoothScrollTo(0, view.getTop());
         });
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void enableEditText(boolean isEnabled) {
