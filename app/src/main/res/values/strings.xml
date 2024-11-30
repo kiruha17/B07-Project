@@ -223,7 +223,7 @@
         <item>Electric</item>
         <item>Unsure</item>
     </string-array>
-    
+
     <string-array name="public_transport_freq">
         <item>Never</item>
         <item>Occasionally (1 to 2 times per week)</item>
@@ -239,7 +239,7 @@
         <item>20,000–25,000 km (12,000–15,000 miles)</item>
         <item>More than 25,000 km (15,000 miles)</item>
     </string-array>
-    
+
     <string-array name="time_spent_on_public_transport">
         <item>Under 1 hour</item>
         <item>1–3 hours</item>
@@ -277,7 +277,7 @@
         <item>Occasionally</item>
         <item>Frequently</item>
     </string-array>
-    
+
     <string-array name="home_type">
         <item>Detached house</item>
         <item>Semi-detached house</item>
@@ -292,7 +292,7 @@
         <item>3-4</item>
         <item>5 or more</item>
     </string-array>
-    
+
     <string-array name="home_size">
         <item>Under 1000 sq. ft.</item>
         <item>1000-2000 sq. ft.</item>
@@ -307,7 +307,7 @@
         <item>Wood</item>
         <item>Other</item>
     </string-array>
-    
+
     <string-array name="electricity_bill">
         <item>Under $50</item>
         <item>$50-$100</item>
@@ -315,7 +315,7 @@
         <item>$150-$200</item>
         <item>Over $200</item>
     </string-array>
-    
+
     <string-array name="water_heater">
         <item>Natural Gas</item>
         <item>Electricity</item>
@@ -324,7 +324,7 @@
         <item>Solar</item>
         <item>Other</item>
     </string-array>
-    
+
     <string-array name="renewable_energy">
         <item>Yes, primarily (more than 50% of energy use)</item>
         <item>Yes, partially (less than 50% of energy use)</item>
@@ -343,7 +343,7 @@
         <item>Yes, occasionally</item>
         <item>No</item>
     </string-array>
-    
+
     <string-array name="buy_electronics">
         <item>None</item>
         <item>1</item>
@@ -351,7 +351,7 @@
         <item>3</item>
         <item>4 or more</item>
     </string-array>
-    
+
     <string-array name="recycle">
         <item>Never</item>
         <item>Occasionally</item>
