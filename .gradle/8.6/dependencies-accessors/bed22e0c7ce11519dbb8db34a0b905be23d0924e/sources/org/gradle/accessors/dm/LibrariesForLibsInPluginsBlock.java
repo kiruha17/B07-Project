@@ -807,7 +807,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getEazegraph() { return getVersion("eazegraph"); }
 
         /**
-         * Version alias <b>espressoCore</b> with value <b>3.5.1</b>
+         * Version alias <b>espressoCore</b> with value <b>3.6.1</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -987,7 +987,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public Provider<String> getRules() { return getVersion("rules"); }
 
         /**
-         * Version alias <b>runner</b> with value <b>1.6.2</b>
+         * Version alias <b>runner</b> with value <b>1.6.1</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
