@@ -115,18 +115,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Electricity (bill amount)"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
         <EditText
             android:id="@+id/gasBillsInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Gas (bill amount)"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
         <EditText
             android:id="@+id/waterBillsInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Water (bill amount)"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
     </LinearLayout>
 </LinearLayout>
