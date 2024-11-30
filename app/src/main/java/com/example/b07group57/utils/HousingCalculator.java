@@ -1,8 +1,5 @@
 package com.example.b07group57.utils;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.example.b07group57.models.SurveyData;
 
 import org.apache.poi.ss.usermodel.*;
@@ -12,7 +9,7 @@ import java.io.InputStream;
 
 public class HousingCalculator {
 
-    public static double calculateHousing(Context context, SurveyData data) {
+    public static double calculateHousing(InputStream excelFile, SurveyData data) {
         double total = 0;
 
         // Add constant CO₂ impact for differing water and home heaters
@@ -31,125 +28,150 @@ public class HousingCalculator {
             case "No":
                 break;
             default:
-                Log.e("calculateHousing", "Invalid renewableEnergy value");
+                System.out.println("Invalid renewableEnergy value");
                 return Double.NEGATIVE_INFINITY;
         }
 
         // Add Excel-based dynamic calculation
-        double housingCO2 = getHousingCO2(context, data);
+        double housingCO2 = getHousingCO2(excelFile, data);
         if (housingCO2 != Double.NEGATIVE_INFINITY) {
             total += housingCO2;
         } else {
-            Log.e("calculateHousing", "Error calculating housing CO₂");
+            System.out.println("Error calculating housing CO₂");
             return Double.NEGATIVE_INFINITY;
         }
-
         return total;
     }
 
-    private static double getHousingCO2(Context context, SurveyData data) {
+    private static double getHousingCO2(InputStream excelFile, SurveyData data) {
         double result = Double.NEGATIVE_INFINITY;
 
         try {
-            InputStream inputStream = context.getAssets().open("HousingData.xlsx");
-            Workbook workbook = new XSSFWorkbook(inputStream);
+            Workbook workbook = new XSSFWorkbook(excelFile);
             Sheet sheet = workbook.getSheet("Sheet1");
 
             if (sheet == null) {
-                Log.e("getHousingCO2", "Sheet not found: Sheet1");
+                System.out.println("Sheet not found: Sheet1");
                 return result;
             }
 
-            // Step 1: Locate the row for the housing type
-            int housingRow = locateRow(sheet, data.homeType);
-            if (housingRow == -1) {
-                Log.e("getHousingCO2", "Housing type row not found");
+            // Step 1: Locate housing type and size
+            int housingTypeRow = -1;
+
+            for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+
+                Cell housingTypeCell = row.getCell(0); // Housing type in column A
+                Cell sizeCell = row.getCell(1); // Size in column B
+
+                if (housingTypeCell != null && sizeCell != null &&
+                        housingTypeCell.getCellType() == CellType.STRING &&
+                        sizeCell.getCellType() == CellType.STRING &&
+                        housingTypeCell.getStringCellValue().equalsIgnoreCase(data.homeType) &&
+                        sizeCell.getStringCellValue().equalsIgnoreCase(data.homeSize)) {
+                    housingTypeRow = i;
+                    break;
+                }
+            }
+
+            if (housingTypeRow == -1) {
+                System.out.println("Housing type and size not found");
                 return result;
             }
 
-            // Step 2: Locate the column for the size, directly right of the housing type
-            Row housingTypeRow = sheet.getRow(housingRow);
-            int sizeColumn = locateColumnInRow(housingTypeRow, data.homeSize);
-            if (sizeColumn == -1) {
-                Log.e("getHousingCO2", "Housing size column not found");
-                return result;
+            // Debug messages
+            System.out.println(housingTypeRow);
+
+            // Step 2: Locate the row for the number of occupants
+            int occupantsRow = -1;
+
+            for (int i = housingTypeRow + 3; i <= housingTypeRow + 7; i++) {
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+
+                Cell occupantsCell = row.getCell(0); // Column A
+                if (occupantsCell != null) {
+                    String occupantsValue = null;
+                    if (occupantsCell.getCellType() == CellType.STRING) {
+                        occupantsValue = occupantsCell.getStringCellValue();
+                    } else if (occupantsCell.getCellType() == CellType.NUMERIC) {
+                        occupantsValue = String.valueOf((int) occupantsCell.getNumericCellValue());
+                    }
+                    if (occupantsValue != null && occupantsValue.equalsIgnoreCase(data.homePeople)) {
+                        occupantsRow = i;
+                        break;
+                    }
+                }
             }
 
-            // Step 3: Locate the row for the number of occupants below the size column
-            int occupantsRow = locateOccupantsRow(sheet, data.homePeople, housingRow + 2, sizeColumn);
             if (occupantsRow == -1) {
-                Log.e("getHousingCO2", "Occupants row not found");
+                System.out.println("Number of occupants not found");
+                return result; // Return result if occupantsRow is not found
+            }
+
+            // Debug messages
+            System.out.println(occupantsRow);
+
+            // Step 3: Locate the column for the electricity bill range
+            int billRangeColumn = -1;
+            Row billRangeRow = sheet.getRow(housingTypeRow + 1); // Row where bill ranges start
+            if (billRangeRow != null) {
+                for (Cell cell : billRangeRow) {
+                    if (cell.getCellType() == CellType.STRING &&
+                            cell.getStringCellValue().equalsIgnoreCase(data.electricityBill)) {
+                        billRangeColumn = cell.getColumnIndex();
+                        break;
+                    }
+                }
+            }
+
+            if (billRangeColumn == -1) {
+                System.out.println("Electricity bill range not found");
                 return result;
             }
 
-            // Step 4: Locate the column for electricity bill within the block
-            Row sizeHeaderRow = sheet.getRow(housingRow + 1);
-            int billColumn = locateColumnInRow(sizeHeaderRow, data.electricityBill);
-            if (billColumn == -1) {
-                Log.e("getHousingCO2", "Electricity bill column not found");
+            // Debug messages
+            System.out.println(billRangeColumn);
+
+            // Step 4: Locate the heating energy type column within the bill range
+            int heatingTypeColumn = -1;
+            Row heatingTypeRow = sheet.getRow(housingTypeRow + 2); // Row below the bill range row
+            if (heatingTypeRow != null) {
+                for (int i = billRangeColumn; i < billRangeColumn + 5; i++) { // Check the next 5 cells for heating type
+                    Cell cell = heatingTypeRow.getCell(i);
+                    if (cell != null && cell.getCellType() == CellType.STRING &&
+                            cell.getStringCellValue().equalsIgnoreCase(data.homeHeater)) {
+                        heatingTypeColumn = i;
+                        break;
+                    }
+                }
+            }
+
+            if (heatingTypeColumn == -1) {
+                System.out.println("Heating energy type not found");
                 return result;
             }
 
-            // Step 5: Retrieve the cell value
+            // Debug messages
+            System.out.println(heatingTypeColumn);
+
+            // Step 5: Retrieve the CO2 value
             Row occupantsDataRow = sheet.getRow(occupantsRow);
             if (occupantsDataRow != null) {
-                Cell cell = occupantsDataRow.getCell(billColumn);
+                Cell cell = occupantsDataRow.getCell(heatingTypeColumn);
                 if (cell != null && cell.getCellType() == CellType.NUMERIC) {
                     result = cell.getNumericCellValue();
                 } else {
-                    Log.e("getHousingCO2", "Cell value is not numeric");
+                    System.out.println("CO2 value is not numeric or missing");
                 }
             }
 
             workbook.close();
-            inputStream.close();
         } catch (Exception e) {
-            Log.e("getHousingCO2", "Error reading Excel file: " + e.getMessage());
+            System.out.println("Error reading Excel file: " + e.getMessage());
         }
 
         return result;
-    }
-
-    private static int locateRow(Sheet sheet, String searchValue) {
-        for (int i = 0; i <= sheet.getLastRowNum(); i++) {
-            Row row = sheet.getRow(i);
-            if (row != null) {
-                Cell cell = row.getCell(0); // Assuming housing type in column A
-                if (cell != null && cell.getCellType() == CellType.STRING) {
-                    if (cell.getStringCellValue().equalsIgnoreCase(searchValue)) {
-                        return i;
-                    }
-                }
-            }
-        }
-        return -1; // Row not found
-    }
-
-    private static int locateColumnInRow(Row row, String searchValue) {
-        if (row != null) {
-            for (Cell cell : row) {
-                if (cell != null && cell.getCellType() == CellType.STRING) {
-                    if (cell.getStringCellValue().equalsIgnoreCase(searchValue)) {
-                        return cell.getColumnIndex();
-                    }
-                }
-            }
-        }
-        return -1; // Column not found
-    }
-
-    private static int locateOccupantsRow(Sheet sheet, String searchValue, int startRow, int sizeColumn) {
-        for (int i = startRow; i <= sheet.getLastRowNum(); i++) {
-            Row row = sheet.getRow(i);
-            if (row != null) {
-                Cell cell = row.getCell(sizeColumn - 1); // Occupants are left of the size column
-                if (cell != null && cell.getCellType() == CellType.STRING) {
-                    if (cell.getStringCellValue().equalsIgnoreCase(searchValue)) {
-                        return i;
-                    }
-                }
-            }
-        }
-        return -1; // Row not found
     }
 }

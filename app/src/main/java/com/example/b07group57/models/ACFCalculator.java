@@ -28,7 +28,7 @@ public class ACFCalculator {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 SurveyData surveyData = snapshot.getValue(SurveyData.class);
                 if (surveyData != null) {
-                    double carbonFootprint = calculateFootprint(surveyData);
+                    double carbonFootprint = calculateTotalEmissions(surveyData);
                     System.out.println("User's Annual Carbon Footprint: " + carbonFootprint + " kg CO2");
                 } else {
                     System.out.println("No survey data found for user: " + userId);
@@ -43,12 +43,12 @@ public class ACFCalculator {
     }
 
     // Calculate carbon footprint based on survey data
-    public static double calculateTotalEmissions(Context context, SurveyData data) {
+    public static double calculateTotalEmissions(SurveyData data) {
 
         double totalEmissions = 0;
 
         // Call each calculator and add emissions
-        totalEmissions += HousingCalculator.calculateHousing(context, data);
+        // totalEmissions += HousingCalculator.calculateHousing(data);
         totalEmissions += TransportationCalculator.calculateTransportation(data);
         totalEmissions += FoodCalculator.calculateFood(data);
         totalEmissions += ConsumptionCalculator.calculateConsumption(data);
