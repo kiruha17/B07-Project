@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/light_gray">
 
         <TextView
             android:id="@+id/tv_project_name"
@@ -18,21 +19,21 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:textColor="#000" />
+            android:textColor="@color/background_black" />
 
         <TextView
             android:id="@+id/tv_project_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="#777" />
+            android:textColor="@color/dark_gray" />
 
         <TextView
             android:id="@+id/tv_project_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="#555"
+            android:textColor="@color/dark_gray"
             android:layout_marginTop="8dp" />
 
         <TextView
@@ -52,5 +53,40 @@
             android:layout_marginTop="8dp"
             android:text="Visit Project" />
 
+        <!--CO2e Selection -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tons of CO2e:"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:id="@+id/et_co2e_tons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:hint="Enter tons of CO2e to offset"
+                android:padding="8dp"
+                android:background="@android:drawable/editbox_background"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_purchase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calculate Cost"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/primary_teal" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

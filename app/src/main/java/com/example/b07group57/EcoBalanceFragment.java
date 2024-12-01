@@ -20,7 +20,6 @@ import java.util.List;
 public class EcoBalanceFragment extends Fragment {
     private RecyclerView recyclerView;
     private OffSetProjectsList projectsList;
-    OffsetProjectsAdapter adapter;
 
     @Nullable
     @Override
