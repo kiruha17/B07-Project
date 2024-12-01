@@ -1,6 +1,7 @@
 package com.example.b07group57;
 
 import static com.example.b07group57.utils.DateUtils.subtractDays;
+import static com.example.b07group57.utils.DateUtils.subtractMonths;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,14 +34,18 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class EcoGaugeTotalGraphFragment extends Fragment {
     private String timeUnit;
-    private int timeChange = 1;
+    private ArrayList<Entry> entries;
+    private int timeChange = 0;
     private Button previousDayButton, nextDayButton;
 
     private String selectedDate;
+    private String[] dateWeekLabels;
+    private String[] dateMonthLabels;
+
     public EcoGaugeTotalGraphFragment(String timeUnit) {
         this.timeUnit = timeUnit;
     }
-    private double transportation, food, clothing, energy, device, other, total = 0;
+    private double transportation, food, clothing, energy, device, other, total = 0, finalTotal;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,65 +59,88 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
         selectedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date(currentDate));
         previousDayButton = view.findViewById(R.id.leftButton);
         nextDayButton = view.findViewById(R.id.rightButton);
-
+        entries = new ArrayList<>();
+        dateWeekLabels = new String[7];
         previousDayButton.setOnClickListener(v -> {
+            entries = new ArrayList<>();
             timeChange++;
+            resetValue();
             if (Objects.equals(timeUnit, "day")) {
                  selectedDate = subtractDays(timeChange);
                  System.out.println(timeChange);
-            }
-            resetValue();
-            allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
-                @Override
-                public void onDataLoaded() {
-                    LineChart lineChart = view.findViewById(R.id.lineChart);
-                    drawGraph(getData(lineChart), lineChart);
-                }
-            });
-        });
-
-        nextDayButton.setOnClickListener(v -> {
-            if (timeChange > 1) {
-                timeChange--;
-                if (Objects.equals(timeUnit, "day")) {
-                    selectedDate = subtractDays(timeChange);
-                    System.out.println(timeChange);
-                }
-                if (Objects.equals(timeUnit, "week")) {
-
-                }
-                resetValue();
-                allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
+                 allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
                     @Override
                     public void onDataLoaded() {
+                        total = transportation + food + clothing + energy + device + other;
+                        entries.add(new Entry(0, (float)total)); // Day 1
                         LineChart lineChart = view.findViewById(R.id.lineChart);
-                        drawGraph(getData(lineChart), lineChart);
+                        drawGraph(lineChart);
                     }
                 });
             }
+            if (Objects.equals(timeUnit, "week")) {
+                weekGraph(view);
+            }
+
+
         });
 
+        nextDayButton.setOnClickListener(v -> {
+            if (timeChange > 0) {
+                timeChange--;
+                resetValue();
+                entries = new ArrayList<>();
+                if (Objects.equals(timeUnit, "day")) {
+                    selectedDate = subtractDays(timeChange);
+                    System.out.println(selectedDate);
+                    allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
+                        @Override
+                        public void onDataLoaded() {
+                            total = transportation + food + clothing + energy + device + other;
+                            entries.add(new Entry(0, (float)total)); // Day 1
+                            LineChart lineChart = view.findViewById(R.id.lineChart);
+                            drawGraph(lineChart);
+                        }
+                    });
+                }
+                if (Objects.equals(timeUnit, "week")) {
+                    weekGraph(view);
+                }
 
-        allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
-            @Override
-            public void onDataLoaded() {
-                LineChart lineChart = view.findViewById(R.id.lineChart);
-                drawGraph(getData(lineChart), lineChart);
             }
         });
 
+        switch (timeUnit) {
+            case "day":
+                entries = new ArrayList<>();
+                allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
+
+                    @Override
+                    public void onDataLoaded() {
+                        total = transportation + food + clothing + energy + device + other;
+                        entries.add(new Entry(0, (float)total)); // Day 1
+                        LineChart lineChart = view.findViewById(R.id.lineChart);
+                        drawGraph(lineChart);
+                    }
+                });
+                break;
+
+            case "week":
+                weekGraph(view);
+                break;
+            case "month":
+                monthGraph(view);
+                break;
+            case "year":
+                yearGraph(view);
+                break;
+        }
     }
-    private ArrayList<Entry> getData(LineChart lineChart) {
-        // Create temp data entries
-        // Create data entries
-        total = transportation + food + clothing + energy + device + other;
-        ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(0, (float)total)); // Day 1
-        return entries;
-    }
-    private void drawGraph(ArrayList<Entry> entries, LineChart lineChart) {
+    private void drawGraph(LineChart lineChart) {
         // Create a LineDataSet
-        LineDataSet dataSet = new LineDataSet(entries, "Weekly Stats");
+        entries.sort(Comparator.comparing(Entry::getX));
+        System.out.println("test1");
+        LineDataSet dataSet = new LineDataSet(entries, selectedDate);
         dataSet.setLineWidth(2f); // Line thickness
         dataSet.setCircleRadius(4f); // Circle size at data points
         dataSet.setValueTextSize(10f); // Text size for values
@@ -122,7 +151,8 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
 
         // Configure the X-Axis
         XAxis xAxis = lineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{selectedDate}));
+        System.out.println(selectedDate + "Should be good dat");
+        //xAxis.setValueFormatter(new IndexAxisValueFormatter(dateWeekLabels));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f); // Minimum interval between labels
         xAxis.setGranularityEnabled(true);
@@ -192,10 +222,10 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                         }
                     }
                 } else {
-                    transportation = 0;
-                    food = 0;
-                    clothing = 0;
-                    energy = 0;
+                    transportation += 0;
+                    food += 0;
+                    clothing += 0;
+                    energy += 0;
                 }
                 checkIfAllTasksCompleted(callback, completedTasks, totalTasks);
             }
@@ -216,7 +246,7 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                         device += numericValue;
                     }
                 } else {
-                    device = 0;
+                    device += 0;
                 }
                 checkIfAllTasksCompleted(callback, completedTasks, totalTasks);
             }
@@ -237,7 +267,7 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                         other += numericValue;
                     }
                 } else {
-                    other = 0;
+                    other += 0;
                 }
                 checkIfAllTasksCompleted(callback, completedTasks, totalTasks);
             }
@@ -251,4 +281,84 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
             }
         }
     }
+    protected void weekGraph(View view) {
+        selectedDate = subtractDays((timeChange+1)*7 - 1);
+        System.out.println(selectedDate);
+        AtomicInteger completedCallbacks = new AtomicInteger(0);
+        for (int i=0; i< 7; i++) {
+            int finalI = i;
+            selectedDate = subtractDays((timeChange+1)*7 - i - 1);
+            dateWeekLabels[i] = selectedDate;
+            System.out.println(selectedDate);
+            allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
+                @Override
+                public void onDataLoaded() {
+                    total = transportation + food + clothing + energy + device + other;
+                    resetValue();
+                    entries.add(new Entry(finalI, (float)total)); // Day 1
+                    if (completedCallbacks.incrementAndGet() == 7) {
+                        // All callbacks completed, draw the graph
+                        System.out.println(entries + "THIS IS THE ONE");
+                        LineChart lineChart = view.findViewById(R.id.lineChart);
+                        drawGraph(lineChart);
+                        System.out.println("Works?");
+                    }
+                }
+            });
+
+        }
+    }
+    protected void monthGraph(View view) {
+        selectedDate = subtractMonths((timeChange+1));
+        System.out.println(selectedDate);
+        AtomicInteger completedCallbacks = new AtomicInteger(0);
+        for (int i=0; i< 30; i++) {
+            int finalI = i;
+            selectedDate = subtractDays(30 - i - 1);
+            System.out.println(selectedDate);
+            allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
+                @Override
+                public void onDataLoaded() {
+                    total = transportation + food + clothing + energy + device + other;
+                    resetValue();
+                    entries.add(new Entry(finalI, (float)total)); // Day 1
+                    if (completedCallbacks.incrementAndGet() == 30) {
+                        // All callbacks completed, draw the graph
+                        System.out.println(entries + "THIS IS THE ONE");
+                        LineChart lineChart = view.findViewById(R.id.lineChart);
+                        drawGraph(lineChart);
+                        System.out.println("Works?");
+                    }
+                }
+            });
+
+        }
+    }
+    protected void yearGraph(View view) {
+        selectedDate = subtractDays(365);
+        System.out.println(selectedDate);
+        AtomicInteger completedCallbacks = new AtomicInteger(0);
+        for (int i=0; i< 365; i++) {
+            int finalI = i;
+            selectedDate = subtractDays(365 - i - 1);
+            System.out.println(selectedDate);
+            allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
+                @Override
+                public void onDataLoaded() {
+                    total = transportation + food + clothing + energy + device + other;
+                    resetValue();
+                    entries.add(new Entry(finalI, (float)total)); // Day 1
+                    if (completedCallbacks.incrementAndGet() == 365) {
+                        // All callbacks completed, draw the graph
+                        System.out.println(entries + "THIS IS THE ONE");
+                        LineChart lineChart = view.findViewById(R.id.lineChart);
+                        drawGraph(lineChart);
+                        System.out.println("Works?");
+                    }
+                }
+            });
+
+        }
+    }
+
 }

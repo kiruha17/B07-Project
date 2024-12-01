@@ -21,7 +21,7 @@ public class EcoGaugeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        timeUnit = "day";
+        timeUnit = "year";
         // Dynamically add the GraphFragment
         getChildFragmentManager()
                 .beginTransaction()
