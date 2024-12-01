@@ -29,6 +29,10 @@ public class MainMenuFragment extends Fragment {
             loadFragment(new CalendarFragment());
         });
 
+        ecoBalanceCard.setOnClickListener(v -> {
+            loadFragment(new EcoBalanceFragment());
+        });
+
         ecoGaugeCard.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Eco Gauge clicked", Toast.LENGTH_SHORT).show();
         });
@@ -37,9 +41,9 @@ public class MainMenuFragment extends Fragment {
             Toast.makeText(getContext(), "Eco Hub clicked", Toast.LENGTH_SHORT).show();
         });
 
-        ecoBalanceCard.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Eco Balance clicked", Toast.LENGTH_SHORT).show();
-        });
+        //ecoBalanceCard.setOnClickListener(v -> {
+        //     Toast.makeText(getContext(), "Eco Balance clicked", Toast.LENGTH_SHORT).show();
+        //});
 
         ecoAgentCard.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Eco Agent clicked", Toast.LENGTH_SHORT).show();
