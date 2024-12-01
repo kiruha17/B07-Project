@@ -12,7 +12,7 @@ googleFirebaseDatabase = "20.5.3"
 jbcrypt = "0.4"
 junit = "4.13.2"
 junitVersion = "1.1.5"
-espressoCore = "3.5.1"
+espressoCore = "3.6.1"
 appcompat = "1.6.1"
 library = "2.4.0"
 material = "1.10.0"
@@ -21,10 +21,19 @@ constraintlayout = "2.1.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseAuth = "23.1.0"
+poi = "5.2.3"
+poiOoxml = "5.2.3"
+poiOoxmlVersion = "3.17"
+poiVersion = "3.17"
+rules = "1.5.0"
+runner = "1.6.1"
+carUiLib = "2.6.0"
 
 [libraries]
 androidx-core = { module = "androidx.core:core", version.ref = "coreVersion" }
 androidx-junit-v121 = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
+androidx-rules-v150 = { module = "androidx.test:rules", version.ref = "rules" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 core = { module = "androidx.test:core", version.ref = "core" }
 eazegraph = { module = "com.github.blackfizz:eazegraph", version.ref = "eazegraph" }
@@ -44,7 +53,12 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+poi = { module = "org.apache.poi:poi", version.ref = "poi" }
+poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poiOoxml" }
+poi-ooxml-v317 = { module = "org.apache.poi:poi-ooxml", version.ref = "poiOoxmlVersion" }
+poi-v317 = { module = "org.apache.poi:poi", version.ref = "poiVersion" }
 rules = { module = "androidx.test:rules", version.ref = "core" }
+car-ui-lib = { group = "com.android.car.ui", name = "car-ui-lib", version.ref = "carUiLib" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
