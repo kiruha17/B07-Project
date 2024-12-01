@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -22,9 +23,14 @@ public class MainMenuFragment extends Fragment {
         RelativeLayout ecoHubCard = view.findViewById(R.id.ecohubcard);
         RelativeLayout ecoBalanceCard = view.findViewById(R.id.ecobalancecard);
         RelativeLayout ecoAgentCard = view.findViewById(R.id.ecoagentcard);
+        Button retakeSurveyButton = view.findViewById(R.id.retake_survey_button);
 
         ecoTrackerCard.setOnClickListener(v -> {
             loadFragment(new CalendarFragment());
+        });
+
+        ecoBalanceCard.setOnClickListener(v -> {
+            loadFragment(new EcoBalanceFragment());
         });
 
         ecoGaugeCard.setOnClickListener(v -> {
@@ -35,12 +41,16 @@ public class MainMenuFragment extends Fragment {
             loadFragment(new EcoHubFragment());
         });
 
-        ecoBalanceCard.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Eco Balance clicked", Toast.LENGTH_SHORT).show();
-        });
+        //ecoBalanceCard.setOnClickListener(v -> {
+        //     Toast.makeText(getContext(), "Eco Balance clicked", Toast.LENGTH_SHORT).show();
+        //});
 
         ecoAgentCard.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Eco Agent clicked", Toast.LENGTH_SHORT).show();
+        });
+
+        retakeSurveyButton.setOnClickListener(v -> {
+            loadFragment(new AnnualCarbonFootprintSurveyFragment());
         });
 
         return view;
