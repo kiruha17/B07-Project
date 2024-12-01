@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.b07group57"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -58,6 +58,8 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.database)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
 
     // Chart and graph library
     implementation(libs.cardview)
