@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ACFCalculator {
+    /*
     private final DatabaseReference usersRef;
 
     public ACFCalculator() {
@@ -55,4 +56,6 @@ public class ACFCalculator {
 
         return totalEmissions;
     }
+
+     */
 }

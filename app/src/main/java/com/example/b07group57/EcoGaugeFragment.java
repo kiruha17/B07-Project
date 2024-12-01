@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.example.b07group57.utils.EcoGaugeCalculator;
 
 public class EcoGaugeFragment extends Fragment {
+    private String timeUnit;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class EcoGaugeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        timeUnit = "day";
         // Dynamically add the GraphFragment
         getChildFragmentManager()
                 .beginTransaction()
@@ -28,7 +29,7 @@ public class EcoGaugeFragment extends Fragment {
                 .commit();
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.Graph, new EcoGaugeTotalGraphFragment()) // Replace placeholder with GraphFragment
+                .replace(R.id.Graph, new EcoGaugeTotalGraphFragment(timeUnit)) // Replace placeholder with GraphFragment
                 .commit();
         getChildFragmentManager()
                 .beginTransaction()

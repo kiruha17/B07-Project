@@ -53,24 +53,7 @@
                 android:layout_height="295dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/totalDisplay" >
-
-                <!-- Button in Top-Left -->
-                <Button
-                    android:id="@+id/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|top"
-                    android:text="Top Left" />
-
-                <!-- Button in Top-Right -->
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|top"
-                    android:text="Top Right" />
-            </FrameLayout>
+                app:layout_constraintTop_toBottomOf="@+id/totalDisplay" />
 
             <FrameLayout
                 android:id="@+id/pieChart"

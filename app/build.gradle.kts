@@ -64,6 +64,7 @@ dependencies {
     implementation("com.github.blackfizz:eazegraph:1.2.2@aar")
     implementation("com.nineoldandroids:library:2.4.0")
     implementation("com.google.firebase:firebase-database:20.5.3")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.4.4")
 
     implementation (libs.espresso.core.v361)
     implementation (libs.androidx.junit.v121)
