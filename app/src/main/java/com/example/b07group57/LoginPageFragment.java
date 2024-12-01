@@ -25,6 +25,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginPageFragment extends Fragment {
     // FirebaseAuth
@@ -138,10 +141,40 @@ public class LoginPageFragment extends Fragment {
     }
 
     private void navigateTopPage() {
-        // Navigate to TopPageFragment
-        Fragment topPageFragment = new TopPageFragment();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+
+            // Check in Firebase if the user has already completed the survey
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+            userRef.child("surveyData").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()) {
+                        // If survey data exists, navigate to MainMenuFragment
+                        navigateToMainMenu();
+                    } else {
+                        // If survey data does not exist, navigate to AnnualCarbonFootprintSurveyFragment
+                        navigateToSurvey();
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Error retrieving user data: " + task.getException(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void navigateToMainMenu() {
+        Fragment mainMenuFragment = new MainMenuFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, topPageFragment);
+        transaction.replace(R.id.fragment_container, mainMenuFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void navigateToSurvey() {
+        Fragment surveyFragment = new AnnualCarbonFootprintSurveyFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, surveyFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
