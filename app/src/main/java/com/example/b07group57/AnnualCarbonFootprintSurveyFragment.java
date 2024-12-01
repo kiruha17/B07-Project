@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -250,11 +251,24 @@ public class AnnualCarbonFootprintSurveyFragment extends Fragment {
 
         confirmButton.setOnClickListener(v -> {
             try {
-                // Create a map to store user responses
+                // Check if both radio groups have a selected button
+                int carOwnerId = radioGroupCarOwner.getCheckedRadioButtonId();
+                int dietId = radioGroupDiet.getCheckedRadioButtonId();
+
+                if (carOwnerId == -1) {
+                    Toast.makeText(requireContext(), "Please select whether you own a car.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (dietId == -1) {
+                    Toast.makeText(requireContext(), "Please select your diet type.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Proceed with collecting and submitting the survey data
                 Map<String, Object> surveyData = new HashMap<>();
                 surveyData.put("country", spinnerCountry.getSelectedItem().toString());
 
-                int carOwnerId = radioGroupCarOwner.getCheckedRadioButtonId();
                 RadioButton carOwnerButton = view.findViewById(carOwnerId);
                 surveyData.put("carOwner", carOwnerButton.getText().toString());
 
@@ -265,7 +279,6 @@ public class AnnualCarbonFootprintSurveyFragment extends Fragment {
                 surveyData.put("shortHaulFlights", spinnerShortHaulFlights.getSelectedItem().toString());
                 surveyData.put("longHaulFlights", spinnerLongHaulFlights.getSelectedItem().toString());
 
-                int dietId = radioGroupDiet.getCheckedRadioButtonId();
                 RadioButton dietButton = view.findViewById(dietId);
                 surveyData.put("diet", dietButton.getText().toString());
 
@@ -288,16 +301,19 @@ public class AnnualCarbonFootprintSurveyFragment extends Fragment {
                 surveyData.put("buyElectronics", spinnerBuyElectronics.getSelectedItem().toString());
                 surveyData.put("recycle", spinnerRecycle.getSelectedItem().toString());
 
-                // Convert survey data to JSON (optional for debugging)
-                JSONObject surveyJson = new JSONObject(surveyData);
-                System.out.println(surveyJson);
-
                 // Store the data in Firebase under the user's UID
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 if (currentUser != null) {
                     String userId = currentUser.getUid();
                     databaseReference.child("users").child(userId).child("surveyData").setValue(surveyData)
-                            .addOnSuccessListener(aVoid -> Toast.makeText(requireContext(), "Survey submitted successfully!", Toast.LENGTH_SHORT).show())
+                            .addOnSuccessListener(aVoid -> {
+                                // Navigate to the loading page fragment
+                                Fragment loadingPageFragment = new ACFLoadingPageFragment();
+                                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                                transaction.replace(R.id.fragment_container, loadingPageFragment);
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                            })
                             .addOnFailureListener(e -> Toast.makeText(requireContext(), "Failed to submit survey: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 } else {
                     Toast.makeText(requireContext(), "No user logged in. Please log in first.", Toast.LENGTH_SHORT).show();

@@ -326,9 +326,9 @@
     </string-array>
     
     <string-array name="renewable_energy">
+        <item>No</item>
         <item>Yes, primarily (more than 50% of energy use)</item>
         <item>Yes, partially (less than 50% of energy use)</item>
-        <item>No</item>
     </string-array>
 
     <string-array name="buy_clothes">
@@ -339,9 +339,9 @@
     </string-array>
 
     <string-array name="buy_second_hand">
+        <item>No</item>
         <item>Yes, regularly</item>
         <item>Yes, occasionally</item>
-        <item>No</item>
     </string-array>
     
     <string-array name="buy_electronics">
