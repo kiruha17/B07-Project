@@ -286,6 +286,19 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/retake_survey_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="#009999"
+        android:text="Retake Annual Carbon Footprint Survey"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
