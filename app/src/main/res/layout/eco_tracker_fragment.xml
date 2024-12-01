@@ -14,10 +14,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="false"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,20 +29,20 @@
                 android:id="@+id/transportationSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground">
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/transportationCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="8dp"
                     android:text="Transportation"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:padding="8dp" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -52,6 +52,7 @@
                 android:orientation="vertical"
                 android:padding="8dp"
                 android:visibility="gone">
+
                 <include
                     android:id="@+id/shoppingInputFieldsContent"
                     layout="@layout/transportation_input_fragment" />
@@ -62,20 +63,20 @@
                 android:id="@+id/foodSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground">
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/foodCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="8dp"
                     android:text="Food Consumption"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:padding="8dp" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,6 +86,7 @@
                 android:orientation="vertical"
                 android:padding="8dp"
                 android:visibility="gone">
+
                 <include
                     android:id="@+id/shoppingInputFieldsContent"
                     layout="@layout/food_input_fragment" />
@@ -95,20 +97,20 @@
                 android:id="@+id/shoppingSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground">
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/shoppingCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="8dp"
                     android:text="Shopping"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:padding="8dp" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -118,6 +120,7 @@
                 android:orientation="vertical"
                 android:padding="8dp"
                 android:visibility="gone">
+
                 <include
                     android:id="@+id/shoppingInputFieldsContent"
                     layout="@layout/shopping_input_fragment" />
@@ -127,19 +130,19 @@
                 android:id="@+id/btnEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edit"
-                android:layout_marginTop="16dp"
-                android:textColor="@color/button_text_color"
-                android:backgroundTint="@color/button_color"
                 android:layout_margin="20dp"
-                android:padding="12dp" />
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/button_color"
+                android:padding="12dp"
+                android:text="Edit"
+                android:textColor="@color/button_text_color" />
 
             <TextView
                 android:id="@+id/emissionsResultText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Emissions: 0.00 kg CO2e"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:text="Emissions: 0.00 kg CO2e" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -155,6 +158,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
         app:menu="@menu/bottom_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

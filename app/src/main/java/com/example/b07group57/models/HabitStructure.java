@@ -4,9 +4,9 @@ public class HabitStructure {
     private String description;
     private String type;
 
-    private int impact;
+    private String impact;
 
-    public HabitStructure(String description, String type, int impact){
+    public HabitStructure(String description, String type, String impact){
 
         this.description = description;
         this.type = type;
@@ -22,7 +22,7 @@ public class HabitStructure {
         return  type;
     }
 
-    public int getImpact(){
+    public String getImpact(){
         return impact;
     }
 }
