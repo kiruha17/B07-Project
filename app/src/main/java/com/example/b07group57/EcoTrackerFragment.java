@@ -49,14 +49,14 @@ public class EcoTrackerFragment extends Fragment {
             longFlightInput, beefInput, porkInput, chickenInput, fishInput, plantBasedInput,
             clothingInput, electricityBillsInput, gasBillsInput, waterBillsInput;
     private Button btnEdit, addElectronicDeviceButton, addOtherButton;
-    private Spinner fuelTypeSpinner;
+    protected Spinner fuelTypeSpinner;
     private boolean isEditable = false;
     private List<TextView> deleteTextList = new ArrayList<>();
     private List<LinearLayout> electronicsInputs = new ArrayList<>();
     private List<LinearLayout> otherInputs = new ArrayList<>();
     private List<EditText> inputTypeTextList = new ArrayList<>();
     private List<EditText> inputTextList = new ArrayList<>();
-    private ArrayAdapter<CharSequence> adapter;
+    protected ArrayAdapter<CharSequence> adapter;
     private boolean isValid;
 
     public EcoTrackerFragment() {
@@ -687,7 +687,7 @@ public class EcoTrackerFragment extends Fragment {
     }
 
     // Calculate emissions (Thanks to Colten)
-    private void calculateEmissions() {
+    public double calculateEmissions() {
         double totalEmissions = 0.0;
 
         // Gather the user inputs for each category
@@ -740,6 +740,7 @@ public class EcoTrackerFragment extends Fragment {
         // Update the result TextView
         TextView emissionsResultText = getView().findViewById(R.id.emissionsResultText);
         emissionsResultText.setText(String.format("Emissions: %.2f kg CO2e", totalEmissions));
+        return totalEmissions;
     }
 
     // Helper method to safely get a double from the EditText

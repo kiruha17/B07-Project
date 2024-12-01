@@ -34,11 +34,11 @@ public class MainMenuFragment extends Fragment {
         });
 
         ecoGaugeCard.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Eco Gauge clicked", Toast.LENGTH_SHORT).show();
+            loadFragment(new EcoGaugeFragment());
         });
 
         ecoHubCard.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Eco Hub clicked", Toast.LENGTH_SHORT).show();
+            loadFragment(new EcoHubFragment());
         });
 
         //ecoBalanceCard.setOnClickListener(v -> {

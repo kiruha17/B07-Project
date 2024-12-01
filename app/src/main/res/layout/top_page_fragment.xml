@@ -30,6 +30,14 @@
         android:layout_height="wrap_content"
         android:text="Main Menu" />
 
+    <!-- Temporary Eco Gauge Button -->
+
+    <Button
+        android:id="@+id/eco_gauge_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eco Gauge" />
+
     <!-- Logout button -->
     <Button
         android:id="@+id/logout_button"

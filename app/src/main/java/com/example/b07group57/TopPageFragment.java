@@ -15,6 +15,7 @@ public class TopPageFragment extends Fragment {
 
     private Button logoutButton;
     private Button acfButton;
+    private Button ecoGaugeButton;
     private Button mainMenuButton;
 
     @Nullable
@@ -26,6 +27,7 @@ public class TopPageFragment extends Fragment {
         // Find the logout button
         logoutButton = view.findViewById(R.id.logout_button);
         acfButton = view.findViewById(R.id.acf_button);
+        ecoGaugeButton = view.findViewById(R.id.eco_gauge_button);
         mainMenuButton = view.findViewById(R.id.main_menu_button);
 
         // Set onClickListener for logout
@@ -40,6 +42,10 @@ public class TopPageFragment extends Fragment {
 
         mainMenuButton.setOnClickListener(v -> {
             loadFragment(new MainMenuFragment());
+        });
+
+        ecoGaugeButton.setOnClickListener(v -> {
+            loadFragment(new EcoGaugeFragment());
         });
 
         // Set up any other UI elements here (e.g., display user info)

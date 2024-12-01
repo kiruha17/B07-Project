@@ -62,10 +62,12 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
 
     // Chart and graph library
-    implementation(libs.cardview)
-    implementation(libs.eazegraph)
-    implementation(libs.library)
-    implementation(libs.firebase.database.v2053)
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.github.blackfizz:eazegraph:1.2.2@aar")
+    implementation("com.nineoldandroids:library:2.4.0")
+    implementation("com.google.firebase:firebase-database:20.5.3")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.4.4")
 
     implementation (libs.espresso.core.v361)
     implementation (libs.androidx.junit.v121)
