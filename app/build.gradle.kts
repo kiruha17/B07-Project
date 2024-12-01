@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.b07group57"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -52,17 +52,22 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
+    implementation(libs.car.ui.lib)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.database)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
 
     // Chart and graph library
-    implementation(libs.cardview)
-    implementation(libs.eazegraph)
-    implementation(libs.library)
-    implementation(libs.firebase.database.v2053)
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.github.blackfizz:eazegraph:1.2.2@aar")
+    implementation("com.nineoldandroids:library:2.4.0")
+    implementation("com.google.firebase:firebase-database:20.5.3")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.4.4")
 
     implementation (libs.espresso.core.v361)
     implementation (libs.androidx.junit.v121)

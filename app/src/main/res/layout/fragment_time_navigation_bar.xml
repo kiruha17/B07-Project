@@ -1,0 +1,44 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/buttonToday"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Today"
+        android:textColor="@color/black"
+        android:background="?attr/selectableItemBackground" />
+
+    <Button
+        android:id="@+id/buttonWeekly"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Weekly"
+        android:textColor="@color/black"
+        android:background="?attr/selectableItemBackground" />
+
+    <Button
+        android:id="@+id/buttonMonthly"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Monthly"
+        android:textColor="@color/black"
+        android:background="?attr/selectableItemBackground" />
+
+    <Button
+        android:id="@+id/buttonYearly"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Yearly"
+        android:textColor="@color/black"
+        android:background="?attr/selectableItemBackground" />
+
+</LinearLayout>

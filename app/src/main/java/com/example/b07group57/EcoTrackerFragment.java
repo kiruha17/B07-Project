@@ -28,11 +28,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.widget.Toast;
 
 import com.example.b07group57.models.DailyDataLoader;
 import com.example.b07group57.models.EcoTrackerEmissionsCalculator;
 import com.example.b07group57.models.EcoTrackerFragmentModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,14 +49,14 @@ public class EcoTrackerFragment extends Fragment {
             longFlightInput, beefInput, porkInput, chickenInput, fishInput, plantBasedInput,
             clothingInput, electricityBillsInput, gasBillsInput, waterBillsInput;
     private Button btnEdit, addElectronicDeviceButton, addOtherButton;
-    private Spinner fuelTypeSpinner;
+    protected Spinner fuelTypeSpinner;
     private boolean isEditable = false;
     private List<TextView> deleteTextList = new ArrayList<>();
     private List<LinearLayout> electronicsInputs = new ArrayList<>();
     private List<LinearLayout> otherInputs = new ArrayList<>();
     private List<EditText> inputTypeTextList = new ArrayList<>();
     private List<EditText> inputTextList = new ArrayList<>();
-    private ArrayAdapter<CharSequence> adapter;
+    protected ArrayAdapter<CharSequence> adapter;
     private boolean isValid;
 
     public EcoTrackerFragment() {
@@ -165,6 +168,23 @@ public class EcoTrackerFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parentView) {}
         });
         selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
+
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.tracker) {
+                loadFragment(new EcoTrackerFragment());
+            } else if (item.getItemId() == R.id.gauge_nav) {
+                loadFragment(new ExampleFeatureFragment());
+            } else if (item.getItemId() == R.id.hub_nav) {
+                loadFragment(new EcoHubFragment());
+            } else if (item.getItemId() == R.id.balance_nav) {
+                loadFragment(new ExampleFeatureFragment());
+            } else if (item.getItemId() == R.id.agent_nav) {
+                loadFragment(new ExampleFeatureFragment());
+            }
+            return true;
+
+        });
 
         return view;
     }
@@ -667,7 +687,7 @@ public class EcoTrackerFragment extends Fragment {
     }
 
     // Calculate emissions (Thanks to Colten)
-    private void calculateEmissions() {
+    public double calculateEmissions() {
         double totalEmissions = 0.0;
 
         // Gather the user inputs for each category
@@ -720,6 +740,7 @@ public class EcoTrackerFragment extends Fragment {
         // Update the result TextView
         TextView emissionsResultText = getView().findViewById(R.id.emissionsResultText);
         emissionsResultText.setText(String.format("Emissions: %.2f kg CO2e", totalEmissions));
+        return totalEmissions;
     }
 
     // Helper method to safely get a double from the EditText
@@ -738,5 +759,12 @@ public class EcoTrackerFragment extends Fragment {
                 return 0.0; // Handle invalid input by returning 0.0
             }
         }
+    }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
