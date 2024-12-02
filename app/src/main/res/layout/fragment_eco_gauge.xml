@@ -50,20 +50,11 @@
             <FrameLayout
                 android:id="@+id/Graph"
                 android:layout_width="341dp"
-                android:layout_height="295dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/totalDisplay" />
-
-            <FrameLayout
-                android:id="@+id/pieChart"
-                android:layout_width="341dp"
-                android:layout_height="295dp"
-                android:layout_marginTop="28dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.506"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Graph" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
