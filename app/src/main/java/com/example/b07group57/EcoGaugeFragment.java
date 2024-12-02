@@ -44,12 +44,14 @@ public class EcoGaugeFragment extends Fragment implements TimeNavigationBarFragm
                 .beginTransaction()
                 .replace(R.id.Graph, new EcoGaugeTotalGraphFragment(timeUnit))
                 .commit();
-
+/*
         // Add BreakdownPieChart
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.pieChart, new BreakdownPieChart())
+                .replace(R.id.pieChart, new BreakdownPieChart(timeUnit))
                 .commit();
+
+ */
     }
 
     // Callback method when a time unit is selected
