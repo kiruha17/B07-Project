@@ -5,20 +5,27 @@ import static com.example.b07group57.utils.DateUtils.subtractDays;
 import static com.example.b07group57.utils.DateUtils.subtractMonths;
 import static com.example.b07group57.utils.DateUtils.subtractYears;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.b07group57.models.Country;
 import com.example.b07group57.models.DailyDataLoader;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -30,11 +37,15 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -50,6 +61,10 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
     private String[] dateWeekLabels;
     private String[] dateMonthLabels;
     private TextView tvTotal, tvDate;
+    private TextView selectedItemTextView;
+    private TextView selectedValueTextView;
+    private List<Country> countryList;
+    private ArrayAdapter<Country> adapter;
 
     public EcoGaugeTotalGraphFragment(String timeUnit) {
         this.timeUnit = timeUnit;
@@ -65,6 +80,18 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //////////////////CompareAverage/////////////////
+        selectedItemTextView = view.findViewById(R.id.selectedItem);
+        selectedValueTextView = view.findViewById(R.id.selectedValue);
+
+        // Populate the list of countries
+        countryList = readCSVFromAssets();
+
+        // Set onClickListener to show the dialog
+        selectedItemTextView.setOnClickListener(v -> showSearchableDialog());
+
+        ///////////////////////////////////////////////////
+
         pieChart = view.findViewById(R.id.piechart);
         tvTotal = view.findViewById(R.id.totalText);
         tvDate = view.findViewById(R.id.dateText);
@@ -378,15 +405,17 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                 LineChart lineChart = view.findViewById(R.id.lineChart);
                 drawGraph(lineChart);
                 drawPieChart();
+
                 fTransportation = 0;
                 fFood = 0;
                 fClothing = 0;
                 fEnergy = 0;
                 fDevice = 0;
                 fOther = 0;
+                tvTotal.setText("Total: " + finalTotal);
             }
         });
-        tvTotal.setText("Total: " + finalTotal);
+
         tvDate.setText("Date: " + selectedDate);
     }
     protected void weekGraph(View view) {
@@ -526,6 +555,86 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
 
         tvDate.setText("Date: " + subtractYears((timeChange+1)) + " - " + selectedDate);
     }
+    private List<Country> readCSVFromAssets() {
+        List<Country> countries = new ArrayList<>();
+        try {
+            // Open the CSV file from the assets folder
+            InputStream inputStream = requireContext().getAssets().open("Global_Averages.csv");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Split the line by commas
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    String countryName = parts[0].trim();
+                    String countryValue = parts[1].trim();
+                    countries.add(new Country(countryName, countryValue));
+                }
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return countries;
+    }
+    private void showSearchableDialog() {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.dialog_searchable_list);
+
+        // Initialize dialog views
+        EditText searchEditText = dialog.findViewById(R.id.searchEditText);
+        ListView countryListView = dialog.findViewById(R.id.countryListView);
+
+        // Set up the adapter
+        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, countryList);
+        countryListView.setAdapter(adapter);
+
+        // Search functionality
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s); // Filter the adapter based on input
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Set item click listener to update the selected item and value
+        countryListView.setOnItemClickListener((parent, view, position, id) -> {
+            Country selectedCountry = adapter.getItem(position);
+            if (selectedCountry != null) {
+                selectedItemTextView.setText(selectedCountry.getName()); // Update the country name
+                double averageTotal = 0;
+                switch (timeUnit) {
+
+                    case "day":
+                        averageTotal = (Double.parseDouble(selectedCountry.getValue()) * 907.2) / 365;
+                        break;
+                    case "week":
+                        averageTotal = (Double.parseDouble(selectedCountry.getValue()) * 907.2) / 54;
+                        break;
+                    case "month":
+                        averageTotal = (Double.parseDouble(selectedCountry.getValue()) * 907.2) / 30;
+                        break;
+                    case "year":
+                        averageTotal = Double.parseDouble(selectedCountry.getValue()) * 907.2;
+                        break;
+
+                }
+                selectedValueTextView.setText("Average is: " + averageTotal + "\nYours is: " + finalTotal + "\nYou Are " + (finalTotal/averageTotal) + "% of average");
+                 // Show the associated value
+            }
+            dialog.dismiss(); // Close the dialog
+        });
+
+        dialog.show(); // Display the dialog
+    }
 
 }
