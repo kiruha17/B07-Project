@@ -2,24 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B1B1E">
+    android:background="#D8DBE2">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="30dp">
+            android:padding="20dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Determine Your Annual Carbon Footprint"
-                android:textColor="#009999"
-                android:textSize="34sp"
+                android:textColor="#1B1B1E"
+                android:textSize="28sp"
+                android:textStyle="bold"
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="20dp"/>
 
@@ -29,7 +32,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Select your country:"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
 
             <Spinner
@@ -47,7 +50,8 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
                 android:text="Transportation"
-                android:textColor="#A9BCD0"
+                android:textStyle="bold"
+                android:textColor="#1B1B1E"
                 android:textSize="20sp" />
 
             <TextView
@@ -55,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="Do you own or regularly use a car?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
 
             <RadioGroup
@@ -68,14 +72,14 @@
                     android:id="@+id/radio_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#D8DBE2"
+                    android:textColor="#1B1B1E"
                     android:text="Yes" />
 
                 <RadioButton
                     android:id="@+id/radio_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#D8DBE2"
+                    android:textColor="#1B1B1E"
                     android:text="No" />
             </RadioGroup>
 
@@ -90,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:text="What type of car do you drive?"
                     android:textSize="15sp"
-                    android:textColor="#009999"
+                    android:textColor="#1B1B1E"
                     android:layout_marginBottom="20dp"/>
                 <Spinner
                     android:id="@+id/spinner_car_type"
@@ -103,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text="How many kilometers/miles do you drive per year?"
                     android:textSize="15sp"
-                    android:textColor="#009999"
+                    android:textColor="#1B1B1E"
                     android:layout_marginBottom="20dp"/>
                 <Spinner
                     android:id="@+id/spinner_distance_driven"
@@ -118,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:text="How often do you use public transportation (bus, train, subway)?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_public_transport_freq"
@@ -132,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:text="How much time do you spend on public transport per week (bus, train, subway)?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_time_spent_on_public_transport"
@@ -146,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:text="How many short-haul flights (less than 1,500 km / 932 miles) have you taken in the past year?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_short_haul_flights"
@@ -160,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:text="How many long-haul flights (more than 1,500 km / 932 miles) have you taken in the past year?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_long_haul_flights"
@@ -175,7 +179,8 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
                 android:text="Food"
-                android:textColor="#A9BCD0"
+                android:textStyle="bold"
+                android:textColor="#1B1B1E"
                 android:textSize="20sp" />
 
             <TextView
@@ -183,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:text="What best describes your diet?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
 
             <RadioGroup
@@ -196,28 +201,28 @@
                     android:id="@+id/radio_vegetarian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#D8DBE2"
+                    android:textColor="#1B1B1E"
                     android:text="Vegetarian" />
 
                 <RadioButton
                     android:id="@+id/radio_vegan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#D8DBE2"
+                    android:textColor="#1B1B1E"
                     android:text="Vegan" />
 
                 <RadioButton
                     android:id="@+id/radio_pescatarian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#D8DBE2"
+                    android:textColor="#1B1B1E"
                     android:text="Pescatarian (fish/seafood)" />
 
                 <RadioButton
                     android:id="@+id/radio_meat_based"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#D8DBE2"
+                    android:textColor="#1B1B1E"
                     android:text="Meat-based (eat all types of animal products)" />
             </RadioGroup>
 
@@ -233,7 +238,7 @@
                     android:layout_height="wrap_content"
                     android:text="How often do you eat the following animal-based products?"
                     android:textSize="15sp"
-                    android:textColor="#009999"
+                    android:textColor="#1B1B1E"
                     android:layout_marginBottom="20dp"/>
 
                 <TextView
@@ -241,7 +246,7 @@
                     android:layout_height="wrap_content"
                     android:text="Beef"
                     android:textSize="15sp"
-                    android:textColor="#009999"
+                    android:textColor="#1B1B1E"
                     android:layout_marginBottom="20dp"/>
                 <Spinner
                     android:id="@+id/spinner_beef"
@@ -255,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:text="Pork"
                     android:textSize="15sp"
-                    android:textColor="#009999"
+                    android:textColor="#1B1B1E"
                     android:layout_marginBottom="20dp"/>
                 <Spinner
                     android:id="@+id/spinner_pork"
@@ -269,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:text="Chicken"
                     android:textSize="15sp"
-                    android:textColor="#009999"
+                    android:textColor="#1B1B1E"
                     android:layout_marginBottom="20dp"/>
                 <Spinner
                     android:id="@+id/spinner_chicken"
@@ -283,7 +288,7 @@
                     android:layout_height="wrap_content"
                     android:text="Fish/Seafood"
                     android:textSize="15sp"
-                    android:textColor="#009999"
+                    android:textColor="#1B1B1E"
                     android:layout_marginBottom="20dp"/>
                 <Spinner
                     android:id="@+id/spinner_fish"
@@ -298,7 +303,7 @@
                 android:layout_height="wrap_content"
                 android:text="How often do you waste food or throw away uneaten leftovers?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_food_waste"
@@ -313,7 +318,8 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
                 android:text="Housing"
-                android:textColor="#A9BCD0"
+                android:textStyle="bold"
+                android:textColor="#1B1B1E"
                 android:textSize="20sp" />
 
             <TextView
@@ -321,7 +327,7 @@
                 android:layout_height="wrap_content"
                 android:text="What type of home do you live in?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_home_type"
@@ -335,7 +341,7 @@
                 android:layout_height="wrap_content"
                 android:text="How many people live in your household?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_home_people"
@@ -349,7 +355,7 @@
                 android:layout_height="wrap_content"
                 android:text="What is the size of your home?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_home_size"
@@ -363,7 +369,7 @@
                 android:layout_height="wrap_content"
                 android:text="What type of energy do you use to heat your home?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_home_heater"
@@ -377,7 +383,7 @@
                 android:layout_height="wrap_content"
                 android:text="What is your average monthly electricity bill?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_electricity_bill"
@@ -391,7 +397,7 @@
                 android:layout_height="wrap_content"
                 android:text="What type of energy do you use to heat water in your home?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_water_heater"
@@ -405,7 +411,7 @@
                 android:layout_height="wrap_content"
                 android:text="Do you use any renewable energy sources for electricity or heating (e.g., solar, wind)?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_renewable_energy"
@@ -420,7 +426,8 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
                 android:text="Consumption"
-                android:textColor="#A9BCD0"
+                android:textStyle="bold"
+                android:textColor="#1B1B1E"
                 android:textSize="20sp" />
 
             <TextView
@@ -428,7 +435,7 @@
                 android:layout_height="wrap_content"
                 android:text="How often do you buy new clothes?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_buy_clothes"
@@ -442,7 +449,7 @@
                 android:layout_height="wrap_content"
                 android:text="Do you buy second-hand or eco-friendly products?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_buy_second_hand"
@@ -456,7 +463,7 @@
                 android:layout_height="wrap_content"
                 android:text="How many electronic devices (phones, laptops, etc.) have you purchased in the past year?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_buy_electronics"
@@ -470,7 +477,7 @@
                 android:layout_height="wrap_content"
                 android:text="How often do you recycle?"
                 android:textSize="15sp"
-                android:textColor="#009999"
+                android:textColor="#1B1B1E"
                 android:layout_marginBottom="20dp"/>
             <Spinner
                 android:id="@+id/spinner_recycle"
