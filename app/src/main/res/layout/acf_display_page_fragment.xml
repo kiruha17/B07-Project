@@ -1,33 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B1B1E">
+    android:background="#D8DBE2">
 
-    <TextView
-        android:id="@+id/result_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loading..."
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/next_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
-
-    <Button
-        android:id="@+id/next_button"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:backgroundTint="#009999"
-        android:textColor="#FFFFFF"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="30dp"
+            android:gravity="center_horizontal">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/result_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Annual Carbon Footprint"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                android:textColor="#373F51"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal" />
+
+            <!-- Total Carbon Footprint -->
+            <TextView
+                android:id="@+id/total_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Carbon Footprint: Loading..."
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#009999"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal" />
+
+            <!-- Transportation Footprint -->
+            <TextView
+                android:id="@+id/transportation_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transportation: Loading..."
+                android:textSize="16sp"
+                android:textColor="#373F51"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Food Footprint -->
+            <TextView
+                android:id="@+id/food_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Food: Loading..."
+                android:textSize="16sp"
+                android:textColor="#373F51"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Housing Footprint -->
+            <TextView
+                android:id="@+id/housing_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Housing: Loading..."
+                android:textSize="16sp"
+                android:textColor="#373F51"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Consumption Footprint -->
+            <TextView
+                android:id="@+id/consumption_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consumption: Loading..."
+                android:textSize="16sp"
+                android:textColor="#373F51"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/comparison_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comparison: Loading..."
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#373F51"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/global_comparison_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comparison: Loading..."
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#373F51"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal" />
+
+            <!-- Next Button -->
+            <Button
+                android:id="@+id/next_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#009999"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center_horizontal" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
