@@ -179,6 +179,7 @@ public class CalendarFragment extends Fragment {
         colorView.setLayoutParams(new LinearLayout.LayoutParams(15, 15));
         colorView.setBackgroundColor(color);
 
+
         TextView textView = new TextView(getContext());
         textView.setText(category + ": " + value + "%");
         textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));

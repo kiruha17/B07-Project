@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_white">
 
-    <!-- Time Navigation Bar at the Top -->
     <LinearLayout
         android:id="@+id/timeNavBar"
         android:layout_width="match_parent"
@@ -53,7 +52,6 @@
             android:background="?attr/selectableItemBackground" />
     </LinearLayout>
 
-    <!-- Content Scrollable with TotalText and DateText -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,7 +64,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Total Text -->
             <TextView
                 android:id="@+id/totalText"
                 android:layout_width="wrap_content"
@@ -77,7 +74,6 @@
                 android:textColor="@color/primary_teal"
                 android:layout_gravity="center" />
 
-            <!-- Date Text -->
             <TextView
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
@@ -88,7 +84,6 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp" />
 
-            <!-- LineChart Section -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewGraph"
                 android:layout_width="match_parent"
@@ -102,7 +97,6 @@
                     android:layout_height="wrap_content"
                     >
 
-                    <!-- Left Button -->
                     <Button
                         android:id="@+id/leftButton"
                         android:layout_width="40dp"
@@ -114,7 +108,6 @@
                         android:textSize="18sp"
                         android:textColor="@android:color/black" />
 
-                    <!-- Right Button -->
                     <Button
                         android:id="@+id/rightButton"
                         android:layout_width="40dp"
@@ -150,6 +143,7 @@
                         android:textSize="30sp"
                         android:textColor="@color/dark_gray">
                     </TextView>
+
                     <TextView
                         android:layout_width="30dp"
                         android:layout_height="40dp"
@@ -161,7 +155,6 @@
                         android:textSize="30sp"
                         android:textColor="@color/dark_gray">
                     </TextView>
-
 
                     <TextView
                         android:id="@+id/GraphDateRight"
@@ -195,7 +188,6 @@
                         android:textColor="@color/dark_gray">
                     </TextView>
 
-                    <!-- LineChart -->
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/lineChart"
                         android:layout_width="match_parent"
@@ -207,7 +199,6 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Pie Chart Section -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewPieChart"
                 android:layout_width="match_parent"
@@ -223,7 +214,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp">
 
-                    <!-- PieChart -->
                     <org.eazegraph.lib.charts.PieChart
                         android:id="@+id/piechart"
                         android:layout_width="250dp"
@@ -232,7 +222,6 @@
                         android:layout_marginTop="30dp"
                         android:layout_marginBottom="10dp" />
 
-                    <!-- Data Label -->
                     <LinearLayout
                         android:id="@+id/labelContainer"
                         android:layout_width="match_parent"
@@ -242,12 +231,10 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
                         android:orientation="vertical">
-                        <!-- Add labels programmatically -->
                     </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Country Selector Section -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewCountrySelector"
                 android:layout_width="match_parent"
@@ -262,7 +249,6 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp">
 
-                    <!-- TextView acting as the selector -->
                     <TextView
                         android:id="@+id/selectedItem"
                         android:layout_width="match_parent"
@@ -272,7 +258,6 @@
                         android:textColor="@android:color/black"
                         android:textSize="18sp" />
 
-                    <!-- TextView for showing the selected value -->
                     <TextView
                         android:id="@+id/selectedValue"
                         android:layout_width="match_parent"

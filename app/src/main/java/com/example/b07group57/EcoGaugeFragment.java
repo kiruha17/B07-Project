@@ -81,29 +81,22 @@ public class EcoGaugeFragment extends Fragment {
         //////////////////CompareAverage/////////////////
         selectedItemTextView = view.findViewById(R.id.selectedItem);
         selectedValueTextView = view.findViewById(R.id.selectedValue);
-
-        // Populate the list of countries
         countryList = readCSVFromAssets();
-
-        // Set onClickListener to show the dialog
         selectedItemTextView.setOnClickListener(v -> showSearchableDialog());
 
         ///////////////////////////////////////////////////
 
         ////////////////TimeNavigationBar////////////////////
-        // Find buttons by their IDs
         Button buttonToday = view.findViewById(R.id.buttonToday);
         Button buttonWeekly = view.findViewById(R.id.buttonWeekly);
         Button buttonMonthly = view.findViewById(R.id.buttonMonthly);
         Button buttonYearly = view.findViewById(R.id.buttonYearly);
 
-        // Set click listeners for buttons
         buttonToday.setOnClickListener(v -> notifyTimeUnitSelected("day"));
         buttonWeekly.setOnClickListener(v -> notifyTimeUnitSelected("week"));
         buttonMonthly.setOnClickListener(v -> notifyTimeUnitSelected("month"));
         buttonYearly.setOnClickListener(v -> notifyTimeUnitSelected("year"));
         //////////////////////////////////////////////////////
-
 
         pieChart = view.findViewById(R.id.piechart);
         ((MainActivity) getActivity()).showNavigationBar(true);
@@ -136,8 +129,6 @@ public class EcoGaugeFragment extends Fragment {
                     yearGraph(view);
                     break;
             }
-
-
         });
 
         nextDayButton.setOnClickListener(v -> {
@@ -158,9 +149,7 @@ public class EcoGaugeFragment extends Fragment {
                     case "year":
                         yearGraph(view);
                         break;
-
                 }
-
             }
         });
 
@@ -169,7 +158,6 @@ public class EcoGaugeFragment extends Fragment {
                 entries = new ArrayList<>();
                 dayGraph(view);
                 break;
-
             case "week":
                 weekGraph(view);
                 break;
@@ -181,6 +169,7 @@ public class EcoGaugeFragment extends Fragment {
                 break;
         }
     }
+
     private void notifyTimeUnitSelected(String timeUnit) {
         this.timeUnit = timeUnit;
         resetValue();
@@ -203,62 +192,43 @@ public class EcoGaugeFragment extends Fragment {
                 break;
         }
     }
+
     private void drawGraph(LineChart lineChart) {
-        // Create a LineDataSet
         entries.sort(Comparator.comparing(Entry::getX));
         LineDataSet dataSet = new LineDataSet(entries, selectedDate);
-        dataSet.setLineWidth(4f); // Line thickness
-        dataSet.setValueTextSize(10f); // Text size for values
-        dataSet.setDrawFilled(false); // Fill the area under the line
+        dataSet.setLineWidth(4f);
+        dataSet.setValueTextSize(10f);
+        dataSet.setDrawFilled(false);
 
         if (Objects.equals(timeUnit, "day")) {
             dataSet.setCircleRadius(8f);
             dataSet.setDrawCircles(true);
         }
         else {
-            dataSet.setDrawCircles(false); // Disable circles at data points
+            dataSet.setDrawCircles(false);
         }
 
-        dataSet.setHighlightEnabled(false); // Disable highlight lines
-        dataSet.setDrawValues(false); // Disable displaying numbers at the data points
-        dataSet.setColor(Color.parseColor("#009999")); // Set the line color
-
-        // Create LineData
+        dataSet.setHighlightEnabled(false);
+        dataSet.setDrawValues(false);
+        dataSet.setColor(Color.parseColor("#009999"));
         LineData lineData = new LineData(dataSet);
-
-        // Configure the X-Axis
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f); // Minimum interval between labels
+        xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
-        xAxis.setDrawGridLines(false); // Disable grid lines on the X-axis
-        xAxis.setDrawLabels(false); // Disable labels on the X-axis
-
-
-
-        lineChart.getAxisLeft().setAxisMinimum(0f); // Ensure Y-axis starts at 0
-
-        // Enable horizontal grid lines only
-        lineChart.getAxisLeft().setDrawGridLines(true); // Enable horizontal grid lines
-        lineChart.getXAxis().setDrawGridLines(false); // Disable vertical grid lines
-
-        lineChart.getLegend().setEnabled(false); // Disable the legend
-
-        // Disable grid lines on the right Y-axis
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawLabels(false);
+        lineChart.getAxisLeft().setAxisMinimum(0f);
+        lineChart.getAxisLeft().setDrawGridLines(true);
+        lineChart.getXAxis().setDrawGridLines(false);
+        lineChart.getLegend().setEnabled(false);
         lineChart.getAxisRight().setDrawGridLines(false);
-
-        // Apply data to the chart
         lineChart.setData(lineData);
-
-        // Optional: Customize the chart
-        lineChart.getDescription().setEnabled(false); // Disable description text
-        lineChart.getAxisRight().setEnabled(false); // Disable right Y-axis
-        lineChart.animateY(1000); // Add a smooth animation
-
-        // Disable touch interactions
-        lineChart.setTouchEnabled(false); // Disable touch gestures
+        lineChart.getDescription().setEnabled(false);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.animateY(1000);
+        lineChart.setTouchEnabled(false);
     }
-
 
     private void drawPieChart() {
         System.out.println(finalTotal);
@@ -300,16 +270,12 @@ public class EcoGaugeFragment extends Fragment {
             float fTotal = (float) finalTotal;
             pieChart.addPieSlice(new PieModel("None", fTotal, Color.parseColor("#BDBDBD")));
         }
-
         pieChart.startAnimation();
-
         updateLabels(fTransportation, fFood, fClothing, fEnergy, fDevice, fOther);
     }
     private void updateLabels(float transportation, float food, float clothing, float energy, float device, float other) {
         LinearLayout labelContainer = requireView().findViewById(R.id.labelContainer);
-
         labelContainer.removeAllViews();
-
         addLabel(labelContainer, "Transportation", transportation, Color.parseColor("#d8dbe2"));
         addLabel(labelContainer, "Food", food, Color.parseColor("#a9bcd0"));
         addLabel(labelContainer, "Clothing", clothing, Color.parseColor("#009999"));
@@ -317,48 +283,40 @@ public class EcoGaugeFragment extends Fragment {
         addLabel(labelContainer, "Electronic", device, Color.parseColor("#1b1b1e"));
         addLabel(labelContainer, "Other", other, Color.parseColor("#000000"));
     }
+
     private void addLabel(LinearLayout container, String category, float value, int color) {
-        // Create a horizontal LinearLayout for the label
         LinearLayout labelLayout = new LinearLayout(getContext());
         labelLayout.setOrientation(LinearLayout.HORIZONTAL);
         LinearLayout.LayoutParams labelLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        labelLayoutParams.setMargins(0, 8, 0, 8); // Add vertical spacing between labels
+        labelLayoutParams.setMargins(0, 8, 0, 8);
         labelLayout.setLayoutParams(labelLayoutParams);
 
-        // Create a colored square for the label
+
         View colorView = new View(getContext());
-        LinearLayout.LayoutParams colorViewParams = new LinearLayout.LayoutParams(30, 30); // Larger size for better visibility
-        colorViewParams.setMargins(30, 16, 16, 0); // Add space between the square and the text
+        LinearLayout.LayoutParams colorViewParams = new LinearLayout.LayoutParams(30, 30);
+        colorViewParams.setMargins(30, 16, 16, 0);
         colorView.setLayoutParams(colorViewParams);
         colorView.setBackgroundColor(color);
 
-        // Create a TextView for the label text
+
         TextView textView = new TextView(getContext());
-        textView.setText(category + ": " + String.format("%.1f", value) + "%"); // Format value to one decimal
-        textView.setTextSize(16f); // Larger text size
-        textView.setTextColor(getResources().getColor(android.R.color.black, null)); // Ensure readable color
-        textView.setGravity(Gravity.CENTER_VERTICAL); // Align text vertically with the square
+        textView.setText(category + ": " + String.format("%.1f", value) + "%");
+        textView.setTextSize(16f);
+        textView.setTextColor(getResources().getColor(android.R.color.black, null));
+        textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
-
-        // Add the color view and text view to the label layout
         labelLayout.addView(colorView);
         labelLayout.addView(textView);
-
-        // Add the label layout to the container
         container.addView(labelLayout);
     }
 
-
-
-
     private void resetValue() {
-
         transportation = 0;
         food = 0;
         clothing = 0;
@@ -366,11 +324,10 @@ public class EcoGaugeFragment extends Fragment {
         device = 0;
         other = 0;
     }
-    private void allocateSavedData(String date, CalendarFragment.CalendarDataLoadedCallBack callback) {
 
+    private void allocateSavedData(String date, CalendarFragment.CalendarDataLoadedCallBack callback) {
         final int totalTasks = 3;
         final AtomicInteger completedTasks = new AtomicInteger(0);
-
         DailyDataLoader dailyDataLoader = new DailyDataLoader();
         dailyDataLoader.loadInputCO2Data(new DailyDataLoader.DataLoadCallback() {
             @Override
@@ -474,6 +431,7 @@ public class EcoGaugeFragment extends Fragment {
             }
         }
     }
+
     protected void dayGraph(View view) {
         selectedDate = subtractDays(timeChange);
         System.out.println(selectedDate);
@@ -531,7 +489,6 @@ public class EcoGaugeFragment extends Fragment {
                     resetValue();
                     entries.add(new Entry(finalI, (float)total)); // Day 1
                     if (completedCallbacks.incrementAndGet() == 7) {
-                        // All callbacks completed, draw the graph
                         //System.out.println(entries + "THIS IS THE ONE");
                         LineChart lineChart = view.findViewById(R.id.lineChart);
                         drawGraph(lineChart);
@@ -579,7 +536,6 @@ public class EcoGaugeFragment extends Fragment {
                     resetValue();
                     entries.add(new Entry(finalI, (float)total)); // Day 1
                     if (completedCallbacks.incrementAndGet() == numDays) {
-                        // All callbacks completed, draw the graph
                         //System.out.println(entries + "THIS IS THE ONE");
                         LineChart lineChart = view.findViewById(R.id.lineChart);
                         drawGraph(lineChart);
@@ -627,7 +583,6 @@ public class EcoGaugeFragment extends Fragment {
                     resetValue();
                     entries.add(new Entry(finalI, (float)total)); // Day 1
                     if (completedCallbacks.incrementAndGet() == numDays) {
-                        // All callbacks completed, draw the graph
                         //System.out.println(entries + "THIS IS THE ONE");
                         LineChart lineChart = view.findViewById(R.id.lineChart);
                         drawGraph(lineChart);
@@ -643,24 +598,21 @@ public class EcoGaugeFragment extends Fragment {
                     }
                 }
             });
-
         }
 
         tvDate.setText("Date: " + subtractYears((timeChange+1)) + " - " + selectedDate);
         graphDateLeft.setText(subtractYears((timeChange+1)));
         graphDateRight.setText(selectedDate);
-
     }
+
     private List<Country> readCSVFromAssets() {
         List<Country> countries = new ArrayList<>();
         try {
-            // Open the CSV file from the assets folder
             InputStream inputStream = requireContext().getAssets().open("Global_Averages.csv");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
             while ((line = reader.readLine()) != null) {
-                // Split the line by commas
                 String[] parts = line.split(",");
                 if (parts.length == 2) {
                     String countryName = parts[0].trim();
@@ -668,45 +620,38 @@ public class EcoGaugeFragment extends Fragment {
                     countries.add(new Country(countryName, countryValue));
                 }
             }
-
             reader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return countries;
     }
+
     private void showSearchableDialog() {
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.dialog_searchable_list);
 
-        // Initialize dialog views
         EditText searchEditText = dialog.findViewById(R.id.searchEditText);
         ListView countryListView = dialog.findViewById(R.id.countryListView);
 
-        // Set up the adapter
         adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, countryList);
         countryListView.setAdapter(adapter);
 
-        // Search functionality
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s); // Filter the adapter based on input
+                adapter.getFilter().filter(s);
             }
-
             @Override
             public void afterTextChanged(Editable s) {}
         });
 
-        // Set item click listener to update the selected item and value
         countryListView.setOnItemClickListener((parent, view, position, id) -> {
             Country selectedCountry = adapter.getItem(position);
             if (selectedCountry != null) {
-                selectedItemTextView.setText(selectedCountry.getName()); // Update the country name
+                selectedItemTextView.setText(selectedCountry.getName());
                 double averageTotal = 0;
                 switch (timeUnit) {
 
@@ -725,12 +670,9 @@ public class EcoGaugeFragment extends Fragment {
 
                 }
                 selectedValueTextView.setText("Average is: " + averageTotal + "\nYours is: " + finalTotal + "\nYou Are " + (finalTotal/averageTotal) + "% of average");
-                 // Show the associated value
             }
-            dialog.dismiss(); // Close the dialog
+            dialog.dismiss();
         });
-
-        dialog.show(); // Display the dialog
+        dialog.show();
     }
-
 }

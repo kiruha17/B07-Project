@@ -19,6 +19,6 @@ public class Country {
 
     @Override
     public String toString() {
-        return name; // This will be displayed in the dropdown
+        return name;
     }
 }
