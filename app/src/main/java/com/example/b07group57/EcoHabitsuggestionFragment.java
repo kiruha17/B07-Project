@@ -45,7 +45,7 @@ public class EcoHabitsuggestionFragment extends Fragment {
             other = getArguments().getDouble("other", 0);
         }
 
-        ((MainActivity) getActivity()).showNavigationBar(true);
+        ((MainActivity) getActivity()).showNavigationBar(false);
         // Initialize habit list and data
         habits = BasicHabitList.getBasicHabits(); // Predefined list of habits
 

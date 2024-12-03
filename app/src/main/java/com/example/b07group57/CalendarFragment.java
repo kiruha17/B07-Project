@@ -65,7 +65,7 @@ public class CalendarFragment extends Fragment {
 
         calendarView.setDate(currentDate, true, true);
         calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            String changedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+            String changedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
             tvSelectedDate.setText("Selected Date: " + changedDate);
 
 

@@ -74,7 +74,7 @@ public class EcoTrackerFragment extends Fragment {
             selectedDate = getArguments().getString("selectedDate", "");
         }
 
-        ((MainActivity) getActivity()).showNavigationBar(true);
+        ((MainActivity) getActivity()).showNavigationBar(false);
         // Set up the TextView for each category title
         LinearLayout transportationSection = view.findViewById(R.id.transportationSection);
         LinearLayout foodSection = view.findViewById(R.id.foodSection);
