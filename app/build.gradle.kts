@@ -53,7 +53,6 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
     implementation(libs.car.ui.lib)
-    implementation(libs.androidx.coordinatorlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -61,7 +60,6 @@ dependencies {
     implementation(libs.google.firebase.database)
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
-    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     // Chart and graph library
     implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
     implementation("androidx.cardview:cardview:1.0.0")

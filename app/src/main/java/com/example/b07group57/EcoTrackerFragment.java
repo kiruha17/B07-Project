@@ -4,6 +4,8 @@ import static android.text.InputType.TYPE_CLASS_NUMBER;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -13,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -166,25 +169,6 @@ public class EcoTrackerFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parentView) {}
         });
         selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
-
-
-        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.tracker) {
-                loadFragment(new EcoTrackerFragment());
-            } else if (item.getItemId() == R.id.gauge_nav) {
-                loadFragment(new EcoGaugeFragment("week"));
-            } else if (item.getItemId() == R.id.hub_nav) {
-                loadFragment(new EcoHubFragment());
-            } else if (item.getItemId() == R.id.balance_nav) {
-                loadFragment(new EcoBalanceFragment());
-            } else if (item.getItemId() == R.id.agent_nav) {
-                Toast.makeText(getContext(), "Coming soon!", Toast.LENGTH_LONG).show();
-            }
-            return true;
-
-        });
-
 
         return view;
     }
