@@ -59,6 +59,8 @@ poi-ooxml-v317 = { module = "org.apache.poi:poi-ooxml", version.ref = "poiOoxmlV
 poi-v317 = { module = "org.apache.poi:poi", version.ref = "poiVersion" }
 rules = { module = "androidx.test:rules", version.ref = "core" }
 car-ui-lib = { group = "com.android.car.ui", name = "car-ui-lib", version.ref = "carUiLib" }
+mockito-core = "org.mockito:mockito-core:5.5.0"
+mockito-android = "org.mockito:mockito-android:5.5.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

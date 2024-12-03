@@ -1,5 +1,6 @@
 package com.example.b07group57;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class AnnualCarbonFootprintSurveyFragment extends Fragment {
@@ -69,12 +75,18 @@ public class AnnualCarbonFootprintSurveyFragment extends Fragment {
         Spinner spinnerRecycle = view.findViewById(R.id.spinner_recycle);
         Button confirmButton = view.findViewById(R.id.confirm_button);
 
-        ArrayAdapter<CharSequence> countryAdapter = ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.country_list,
-                R.layout.spinner_item);
-        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCountry.setAdapter(countryAdapter);
+        List<String> countries = loadCountriesFromJson(requireContext());
+        if (countries.isEmpty()) {
+            Toast.makeText(requireContext(), "Country list is empty", Toast.LENGTH_SHORT).show();
+        } else {
+            ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    countries
+            );
+            countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCountry.setAdapter(countryAdapter);
+        }
 
         radioGroupCarOwner.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.radio_yes) {
@@ -325,5 +337,31 @@ public class AnnualCarbonFootprintSurveyFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private List<String> loadCountriesFromJson(Context context) {
+        List<String> countries = new ArrayList<>();
+        try {
+            InputStream is = context.getAssets().open("co2_per_capitas.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String json = new String(buffer, StandardCharsets.UTF_8);
+
+            JSONObject jsonObject = new JSONObject(json);
+            Iterator<String> keys = jsonObject.keys();
+            while (keys.hasNext()) {
+                countries.add(keys.next());
+            }
+
+            if (countries.isEmpty()) {
+                throw new Exception("No countries found in JSON.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Failed to load countries: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return countries;
     }
 }

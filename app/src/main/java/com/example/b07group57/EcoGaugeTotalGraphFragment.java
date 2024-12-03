@@ -5,18 +5,27 @@ import static com.example.b07group57.utils.DateUtils.subtractDays;
 import static com.example.b07group57.utils.DateUtils.subtractMonths;
 import static com.example.b07group57.utils.DateUtils.subtractYears;
 
+import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.b07group57.models.Country;
 import com.example.b07group57.models.DailyDataLoader;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -25,11 +34,18 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,16 +55,22 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
     private ArrayList<Entry> entries;
     private int timeChange = 0;
     private Button previousDayButton, nextDayButton;
+    private PieChart pieChart;
 
     private String selectedDate;
     private String[] dateWeekLabels;
     private String[] dateMonthLabels;
     private TextView tvTotal, tvDate;
+    private TextView selectedItemTextView;
+    private TextView selectedValueTextView;
+    private List<Country> countryList;
+    private ArrayAdapter<Country> adapter;
 
     public EcoGaugeTotalGraphFragment(String timeUnit) {
         this.timeUnit = timeUnit;
     }
     private double transportation, food, clothing, energy, device, other, total = 0, finalTotal;
+    private float fTransportation, fFood, fClothing, fEnergy, fDevice, fOther;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,6 +80,19 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //////////////////CompareAverage/////////////////
+        selectedItemTextView = view.findViewById(R.id.selectedItem);
+        selectedValueTextView = view.findViewById(R.id.selectedValue);
+
+        // Populate the list of countries
+        countryList = readCSVFromAssets();
+
+        // Set onClickListener to show the dialog
+        selectedItemTextView.setOnClickListener(v -> showSearchableDialog());
+
+        ///////////////////////////////////////////////////
+
+        pieChart = view.findViewById(R.id.piechart);
         ((MainActivity) getActivity()).showNavigationBar(true);
         tvTotal = view.findViewById(R.id.totalText);
         tvDate = view.findViewById(R.id.dateText);
@@ -159,6 +194,82 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
         lineChart.getAxisRight().setEnabled(false); // Disable right Y-axis
         lineChart.animateY(1000); // Add a smooth animation
     }
+    private void drawPieChart() {
+        System.out.println(finalTotal);
+        if (finalTotal != 0) {
+            fTransportation = fTransportation / (float) finalTotal * 100;
+            fFood = fFood / (float) finalTotal * 100;
+            fClothing = fClothing / (float) finalTotal * 100;
+            fEnergy = fEnergy / (float) finalTotal * 100;
+            fDevice = fDevice / (float) finalTotal * 100;
+            fOther = fOther / (float) finalTotal * 100;
+
+            fTransportation = Math.round(fTransportation * 10) / 10.0f;
+            fFood = Math.round(fFood * 10) / 10.0f;
+            fClothing = Math.round(fClothing * 10) / 10.0f;
+            fEnergy = Math.round(fEnergy * 10) / 10.0f;
+            fDevice = Math.round(fDevice * 10) / 10.0f;
+            fOther = Math.round(fOther * 10) / 10.0f;
+        } else {
+            fTransportation = 0;
+            fFood = 0;
+            fClothing = 0;
+            fEnergy = 0;
+            fDevice = 0;
+            fOther = 0;
+        }
+        System.out.println(fTransportation);
+        System.out.println(fFood);
+        System.out.println(fClothing);
+        System.out.println(fEnergy);
+        System.out.println(fOther);
+        pieChart.clearChart();
+        pieChart.addPieSlice(new PieModel("Transportation", fTransportation, Color.parseColor("#FFA726")));
+        pieChart.addPieSlice(new PieModel("Food", fFood, Color.parseColor("#66BB6A")));
+        pieChart.addPieSlice(new PieModel("Clothing", fClothing, Color.parseColor("#EF5350")));
+        pieChart.addPieSlice(new PieModel("Energy", fEnergy, Color.parseColor("#8E24AA")));
+        pieChart.addPieSlice(new PieModel("Electronic", fDevice, Color.parseColor("#42A5F5")));
+        pieChart.addPieSlice(new PieModel("Other", fOther, Color.parseColor("#FFEB3B")));
+        if (finalTotal == 0) {
+            float fTotal = (float) finalTotal;
+            pieChart.addPieSlice(new PieModel("None", fTotal, Color.parseColor("#BDBDBD")));
+        }
+
+        pieChart.startAnimation();
+
+        updateLabels(fTransportation, fFood, fClothing, fEnergy, fDevice, fOther);
+    }
+    private void updateLabels(float transportation, float food, float clothing, float energy, float device, float other) {
+        LinearLayout labelContainer = requireView().findViewById(R.id.labelContainer);
+
+        labelContainer.removeAllViews();
+
+        addLabel(labelContainer, "Transportation", transportation, Color.parseColor("#FFA726"));
+        addLabel(labelContainer, "Food", food, Color.parseColor("#66BB6A"));
+        addLabel(labelContainer, "Clothing", clothing, Color.parseColor("#EF5350"));
+        addLabel(labelContainer, "Energy", energy, Color.parseColor("#8E24AA"));
+        addLabel(labelContainer, "Electronic", device, Color.parseColor("#42A5F5"));
+        addLabel(labelContainer, "Other", other, Color.parseColor("#FFEB3B"));
+    }
+    private void addLabel(LinearLayout container, String category, float value, int color) {
+        LinearLayout labelLayout = new LinearLayout(getContext());
+        labelLayout.setOrientation(LinearLayout.HORIZONTAL);
+        labelLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        View colorView = new View(getContext());
+        colorView.setLayoutParams(new LinearLayout.LayoutParams(15, 15));
+        colorView.setBackgroundColor(color);
+
+        TextView textView = new TextView(getContext());
+        textView.setText(category + ": " + value + "%");
+        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        textView.setPadding(10, 0, 0, 0);
+
+        labelLayout.addView(colorView);
+        labelLayout.addView(textView);
+        container.addView(labelLayout);
+    }
+
     private void resetValue() {
         transportation = 0;
         food = 0;
@@ -283,13 +394,28 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
             @Override
             public void onDataLoaded() {
                 total = transportation + food + clothing + energy + device + other;
+                fTransportation = (float)transportation;
+                fFood = (float)food;
+                fClothing = (float)clothing;
+                fEnergy = (float)energy;
+                fDevice = (float)device;
+                fOther = (float)other;
                 finalTotal += total;
                 entries.add(new Entry(0, (float)total)); // Day 1
                 LineChart lineChart = view.findViewById(R.id.lineChart);
                 drawGraph(lineChart);
+                drawPieChart();
+
+                fTransportation = 0;
+                fFood = 0;
+                fClothing = 0;
+                fEnergy = 0;
+                fDevice = 0;
+                fOther = 0;
+                tvTotal.setText("Total: " + finalTotal);
             }
         });
-        tvTotal.setText("Total: " + finalTotal);
+
         tvDate.setText("Date: " + selectedDate);
     }
     protected void weekGraph(View view) {
@@ -307,6 +433,12 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                 public void onDataLoaded() {
                     total = transportation + food + clothing + energy + device + other;
                     finalTotal += total;
+                    fTransportation += (float)transportation;
+                    fFood += (float)food;
+                    fClothing += (float)clothing;
+                    fEnergy += (float)energy;
+                    fDevice += (float)device;
+                    fOther += (float)other;
                     resetValue();
                     entries.add(new Entry(finalI, (float)total)); // Day 1
                     if (completedCallbacks.incrementAndGet() == 7) {
@@ -314,6 +446,13 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                         //System.out.println(entries + "THIS IS THE ONE");
                         LineChart lineChart = view.findViewById(R.id.lineChart);
                         drawGraph(lineChart);
+                        drawPieChart();
+                        fTransportation = 0;
+                        fFood = 0;
+                        fClothing = 0;
+                        fEnergy = 0;
+                        fDevice = 0;
+                        fOther = 0;
                         //System.out.println("Works?");
                         tvTotal.setText("Total: " + finalTotal);
                     }
@@ -340,6 +479,12 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                 public void onDataLoaded() {
                     total = transportation + food + clothing + energy + device + other;
                     finalTotal += total;
+                    fTransportation += (float)transportation;
+                    fFood += (float)food;
+                    fClothing += (float)clothing;
+                    fEnergy += (float)energy;
+                    fDevice += (float)device;
+                    fOther += (float)other;
                     resetValue();
                     entries.add(new Entry(finalI, (float)total)); // Day 1
                     if (completedCallbacks.incrementAndGet() == numDays) {
@@ -347,6 +492,13 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                         //System.out.println(entries + "THIS IS THE ONE");
                         LineChart lineChart = view.findViewById(R.id.lineChart);
                         drawGraph(lineChart);
+                        drawPieChart();
+                        fTransportation = 0;
+                        fFood = 0;
+                        fClothing = 0;
+                        fEnergy = 0;
+                        fDevice = 0;
+                        fOther = 0;
                         tvTotal.setText("Total: " + finalTotal);
                         //System.out.println("Works?");
                     }
@@ -367,11 +519,18 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
             int finalI = i;
             selectedDate = subtractDays(numDaysDiffNow - i - 1);
             //System.out.println(selectedDate);
+
             allocateSavedData(selectedDate, new CalendarFragment.CalendarDataLoadedCallBack() {
                 @Override
                 public void onDataLoaded() {
                     total = transportation + food + clothing + energy + device + other;
                     finalTotal += total;
+                    fTransportation += (float)transportation;
+                    fFood += (float)food;
+                    fClothing += (float)clothing;
+                    fEnergy += (float)energy;
+                    fDevice += (float)device;
+                    fOther += (float)other;
                     resetValue();
                     entries.add(new Entry(finalI, (float)total)); // Day 1
                     if (completedCallbacks.incrementAndGet() == numDays) {
@@ -379,6 +538,13 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                         //System.out.println(entries + "THIS IS THE ONE");
                         LineChart lineChart = view.findViewById(R.id.lineChart);
                         drawGraph(lineChart);
+                        drawPieChart();
+                        fTransportation = 0;
+                        fFood = 0;
+                        fClothing = 0;
+                        fEnergy = 0;
+                        fDevice = 0;
+                        fOther = 0;
                         //System.out.println("Works?");
                         tvTotal.setText("Total: " + finalTotal);
                     }
@@ -389,6 +555,86 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
 
         tvDate.setText("Date: " + subtractYears((timeChange+1)) + " - " + selectedDate);
     }
+    private List<Country> readCSVFromAssets() {
+        List<Country> countries = new ArrayList<>();
+        try {
+            // Open the CSV file from the assets folder
+            InputStream inputStream = requireContext().getAssets().open("Global_Averages.csv");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Split the line by commas
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    String countryName = parts[0].trim();
+                    String countryValue = parts[1].trim();
+                    countries.add(new Country(countryName, countryValue));
+                }
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return countries;
+    }
+    private void showSearchableDialog() {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.dialog_searchable_list);
+
+        // Initialize dialog views
+        EditText searchEditText = dialog.findViewById(R.id.searchEditText);
+        ListView countryListView = dialog.findViewById(R.id.countryListView);
+
+        // Set up the adapter
+        adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, countryList);
+        countryListView.setAdapter(adapter);
+
+        // Search functionality
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s); // Filter the adapter based on input
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Set item click listener to update the selected item and value
+        countryListView.setOnItemClickListener((parent, view, position, id) -> {
+            Country selectedCountry = adapter.getItem(position);
+            if (selectedCountry != null) {
+                selectedItemTextView.setText(selectedCountry.getName()); // Update the country name
+                double averageTotal = 0;
+                switch (timeUnit) {
+
+                    case "day":
+                        averageTotal = (Double.parseDouble(selectedCountry.getValue()) * 907.2) / 365;
+                        break;
+                    case "week":
+                        averageTotal = (Double.parseDouble(selectedCountry.getValue()) * 907.2) / 54;
+                        break;
+                    case "month":
+                        averageTotal = (Double.parseDouble(selectedCountry.getValue()) * 907.2) / 30;
+                        break;
+                    case "year":
+                        averageTotal = Double.parseDouble(selectedCountry.getValue()) * 907.2;
+                        break;
+
+                }
+                selectedValueTextView.setText("Average is: " + averageTotal + "\nYours is: " + finalTotal + "\nYou Are " + (finalTotal/averageTotal) + "% of average");
+                 // Show the associated value
+            }
+            dialog.dismiss(); // Close the dialog
+        });
+
+        dialog.show(); // Display the dialog
+    }
 
 }

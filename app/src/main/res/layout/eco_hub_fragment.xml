@@ -14,16 +14,16 @@
         android:layout_marginTop="24dp"
         android:text="Eco Hub"
         android:textSize="24sp"
-        android:textColor="#373f51"
+        android:textColor="#1b1b1e"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Section: Learning Resources -->
+    <!-- Learning Resources Section -->
     <TextView
         android:id="@+id/learningResourcesTitle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Learning Resources"
@@ -34,46 +34,91 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Learning Resources Description -->
-    <TextView
-        android:id="@+id/learningResourcesDesc"
-        android:layout_width="0dp"
+    <!-- Learning Resources Buttons -->
+    <Button
+        android:id="@+id/sustainabilityBasicsButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="Access a variety of articles, videos, and tools to learn about sustainability."
-        android:textSize="14sp"
-        android:textColor="#373f51"
+        android:text="Sustainability Basics"
+        android:backgroundTint="#009999"
+        android:textColor="#ffffff"
         app:layout_constraintTop_toBottomOf="@id/learningResourcesTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Section: Market Trends -->
+    <Button
+        android:id="@+id/climateChangeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Climate Change 101"
+        android:backgroundTint="#009999"
+        android:textColor="#ffffff"
+        app:layout_constraintTop_toBottomOf="@id/sustainabilityBasicsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/ecoLivingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Eco-Friendly Living Tips"
+        android:backgroundTint="#009999"
+        android:textColor="#ffffff"
+        app:layout_constraintTop_toBottomOf="@id/climateChangeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Market Trends Section -->
     <TextView
         android:id="@+id/marketTrendsTitle"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Market Trends"
         android:textSize="18sp"
         android:textColor="#009999"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/learningResourcesDesc"
+        app:layout_constraintTop_toBottomOf="@id/ecoLivingButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Market Trends Description -->
-    <TextView
-        android:id="@+id/marketTrendsDesc"
-        android:layout_width="0dp"
+    <!-- Market Trends Buttons -->
+    <Button
+        android:id="@+id/greenTechButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:text="Stay updated on the latest eco-friendly products and technologies."
-        android:textSize="14sp"
-        android:textColor="#373f51"
+        android:text="Green Technologies"
+        android:backgroundTint="#009999"
+        android:textColor="#ffffff"
         app:layout_constraintTop_toBottomOf="@id/marketTrendsTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/ecoProductsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Eco Products"
+        android:backgroundTint="#009999"
+        android:textColor="#ffffff"
+        app:layout_constraintTop_toBottomOf="@id/greenTechButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/sustainableFashionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Sustainable Fashion"
+        android:backgroundTint="#009999"
+        android:textColor="#ffffff"
+        app:layout_constraintTop_toBottomOf="@id/ecoProductsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

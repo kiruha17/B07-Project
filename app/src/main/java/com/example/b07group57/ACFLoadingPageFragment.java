@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 
+import com.example.b07group57.models.ACFResult;
 import com.example.b07group57.utils.ACFCalculator;
 import com.example.b07group57.models.SurveyData;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,12 +60,17 @@ public class ACFLoadingPageFragment extends Fragment {
                             if (surveyData != null) {
                                 try {
                                     InputStream housingDataExcel = requireContext().getAssets().open("HousingData.xlsx");
-                                    double annualCarbonFootprint = ACFCalculator.calculateAnnualCarbonFootprint(housingDataExcel, surveyData);
+                                    ACFResult result = ACFCalculator.calculateAnnualCarbonFootprint(housingDataExcel, surveyData);
 
-                                    // Pass the argument to ACFDisplayPageFragment
+                                    // Pass the result to the next fragment
                                     Fragment acfDisplayPageFragment = new ACFDisplayPageFragment();
                                     Bundle bundle = new Bundle();
-                                    bundle.putDouble("annualCarbonFootprint", annualCarbonFootprint);
+                                    bundle.putDouble("total", result.total);
+                                    bundle.putDouble("transportation", result.transportation);
+                                    bundle.putDouble("food", result.food);
+                                    bundle.putDouble("housing", result.housing);
+                                    bundle.putDouble("consumption", result.consumption);
+                                    bundle.putString("country", surveyData.country);
                                     acfDisplayPageFragment.setArguments(bundle);
 
                                     // Navigate to the display page
