@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class EcoGaugeFragment extends Fragment {
     private String selectedDate;
     private String[] dateWeekLabels;
     private String[] dateMonthLabels;
-    private TextView tvTotal, tvDate;
+    private TextView tvTotal, tvDate, graphDateLeft, graphDateRight, graphDateMiddle;
     private TextView selectedItemTextView;
     private TextView selectedValueTextView;
     private List<Country> countryList;
@@ -108,6 +109,9 @@ public class EcoGaugeFragment extends Fragment {
         ((MainActivity) getActivity()).showNavigationBar(true);
         tvTotal = view.findViewById(R.id.totalText);
         tvDate = view.findViewById(R.id.dateText);
+        graphDateLeft = view.findViewById(R.id.GraphDateLeft);
+        graphDateRight = view.findViewById(R.id.GraphDateRight);
+        graphDateMiddle = view.findViewById(R.id.GraphDateMiddle);
         long currentDate = System.currentTimeMillis();
         selectedDate = new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date(currentDate));
         previousDayButton = view.findViewById(R.id.leftButton);
@@ -181,6 +185,9 @@ public class EcoGaugeFragment extends Fragment {
         this.timeUnit = timeUnit;
         resetValue();
         entries = new ArrayList<>();
+        graphDateLeft.setText("");
+        graphDateRight.setText("");
+        graphDateMiddle.setText("");
         switch (timeUnit) {
             case "day":
                 dayGraph(getView());
@@ -225,6 +232,8 @@ public class EcoGaugeFragment extends Fragment {
         xAxis.setGranularity(1f); // Minimum interval between labels
         xAxis.setGranularityEnabled(true);
         xAxis.setDrawGridLines(false); // Disable grid lines on the X-axis
+        xAxis.setDrawLabels(false); // Disable labels on the X-axis
+
 
 
         lineChart.getAxisLeft().setAxisMinimum(0f); // Ensure Y-axis starts at 0
@@ -309,25 +318,47 @@ public class EcoGaugeFragment extends Fragment {
         addLabel(labelContainer, "Other", other, Color.parseColor("#000000"));
     }
     private void addLabel(LinearLayout container, String category, float value, int color) {
+        // Create a horizontal LinearLayout for the label
         LinearLayout labelLayout = new LinearLayout(getContext());
         labelLayout.setOrientation(LinearLayout.HORIZONTAL);
-        labelLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams labelLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        labelLayoutParams.setMargins(0, 8, 0, 8); // Add vertical spacing between labels
+        labelLayout.setLayoutParams(labelLayoutParams);
 
+        // Create a colored square for the label
         View colorView = new View(getContext());
-        colorView.setLayoutParams(new LinearLayout.LayoutParams(15, 15));
+        LinearLayout.LayoutParams colorViewParams = new LinearLayout.LayoutParams(30, 30); // Larger size for better visibility
+        colorViewParams.setMargins(30, 16, 16, 0); // Add space between the square and the text
+        colorView.setLayoutParams(colorViewParams);
         colorView.setBackgroundColor(color);
 
+        // Create a TextView for the label text
         TextView textView = new TextView(getContext());
-        textView.setText(category + ": " + value + "%");
-        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        textView.setPadding(10, 0, 0, 0);
+        textView.setText(category + ": " + String.format("%.1f", value) + "%"); // Format value to one decimal
+        textView.setTextSize(16f); // Larger text size
+        textView.setTextColor(getResources().getColor(android.R.color.black, null)); // Ensure readable color
+        textView.setGravity(Gravity.CENTER_VERTICAL); // Align text vertically with the square
+        textView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
 
+        // Add the color view and text view to the label layout
         labelLayout.addView(colorView);
         labelLayout.addView(textView);
+
+        // Add the label layout to the container
         container.addView(labelLayout);
     }
 
+
+
+
     private void resetValue() {
+
         transportation = 0;
         food = 0;
         clothing = 0;
@@ -474,6 +505,7 @@ public class EcoGaugeFragment extends Fragment {
         });
 
         tvDate.setText("Date: " + selectedDate);
+        graphDateMiddle.setText(selectedDate);
     }
     protected void weekGraph(View view) {
         selectedDate = subtractDays((timeChange+1)*7 - 1);
@@ -519,6 +551,8 @@ public class EcoGaugeFragment extends Fragment {
         }
 
         tvDate.setText("Date: " + subtractDays((timeChange+1)*7 - 1) + " - " + selectedDate);
+        graphDateLeft.setText(subtractDays((timeChange+1)*7 - 1));
+        graphDateRight.setText(selectedDate);
     }
     protected void monthGraph(View view) {
         selectedDate = subtractMonths((timeChange+1));
@@ -565,6 +599,8 @@ public class EcoGaugeFragment extends Fragment {
         }
 
         tvDate.setText("Date: " + subtractMonths((timeChange+1)) + " - " + selectedDate);
+        graphDateLeft.setText(subtractMonths((timeChange+1)));
+        graphDateRight.setText(selectedDate);
     }
     protected void yearGraph(View view) {
         selectedDate = subtractYears((timeChange+1));
@@ -611,6 +647,9 @@ public class EcoGaugeFragment extends Fragment {
         }
 
         tvDate.setText("Date: " + subtractYears((timeChange+1)) + " - " + selectedDate);
+        graphDateLeft.setText(subtractYears((timeChange+1)));
+        graphDateRight.setText(selectedDate);
+
     }
     private List<Country> readCSVFromAssets() {
         List<Country> countries = new ArrayList<>();
