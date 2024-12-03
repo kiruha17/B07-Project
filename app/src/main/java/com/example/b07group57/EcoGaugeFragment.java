@@ -211,6 +211,7 @@ public class EcoGaugeFragment extends Fragment {
         dataSet.setHighlightEnabled(false);
         dataSet.setDrawValues(false);
         dataSet.setColor(Color.parseColor("#009999"));
+        dataSet.setCircleColor(Color.parseColor("#009999"));
         LineData lineData = new LineData(dataSet);
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -261,11 +262,11 @@ public class EcoGaugeFragment extends Fragment {
         System.out.println(fOther);
         pieChart.clearChart();
         pieChart.addPieSlice(new PieModel("Transportation", fTransportation, Color.parseColor("#d8dbe2")));
-        pieChart.addPieSlice(new PieModel("Food", fFood, Color.parseColor("#a9bcd0")));
-        pieChart.addPieSlice(new PieModel("Clothing", fClothing, Color.parseColor("#009999")));
+        pieChart.addPieSlice(new PieModel("Food", fFood, Color.parseColor("#009999")));
+        pieChart.addPieSlice(new PieModel("Clothing", fClothing, Color.parseColor("#a9bcd0")));
         pieChart.addPieSlice(new PieModel("Energy", fEnergy, Color.parseColor("#373f51")));
         pieChart.addPieSlice(new PieModel("Electronic", fDevice, Color.parseColor("#1b1b1e")));
-        pieChart.addPieSlice(new PieModel("Other", fOther, Color.parseColor("#000000")));
+        pieChart.addPieSlice(new PieModel("Other", fOther, Color.parseColor("#57574f")));
         if (finalTotal == 0) {
             float fTotal = (float) finalTotal;
             pieChart.addPieSlice(new PieModel("None", fTotal, Color.parseColor("#BDBDBD")));
@@ -277,11 +278,11 @@ public class EcoGaugeFragment extends Fragment {
         LinearLayout labelContainer = requireView().findViewById(R.id.labelContainer);
         labelContainer.removeAllViews();
         addLabel(labelContainer, "Transportation", transportation, Color.parseColor("#d8dbe2"));
-        addLabel(labelContainer, "Food", food, Color.parseColor("#a9bcd0"));
-        addLabel(labelContainer, "Clothing", clothing, Color.parseColor("#009999"));
+        addLabel(labelContainer, "Food", food, Color.parseColor("#009999"));
+        addLabel(labelContainer, "Clothing", clothing, Color.parseColor("#a9bcd0"));
         addLabel(labelContainer, "Energy", energy, Color.parseColor("#373f51"));
         addLabel(labelContainer, "Electronic", device, Color.parseColor("#1b1b1e"));
-        addLabel(labelContainer, "Other", other, Color.parseColor("#000000"));
+        addLabel(labelContainer, "Other", other, Color.parseColor("#57574f"));
     }
 
     private void addLabel(LinearLayout container, String category, float value, int color) {
@@ -458,7 +459,7 @@ public class EcoGaugeFragment extends Fragment {
                 fEnergy = 0;
                 fDevice = 0;
                 fOther = 0;
-                tvTotal.setText("Total: " + finalTotal);
+                tvTotal.setText("Total: " + String.format("%.1f", finalTotal) + " kg");
             }
         });
 
@@ -500,7 +501,7 @@ public class EcoGaugeFragment extends Fragment {
                         fDevice = 0;
                         fOther = 0;
                         //System.out.println("Works?");
-                        tvTotal.setText("Total: " + finalTotal);
+                        tvTotal.setText("Total: " + String.format("%.1f", finalTotal) + " kg");
                     }
                 }
             });
@@ -546,7 +547,7 @@ public class EcoGaugeFragment extends Fragment {
                         fEnergy = 0;
                         fDevice = 0;
                         fOther = 0;
-                        tvTotal.setText("Total: " + finalTotal);
+                        tvTotal.setText("Total: " + String.format("%.1f", finalTotal) + " kg");
                         //System.out.println("Works?");
                     }
                 }
@@ -594,7 +595,7 @@ public class EcoGaugeFragment extends Fragment {
                         fDevice = 0;
                         fOther = 0;
                         //System.out.println("Works?");
-                        tvTotal.setText("Total: " + finalTotal);
+                        tvTotal.setText("Total: " + String.format("%.1f", finalTotal) + " kg");
                     }
                 }
             });
@@ -669,7 +670,9 @@ public class EcoGaugeFragment extends Fragment {
                         break;
 
                 }
-                selectedValueTextView.setText("Average is: " + averageTotal + "\nYours is: " + finalTotal + "\nYou Are " + (finalTotal/averageTotal) + "% of average");
+                selectedValueTextView.setText("Average country emissions this " + timeUnit + ": " + String.format("%.1f", averageTotal) +
+                        " kg\nYour emissions this " + timeUnit + ": " + String.format("%.1f", finalTotal) + " kg\nYou Are " +
+                        String.format("%.1f", (finalTotal*100/averageTotal)) + "% of average");
             }
             dialog.dismiss();
         });
