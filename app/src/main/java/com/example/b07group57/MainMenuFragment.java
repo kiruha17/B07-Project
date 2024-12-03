@@ -42,12 +42,8 @@ public class MainMenuFragment extends Fragment {
             loadFragment(new EcoHubFragment());
         });
 
-        //ecoBalanceCard.setOnClickListener(v -> {
-        //     Toast.makeText(getContext(), "Eco Balance clicked", Toast.LENGTH_SHORT).show();
-        //});
-
         ecoAgentCard.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Eco Agent clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Coming soon!", Toast.LENGTH_SHORT).show();
         });
 
         retakeSurveyButton.setOnClickListener(v -> {
