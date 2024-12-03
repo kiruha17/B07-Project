@@ -33,7 +33,7 @@ public class SignUpPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.signup_page_fragment, container, false);
 
         mAuth = FirebaseAuth.getInstance();
-        
+
         emailTextView = view.findViewById(R.id.email_input);
         passwordTextView = view.findViewById(R.id.password_input);
         conPasswordTextView = view.findViewById(R.id.conpassword);
