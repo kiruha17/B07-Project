@@ -93,6 +93,7 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
         ///////////////////////////////////////////////////
 
         pieChart = view.findViewById(R.id.piechart);
+        ((MainActivity) getActivity()).showNavigationBar(true);
         tvTotal = view.findViewById(R.id.totalText);
         tvDate = view.findViewById(R.id.dateText);
         long currentDate = System.currentTimeMillis();
@@ -118,7 +119,6 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                 case "year":
                     yearGraph(view);
                     break;
-
             }
 
 

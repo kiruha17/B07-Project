@@ -29,6 +29,8 @@ public class ACFDisplayPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.acf_display_page_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
+        TextView resultTextView = view.findViewById(R.id.result_text_view);
         TextView totalTextView = view.findViewById(R.id.total_text_view);
         TextView transportationTextView = view.findViewById(R.id.transportation_text_view);
         TextView foodTextView = view.findViewById(R.id.food_text_view);

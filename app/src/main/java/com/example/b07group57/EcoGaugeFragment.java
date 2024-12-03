@@ -28,6 +28,7 @@ public class EcoGaugeFragment extends Fragment implements TimeNavigationBarFragm
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ((MainActivity) getActivity()).showNavigationBar(true);
         // Default time unit
         timeUnit = "month";
 

@@ -42,6 +42,7 @@ public class AnnualCarbonFootprintSurveyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.annual_carbon_footprint_survey_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 

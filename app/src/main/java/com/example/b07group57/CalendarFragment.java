@@ -32,7 +32,7 @@ public class CalendarFragment extends Fragment {
     private DatabaseReference mDatabase;
     private PieChart pieChart;
     private TextView tvSelectedDate, tvActivityDetails;
-    private Button btnDetails;
+    private Button btnDetails, habit;
     private double transportation, food, clothing, energy, device, other, total = 0;
     private float fTransportation, fFood, fClothing, fEnergy, fDevice, fOther;
 
@@ -49,11 +49,13 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        ((MainActivity) getActivity()).showNavigationBar(true);
         pieChart = view.findViewById(R.id.piechart);
         tvSelectedDate = view.findViewById(R.id.tvSelectedDate);
         tvActivityDetails = view.findViewById(R.id.tvActivityDetails);
         btnDetails = view.findViewById(R.id.btnDetails);
+        habit = view.findViewById(R.id.habits);
+
 
         CalendarView calendarView = view.findViewById(R.id.calendarView);
         long currentDate = System.currentTimeMillis();
@@ -70,13 +72,11 @@ public class CalendarFragment extends Fragment {
             allocateSavedData(changedDate, new CalendarDataLoadedCallBack() {
                 @Override
                 public void onDataLoaded() {
-                    Log.d("clothing", "total: " + clothing);
                     loadEmissionData(changedDate);
                 }
             });
         });
 
-        btnDetails = view.findViewById(R.id.btnDetails);
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +85,23 @@ public class CalendarFragment extends Fragment {
                 args.putString("selectedDate", tvSelectedDate.getText().toString().replace("Selected Date: ", ""));
                 ecoTrackerFragment.setArguments(args);
                 loadFragment(ecoTrackerFragment);
+            }
+        });
+
+        habit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putString("selectedDate", tvSelectedDate.getText().toString().replace("Selected Date: ", ""));
+                args.putDouble("transportation", transportation);
+                args.putDouble("food", food);
+                args.putDouble("clothing", clothing);
+                args.putDouble("energy", energy);
+                args.putDouble("device", device);
+                args.putDouble("other", other);
+                EcoHabitsuggestionFragment ecoHabitsuggestionFragment = new EcoHabitsuggestionFragment();
+                ecoHabitsuggestionFragment.setArguments(args);
+                loadFragment(ecoHabitsuggestionFragment);
             }
         });
 
@@ -137,7 +154,7 @@ public class CalendarFragment extends Fragment {
 
         updateLabels(fTransportation, fFood, fClothing, fEnergy, fDevice, fOther);
 
-        tvActivityDetails.setText("Activity data for " + selectedDate + ":\nTotal emission of " + total + " kg");
+        tvActivityDetails.setText("Total emission of " + total + " kg");
     }
 
     private void updateLabels(float transportation, float food, float clothing, float energy, float device, float other) {
