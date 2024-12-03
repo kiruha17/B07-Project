@@ -34,9 +34,9 @@ public class SignUpPageFragment extends Fragment {
 
         ((MainActivity) getActivity()).showNavigationBar(false);
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
 
-        // Initialize fields
+        mAuth = FirebaseAuth.getInstance();
+        
         emailTextView = view.findViewById(R.id.email_input);
         passwordTextView = view.findViewById(R.id.password_input);
         conPasswordTextView = view.findViewById(R.id.conpassword);
@@ -69,9 +69,10 @@ public class SignUpPageFragment extends Fragment {
         conPasswordTextView.addTextChangedListener(textWatcher);
         nameTextView.addTextChangedListener(textWatcher);
 
-        // Set the register button click listener
+        // Register button click listener
         regBtn.setOnClickListener(v -> {
             Log.d("SignUpPageFragment", "Register button clicked!");
+            mAuth.signOut();
             registerNewUser();
         });
 

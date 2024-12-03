@@ -56,8 +56,15 @@ public class LoginModel implements LoginContract.Model {
     public void authenticate(String email, String password, LoginCallback callback) {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                saveLoginState();
-                callback.onLoginSuccess();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                if (currentUser != null && currentUser.isEmailVerified()) {
+                    saveLoginState();
+                    callback.onLoginSuccess();
+                } else {
+                    clearLoginState(); // Clear session state
+                    mAuth.signOut(); // Log out the user if their email is not verified
+                    callback.onLoginFailure("Email not verified. Please verify your email before logging in.");
+                }
             } else {
                 String errorMessage = "Unknown error occurred.";
                 if (task.getException() != null) {
