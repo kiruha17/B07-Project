@@ -44,6 +44,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class EcoGaugeFragment extends Fragment {
@@ -198,23 +199,44 @@ public class EcoGaugeFragment extends Fragment {
     private void drawGraph(LineChart lineChart) {
         // Create a LineDataSet
         entries.sort(Comparator.comparing(Entry::getX));
-        //System.out.println("test1");
         LineDataSet dataSet = new LineDataSet(entries, selectedDate);
-        dataSet.setLineWidth(2f); // Line thickness
-        dataSet.setCircleRadius(4f); // Circle size at data points
+        dataSet.setLineWidth(4f); // Line thickness
         dataSet.setValueTextSize(10f); // Text size for values
-        dataSet.setDrawFilled(true); // Optional: Fill the area under the line
+        dataSet.setDrawFilled(false); // Fill the area under the line
+
+        if (Objects.equals(timeUnit, "day")) {
+            dataSet.setCircleRadius(8f);
+            dataSet.setDrawCircles(true);
+        }
+        else {
+            dataSet.setDrawCircles(false); // Disable circles at data points
+        }
+
+        dataSet.setHighlightEnabled(false); // Disable highlight lines
+        dataSet.setDrawValues(false); // Disable displaying numbers at the data points
+        dataSet.setColor(Color.parseColor("#009999")); // Set the line color
 
         // Create LineData
         LineData lineData = new LineData(dataSet);
 
         // Configure the X-Axis
         XAxis xAxis = lineChart.getXAxis();
-        //System.out.println(selectedDate + "Should be good dat");
-        //xAxis.setValueFormatter(new IndexAxisValueFormatter(dateWeekLabels));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f); // Minimum interval between labels
         xAxis.setGranularityEnabled(true);
+        xAxis.setDrawGridLines(false); // Disable grid lines on the X-axis
+
+
+        lineChart.getAxisLeft().setAxisMinimum(0f); // Ensure Y-axis starts at 0
+
+        // Enable horizontal grid lines only
+        lineChart.getAxisLeft().setDrawGridLines(true); // Enable horizontal grid lines
+        lineChart.getXAxis().setDrawGridLines(false); // Disable vertical grid lines
+
+        lineChart.getLegend().setEnabled(false); // Disable the legend
+
+        // Disable grid lines on the right Y-axis
+        lineChart.getAxisRight().setDrawGridLines(false);
 
         // Apply data to the chart
         lineChart.setData(lineData);
@@ -223,7 +245,12 @@ public class EcoGaugeFragment extends Fragment {
         lineChart.getDescription().setEnabled(false); // Disable description text
         lineChart.getAxisRight().setEnabled(false); // Disable right Y-axis
         lineChart.animateY(1000); // Add a smooth animation
+
+        // Disable touch interactions
+        lineChart.setTouchEnabled(false); // Disable touch gestures
     }
+
+
     private void drawPieChart() {
         System.out.println(finalTotal);
         if (finalTotal != 0) {
@@ -254,12 +281,12 @@ public class EcoGaugeFragment extends Fragment {
         System.out.println(fEnergy);
         System.out.println(fOther);
         pieChart.clearChart();
-        pieChart.addPieSlice(new PieModel("Transportation", fTransportation, Color.parseColor("#FFA726")));
-        pieChart.addPieSlice(new PieModel("Food", fFood, Color.parseColor("#66BB6A")));
-        pieChart.addPieSlice(new PieModel("Clothing", fClothing, Color.parseColor("#EF5350")));
-        pieChart.addPieSlice(new PieModel("Energy", fEnergy, Color.parseColor("#8E24AA")));
-        pieChart.addPieSlice(new PieModel("Electronic", fDevice, Color.parseColor("#42A5F5")));
-        pieChart.addPieSlice(new PieModel("Other", fOther, Color.parseColor("#FFEB3B")));
+        pieChart.addPieSlice(new PieModel("Transportation", fTransportation, Color.parseColor("#d8dbe2")));
+        pieChart.addPieSlice(new PieModel("Food", fFood, Color.parseColor("#a9bcd0")));
+        pieChart.addPieSlice(new PieModel("Clothing", fClothing, Color.parseColor("#009999")));
+        pieChart.addPieSlice(new PieModel("Energy", fEnergy, Color.parseColor("#373f51")));
+        pieChart.addPieSlice(new PieModel("Electronic", fDevice, Color.parseColor("#1b1b1e")));
+        pieChart.addPieSlice(new PieModel("Other", fOther, Color.parseColor("#000000")));
         if (finalTotal == 0) {
             float fTotal = (float) finalTotal;
             pieChart.addPieSlice(new PieModel("None", fTotal, Color.parseColor("#BDBDBD")));
@@ -274,12 +301,12 @@ public class EcoGaugeFragment extends Fragment {
 
         labelContainer.removeAllViews();
 
-        addLabel(labelContainer, "Transportation", transportation, Color.parseColor("#FFA726"));
-        addLabel(labelContainer, "Food", food, Color.parseColor("#66BB6A"));
-        addLabel(labelContainer, "Clothing", clothing, Color.parseColor("#EF5350"));
-        addLabel(labelContainer, "Energy", energy, Color.parseColor("#8E24AA"));
-        addLabel(labelContainer, "Electronic", device, Color.parseColor("#42A5F5"));
-        addLabel(labelContainer, "Other", other, Color.parseColor("#FFEB3B"));
+        addLabel(labelContainer, "Transportation", transportation, Color.parseColor("#d8dbe2"));
+        addLabel(labelContainer, "Food", food, Color.parseColor("#a9bcd0"));
+        addLabel(labelContainer, "Clothing", clothing, Color.parseColor("#009999"));
+        addLabel(labelContainer, "Energy", energy, Color.parseColor("#373f51"));
+        addLabel(labelContainer, "Electronic", device, Color.parseColor("#1b1b1e"));
+        addLabel(labelContainer, "Other", other, Color.parseColor("#000000"));
     }
     private void addLabel(LinearLayout container, String category, float value, int color) {
         LinearLayout labelLayout = new LinearLayout(getContext());
