@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_white">
 
-    <!-- Time Navigation Bar at the Top -->
     <LinearLayout
         android:id="@+id/timeNavBar"
         android:layout_width="match_parent"
@@ -11,8 +12,7 @@
         android:gravity="center"
         android:background="@android:color/white"
         android:elevation="4dp"
-        android:padding="8dp"
-
+        android:padding="6dp"
         android:layout_alignParentTop="true">
 
         <Button
@@ -52,104 +52,176 @@
             android:background="?attr/selectableItemBackground" />
     </LinearLayout>
 
-    <!-- Content below Time Navigation Bar -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="100dp"
-        android:layout_below="@id/timeNavBar">
+        android:layout_below="@id/timeNavBar"
+        android:paddingBottom="100dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- Buttons for Navigation -->
-            <Button
-                android:id="@+id/leftButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_margin="16dp"
-                android:text="Left" />
-
-            <Button
-                android:id="@+id/rightButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="16dp"
-                android:text="Right" />
-
-            <!-- TextView for "Total" between the buttons -->
             <TextView
                 android:id="@+id/totalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/leftButton"
-                android:layout_toStartOf="@id/rightButton"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:text="Total"
-                android:textSize="18sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/primary_teal"
+                android:layout_gravity="center" />
 
-            <!-- Smaller TextView for the date under "Total" -->
             <TextView
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/totalText"
-                android:layout_centerHorizontal="true"
                 android:text="Date"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray" />
+                android:textSize="18sp"
+                android:textColor="@color/dark_gray"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp" />
 
-            <!-- LineChart Section -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewGraph"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dateText"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="10dp"
                 android:elevation="10dp">
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lineChart"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="16dp" />
+                    android:layout_height="wrap_content"
+                    >
+
+                    <Button
+                        android:id="@+id/leftButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_margin="8dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black" />
+
+                    <Button
+                        android:id="@+id/rightButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_margin="8dp"
+                        android:text="&#62;"
+                        android:background="?attr/selectableItemBackground"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:text="&#62;"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="30sp"
+                        android:textColor="@color/dark_gray">
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:text="&#62;"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="30sp"
+                        android:textColor="@color/dark_gray">
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:text="&#60;"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="17dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="30sp"
+                        android:textColor="@color/dark_gray">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/GraphDateRight"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="30dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_gray">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/GraphDateLeft"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="30dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_gray">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/GraphDateMiddle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="14sp"
+                        android:textColor="@color/dark_gray">
+                    </TextView>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="30dp"/>
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Pie Chart Section -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewPieChart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardViewGraph"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="10dp"
                 android:elevation="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp">
 
-                    <!-- PieChart -->
                     <org.eazegraph.lib.charts.PieChart
                         android:id="@+id/piechart"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginBottom="10dp" />
 
-                    <!-- Data Label -->
                     <LinearLayout
                         android:id="@+id/labelContainer"
                         android:layout_width="match_parent"
@@ -159,21 +231,17 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
                         android:orientation="vertical">
-                        <!-- Add labels programmatically -->
                     </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Country Selector Section -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewCountrySelector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cardViewPieChart"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="10dp"
                 android:elevation="10dp">
 
                 <RelativeLayout
@@ -181,7 +249,6 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp">
 
-                    <!-- TextView acting as the selector -->
                     <TextView
                         android:id="@+id/selectedItem"
                         android:layout_width="match_parent"
@@ -189,9 +256,8 @@
                         android:padding="12dp"
                         android:text="Select a country"
                         android:textColor="@android:color/black"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
-                    <!-- TextView for showing the selected value -->
                     <TextView
                         android:id="@+id/selectedValue"
                         android:layout_width="match_parent"
@@ -200,10 +266,10 @@
                         android:layout_marginTop="8dp"
                         android:padding="12dp"
                         android:text="Value"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="14sp" />
+                        android:textColor="@color/dark_gray"
+                        android:textSize="16sp" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 </RelativeLayout>

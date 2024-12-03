@@ -41,7 +41,6 @@ public class User {
         FirebaseDatabase database = FirebaseDatabase
                 .getInstance("https://b07-group-57-default-rtdb.firebaseio.com/");
 
-        // Store user data under the "Users/userId" node
         database.getReference("Users").child(userId).setValue(this);
     }
 
