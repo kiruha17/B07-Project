@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.balance_nav) {
                 loadFragment(new EcoBalanceFragment());
             } else if (item.getItemId() == R.id.agent_nav) {
-                Toast.makeText(this, "Coming Soon!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Coming soon!", Toast.LENGTH_LONG).show();
             }
             return true;
         });
