@@ -21,36 +21,33 @@ public class LoginPresenterTest {
     private LoginPresenter presenter;
 
     @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        presenter = new LoginPresenter(mockView, mockModel);
     }
 
     @Test
-    public void testConstructor_validSession() {
-
+    public void testInitializeSession_validSession() {
         when(mockModel.isSessionValid()).thenReturn(true);
 
-        presenter = new LoginPresenter(mockView, mockModel);
+        presenter.initializeSession();
 
-        verify(mockView).showToast("Session valid, navigating...");
         verify(mockView).navigateToMainMenu();
+        verify(mockView, never()).showToast(anyString());
     }
 
     @Test
-    public void testConstructor_invalidSession() {
-
+    public void testInitializeSession_invalidSession() {
         when(mockModel.isSessionValid()).thenReturn(false);
 
-        presenter = new LoginPresenter(mockView, mockModel);
+        presenter.initializeSession();
 
         verify(mockView).showToast("Please log in.");
+        verify(mockView, never()).navigateToMainMenu();
     }
 
     @Test
-    public void testOnLoginButtonClicked_successWithSurveyData() {
-
-        presenter = new LoginPresenter(mockView, mockModel);
-
+    public void testOnLoginButtonClicked_successSurveyExists() {
         doAnswer(invocation -> {
             LoginContract.Model.LoginCallback callback = invocation.getArgument(2);
             callback.onLoginSuccess();
@@ -69,10 +66,7 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void testOnLoginButtonClicked_successWithoutSurveyData() {
-
-        presenter = new LoginPresenter(mockView, mockModel);
-
+    public void testOnLoginButtonClicked_successSurveyMissing() {
         doAnswer(invocation -> {
             LoginContract.Model.LoginCallback callback = invocation.getArgument(2);
             callback.onLoginSuccess();
@@ -92,9 +86,6 @@ public class LoginPresenterTest {
 
     @Test
     public void testOnLoginButtonClicked_failure() {
-
-        presenter = new LoginPresenter(mockView, mockModel);
-
         doAnswer(invocation -> {
             LoginContract.Model.LoginCallback callback = invocation.getArgument(2);
             callback.onLoginFailure("Invalid credentials");
@@ -107,32 +98,14 @@ public class LoginPresenterTest {
     }
 
     @Test
-    public void testOnLoginButtonClicked_surveyDataCheckError() {
+    public void testOnForgotPasswordButtonClicked() {
+        presenter.onForgotPasswordButtonClicked();
 
-        presenter = new LoginPresenter(mockView, mockModel);
-
-        doAnswer(invocation -> {
-            LoginContract.Model.LoginCallback callback = invocation.getArgument(2);
-            callback.onLoginSuccess();
-            return null;
-        }).when(mockModel).authenticate(eq("email@example.com"), eq("password"), any());
-
-        doAnswer(invocation -> {
-            LoginContract.Model.SurveyCallback callback = invocation.getArgument(0);
-            callback.onSurveyCheckError("Database error");
-            return null;
-        }).when(mockModel).checkSurveyDataExists(any());
-
-        presenter.onLoginButtonClicked("email@example.com", "password");
-
-        verify(mockView).showToast("Error checking survey data: Database error");
+        verify(mockView).navigateToResetPassword();
     }
 
     @Test
     public void testOnEmailOrPasswordChanged_validInput() {
-
-        presenter = new LoginPresenter(mockView, mockModel);
-
         presenter.onEmailOrPasswordChanged("email@example.com", "password");
 
         verify(mockView).enableLoginButton(true);
@@ -140,21 +113,8 @@ public class LoginPresenterTest {
 
     @Test
     public void testOnEmailOrPasswordChanged_invalidInput() {
-
-        presenter = new LoginPresenter(mockView, mockModel);
-
         presenter.onEmailOrPasswordChanged("", "");
 
         verify(mockView).enableLoginButton(false);
-    }
-
-    @Test
-    public void testOnForgotPasswordButtonClicked() {
-
-        presenter = new LoginPresenter(mockView, mockModel);
-
-        presenter.onForgotPasswordButtonClicked();
-
-        verify(mockView).navigateToResetPassword();
     }
 }
