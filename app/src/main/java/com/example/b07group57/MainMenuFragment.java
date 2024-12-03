@@ -35,19 +35,15 @@ public class MainMenuFragment extends Fragment {
         });
 
         ecoGaugeCard.setOnClickListener(v -> {
-            loadFragment(new EcoGaugeFragment());
+            loadFragment(new EcoGaugeFragment("week"));
         });
 
         ecoHubCard.setOnClickListener(v -> {
             loadFragment(new EcoHubFragment());
         });
 
-        //ecoBalanceCard.setOnClickListener(v -> {
-        //     Toast.makeText(getContext(), "Eco Balance clicked", Toast.LENGTH_SHORT).show();
-        //});
-
         ecoAgentCard.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Eco Agent clicked", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Coming soon!", Toast.LENGTH_SHORT).show();
         });
 
         retakeSurveyButton.setOnClickListener(v -> {

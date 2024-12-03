@@ -2,14 +2,13 @@ package com.example.b07group57;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -33,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.tracker) {
                 loadFragment(new CalendarFragment());
             } else if (item.getItemId() == R.id.gauge_nav) {
-                loadFragment(new EcoGaugeFragment());
+                loadFragment(new EcoGaugeFragment("week"));
             } else if (item.getItemId() == R.id.hub_nav) {
                 loadFragment(new EcoHubFragment());
             } else if (item.getItemId() == R.id.balance_nav) {
                 loadFragment(new EcoBalanceFragment());
             } else if (item.getItemId() == R.id.agent_nav) {
-                loadFragment(new ExampleFeatureFragment());
+                Toast.makeText(this, "Coming soon!", Toast.LENGTH_LONG).show();
             }
             return true;
         });

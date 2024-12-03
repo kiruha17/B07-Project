@@ -589,9 +589,6 @@ public class EcoTrackerFragment extends Fragment {
             }
         }
 
-//        // Combine all inputs
-//        inputData.putAll(electronicsData);
-//        inputData.putAll(otherData);
 
         //Calculate individual CO2e
         HashMap<String, Object> co2eData = new HashMap<>();
