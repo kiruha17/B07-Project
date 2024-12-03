@@ -589,10 +589,6 @@ public class EcoTrackerFragment extends Fragment {
             }
         }
 
-//        // Combine all inputs
-//        inputData.putAll(electronicsData);
-//        inputData.putAll(otherData);
-
         //Calculate individual CO2e
         HashMap<String, Object> co2eData = new HashMap<>();
         co2eData.put("Drive", EcoTrackerEmissionsCalculator.calculateEmissions("Drive Personal Vehicle", getDoubleFromEditText(driveInput), "Gasoline"));
