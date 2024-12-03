@@ -170,6 +170,25 @@ public class EcoTrackerFragment extends Fragment {
         });
         selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
 
+
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.tracker) {
+                loadFragment(new EcoTrackerFragment());
+            } else if (item.getItemId() == R.id.gauge_nav) {
+                loadFragment(new EcoGaugeFragment());
+            } else if (item.getItemId() == R.id.hub_nav) {
+                loadFragment(new EcoHubFragment());
+            } else if (item.getItemId() == R.id.balance_nav) {
+                loadFragment(new EcoBalanceFragment());
+            } else if (item.getItemId() == R.id.agent_nav) {
+                Toast.makeText(getContext(), "Coming soon!", Toast.LENGTH_LONG).show();
+            }
+            return true;
+
+        });
+
+
         return view;
     }
 
@@ -588,6 +607,7 @@ public class EcoTrackerFragment extends Fragment {
                 otherData.put(type, quantity);
             }
         }
+
 
         //Calculate individual CO2e
         HashMap<String, Object> co2eData = new HashMap<>();

@@ -36,7 +36,7 @@ public class SignUpPageFragment extends Fragment {
         // Initialize Firebase Auth
 
         mAuth = FirebaseAuth.getInstance();
-        
+
         emailTextView = view.findViewById(R.id.email_input);
         passwordTextView = view.findViewById(R.id.password_input);
         conPasswordTextView = view.findViewById(R.id.conpassword);
