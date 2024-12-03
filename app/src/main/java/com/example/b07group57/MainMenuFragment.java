@@ -24,6 +24,7 @@ public class MainMenuFragment extends Fragment {
         RelativeLayout ecoHubCard = view.findViewById(R.id.ecohubcard);
         RelativeLayout ecoBalanceCard = view.findViewById(R.id.ecobalancecard);
         RelativeLayout ecoAgentCard = view.findViewById(R.id.ecoagentcard);
+        Button logoutButton = view.findViewById(R.id.logout_button);
         Button retakeSurveyButton = view.findViewById(R.id.retake_survey_button);
 
         ecoTrackerCard.setOnClickListener(v -> {
@@ -44,6 +45,10 @@ public class MainMenuFragment extends Fragment {
 
         ecoAgentCard.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Coming soon!", Toast.LENGTH_SHORT).show();
+        });
+
+        logoutButton.setOnClickListener(v -> {
+            loadFragment(new LogoutPageFragment());
         });
 
         retakeSurveyButton.setOnClickListener(v -> {
