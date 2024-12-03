@@ -35,7 +35,7 @@ public class MainMenuFragment extends Fragment {
         });
 
         ecoGaugeCard.setOnClickListener(v -> {
-            loadFragment(new EcoGaugeFragment());
+            loadFragment(new EcoGaugeFragment("week"));
         });
 
         ecoHubCard.setOnClickListener(v -> {
