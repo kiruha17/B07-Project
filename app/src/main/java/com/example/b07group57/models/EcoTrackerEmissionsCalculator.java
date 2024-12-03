@@ -62,15 +62,15 @@ public class EcoTrackerEmissionsCalculator {
     private static double getMealEmissions(String mealType, double servings) {
         switch (mealType) {
             case "Beef":
-                return servings * 650; // Spreadsheet data for 1 meal
+                return servings * 9.5; // Spreadsheet data for 1 meal
             case "Pork":
-                return servings * 225; // Spreadsheet data for 1 meal
+                return servings * 3.5; // Spreadsheet data for 1 meal
             case "Chicken":
-                return servings * 100; // Spreadsheet data for 1 meal
+                return servings * 2.0; // Spreadsheet data for 1 meal
             case "Fish":
-                return servings * 75; // Spreadsheet data for 1 meal
+                return servings * 3.5; // Spreadsheet data for 1 meal
             default:
-                return servings * 20;
+                return servings * 1.0;
         }
     }
 
