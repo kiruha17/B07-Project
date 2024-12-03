@@ -39,29 +39,7 @@ public class EcoBalanceFragment extends Fragment {
         OffsetProjectsAdapter adapter = new OffsetProjectsAdapter(projects);
         recyclerView.setAdapter(adapter);
 
-        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.tracker) {
-                loadFragment(new CalendarFragment());
-            } else if (item.getItemId() == R.id.gauge_nav) {
-                loadFragment(new EcoGaugeFragment());
-            } else if (item.getItemId() == R.id.hub_nav) {
-                loadFragment(new EcoHubFragment());
-            } else if (item.getItemId() == R.id.balance_nav) {
-                loadFragment(new EcoBalanceFragment());
-            } else if (item.getItemId() == R.id.agent_nav) {
-                Toast.makeText(getContext(), "Coming soon!", Toast.LENGTH_LONG).show();
-            }
-            return true;
-        });
 
         return view;
-    }
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 }

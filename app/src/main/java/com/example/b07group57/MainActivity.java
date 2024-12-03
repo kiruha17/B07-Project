@@ -3,6 +3,7 @@ package com.example.b07group57;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.balance_nav) {
                 loadFragment(new EcoBalanceFragment());
             } else if (item.getItemId() == R.id.agent_nav) {
-                loadFragment(new ExampleFeatureFragment());
+                Toast.makeText(this, "Coming Soon!", Toast.LENGTH_SHORT).show();
             }
             return true;
         });
