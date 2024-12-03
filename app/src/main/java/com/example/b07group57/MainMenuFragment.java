@@ -18,6 +18,7 @@ public class MainMenuFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_menu_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         RelativeLayout ecoTrackerCard = view.findViewById(R.id.ecotrackercard);
         RelativeLayout ecoGaugeCard = view.findViewById(R.id.ecogaugecard);
         RelativeLayout ecoHubCard = view.findViewById(R.id.ecohubcard);

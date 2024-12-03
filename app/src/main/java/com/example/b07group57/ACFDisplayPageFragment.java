@@ -26,6 +26,7 @@ public class ACFDisplayPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.acf_display_page_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         TextView resultTextView = view.findViewById(R.id.result_text_view);
         Button nextButton = view.findViewById(R.id.next_button);
 

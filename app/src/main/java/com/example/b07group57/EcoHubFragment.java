@@ -18,32 +18,8 @@ public class EcoHubFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.eco_hub_fragment, container, false);
-
-        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.tracker) {
-                loadFragment(new CalendarFragment());
-            } else if (item.getItemId() == R.id.gauge_nav) {
-                loadFragment(new ExampleFeatureFragment());
-            } else if (item.getItemId() == R.id.hub_nav) {
-                loadFragment(new EcoHubFragment());
-            } else if (item.getItemId() == R.id.balance_nav) {
-                loadFragment(new ExampleFeatureFragment());
-            } else if (item.getItemId() == R.id.agent_nav) {
-                loadFragment(new ExampleFeatureFragment());
-            }
-            return true;
-
-        });
-
+        ((MainActivity) getActivity()).showNavigationBar(true);
         return view;
 
-    }
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 }

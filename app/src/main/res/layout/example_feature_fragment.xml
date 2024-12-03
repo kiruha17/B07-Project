@@ -20,7 +20,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Example Gauge"
+            android:text="Example Agent"
             android:gravity="center"
             android:textSize="40dp"
             android:textColor="@color/black" />

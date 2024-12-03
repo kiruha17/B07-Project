@@ -58,6 +58,7 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((MainActivity) getActivity()).showNavigationBar(true);
         tvTotal = view.findViewById(R.id.totalText);
         tvDate = view.findViewById(R.id.dateText);
         long currentDate = System.currentTimeMillis();

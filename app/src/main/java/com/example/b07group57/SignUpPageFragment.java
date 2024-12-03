@@ -32,6 +32,7 @@ public class SignUpPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.signup_page_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 

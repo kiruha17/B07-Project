@@ -49,7 +49,7 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        ((MainActivity) getActivity()).showNavigationBar(true);
         pieChart = view.findViewById(R.id.piechart);
         tvSelectedDate = view.findViewById(R.id.tvSelectedDate);
         tvActivityDetails = view.findViewById(R.id.tvActivityDetails);

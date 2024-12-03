@@ -30,6 +30,7 @@ public class LogoutPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.logout_page_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         Button logoutButton = view.findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(v -> showLogoutConfirmationDialog());
 

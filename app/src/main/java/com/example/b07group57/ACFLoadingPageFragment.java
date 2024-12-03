@@ -33,6 +33,7 @@ public class ACFLoadingPageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.acf_loading_page_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
