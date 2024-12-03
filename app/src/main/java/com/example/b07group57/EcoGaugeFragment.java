@@ -16,6 +16,7 @@ import com.example.b07group57.utils.EcoGaugeCalculator;
 public class EcoGaugeFragment extends Fragment implements TimeNavigationBarFragment.OnTimeUnitSelectedListener {
 
     private String timeUnit;
+    private long lastTimeUnitSelectionTime = 0;
 
     @Nullable
     @Override
@@ -44,24 +45,36 @@ public class EcoGaugeFragment extends Fragment implements TimeNavigationBarFragm
                 .beginTransaction()
                 .replace(R.id.Graph, new EcoGaugeTotalGraphFragment(timeUnit))
                 .commit();
-
+/*
         // Add BreakdownPieChart
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.pieChart, new BreakdownPieChart())
+                .replace(R.id.pieChart, new BreakdownPieChart(timeUnit))
                 .commit();
+
+ */
     }
 
     // Callback method when a time unit is selected
     @Override
     public void onTimeUnitSelected(String timeUnit) {
-        this.timeUnit = timeUnit;
-        Log.d("EcoGaugeFragment", "Time Unit Selected: " + timeUnit);
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastTimeUnitSelectionTime < 500) {
+            return; // Debounce rapid clicks
+        }
+        lastTimeUnitSelectionTime = currentTime;
 
-        // Update GraphFragment with the new time unit
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.Graph, new EcoGaugeTotalGraphFragment(timeUnit))
-                .commit();
+        if (!this.timeUnit.equals(timeUnit)) {
+            this.timeUnit = timeUnit;
+            Log.d("EcoGaugeFragment", "Time Unit Selected: " + timeUnit);
+
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .setReorderingAllowed(true)
+                    .replace(R.id.Graph, new EcoGaugeTotalGraphFragment(timeUnit))
+                    .commit();
+        }
     }
+
+
 }

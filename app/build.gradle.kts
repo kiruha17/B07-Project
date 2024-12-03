@@ -77,8 +77,11 @@ dependencies {
     implementation(libs.firebase.database.v2033)
     implementation(libs.poi)
     implementation(libs.poi.ooxml)
+    testImplementation(libs.mockito.core) // Add Mockito core for unit tests
+    androidTestImplementation(libs.mockito.android) // Add Mockito Android for UI tests
     androidTestImplementation(libs.androidx.junit.v121)
     androidTestImplementation(libs.androidx.rules.v150)
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.espresso.core.v361)
+    
 }
