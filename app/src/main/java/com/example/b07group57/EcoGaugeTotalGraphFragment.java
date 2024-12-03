@@ -83,7 +83,6 @@ public class EcoGaugeTotalGraphFragment extends Fragment {
                 case "year":
                     yearGraph(view);
                     break;
-
             }
 
 

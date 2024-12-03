@@ -122,17 +122,32 @@
                 android:textColor="@android:color/darker_gray"
                 android:layout_marginBottom="10dp" />
 
-            <!-- Details Button -->
-            <Button
-                android:id="@+id/btnDetails"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="View / Edit"
-                android:layout_gravity="end"
-                android:backgroundTint="@color/colorAccent"
-                android:textColor="@android:color/white"
-                android:padding="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/habits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Habit Suggestion"
+                    android:backgroundTint="@color/colorAccent"
+                    android:textColor="@android:color/white"
+                    android:padding="10dp"
+                    android:layout_alignParentStart="true" />  <!-- 左端に配置 -->
+
+                <Button
+                    android:id="@+id/btnDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View / Edit"
+                    android:backgroundTint="@color/colorAccent"
+                    android:textColor="@android:color/white"
+                    android:padding="10dp"
+                    android:layout_alignParentEnd="true" />  <!-- 右端に配置 -->
+
+            </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

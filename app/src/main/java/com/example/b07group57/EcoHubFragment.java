@@ -22,7 +22,7 @@ public class EcoHubFragment extends Fragment {
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.tracker) {
-                loadFragment(new EcoTrackerFragment());
+                loadFragment(new CalendarFragment());
             } else if (item.getItemId() == R.id.gauge_nav) {
                 loadFragment(new ExampleFeatureFragment());
             } else if (item.getItemId() == R.id.hub_nav) {
