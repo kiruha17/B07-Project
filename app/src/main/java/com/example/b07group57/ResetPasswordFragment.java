@@ -24,6 +24,7 @@ public class ResetPasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.reset_password_fragment, container, false);
         auth = FirebaseAuth.getInstance();
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         EditText email = view.findViewById(R.id.emailEditText);
         Button submitEmailButton = view.findViewById(R.id.sendEmailButton);
 

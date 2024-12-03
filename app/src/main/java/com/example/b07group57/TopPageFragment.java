@@ -24,6 +24,7 @@ public class TopPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.top_page_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(true);
         // Find the logout button
         logoutButton = view.findViewById(R.id.logout_button);
         acfButton = view.findViewById(R.id.acf_button);

@@ -17,6 +17,7 @@ public class ResetPasswordEmailSentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.reset_password_email_sent_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         Button backToLoginButton = view.findViewById(R.id.backToLoginButton);
         backToLoginButton.setOnClickListener(v -> {
             Fragment loginPageFragment = new LoginPageFragment();

@@ -29,6 +29,7 @@ public class EcoBalanceFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_eco_balance, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(true);
         recyclerView = view.findViewById(R.id.recycler_view_offset_projects);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

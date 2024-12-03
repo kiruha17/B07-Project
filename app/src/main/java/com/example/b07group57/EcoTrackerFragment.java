@@ -74,6 +74,7 @@ public class EcoTrackerFragment extends Fragment {
             selectedDate = getArguments().getString("selectedDate", "");
         }
 
+        ((MainActivity) getActivity()).showNavigationBar(true);
         // Set up the TextView for each category title
         LinearLayout transportationSection = view.findViewById(R.id.transportationSection);
         LinearLayout foodSection = view.findViewById(R.id.foodSection);
@@ -169,6 +170,7 @@ public class EcoTrackerFragment extends Fragment {
         });
         selectedFuelType = fuelTypeSpinner.getSelectedItem().toString();
 
+
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.tracker) {
@@ -185,6 +187,7 @@ public class EcoTrackerFragment extends Fragment {
             return true;
 
         });
+
 
         return view;
     }

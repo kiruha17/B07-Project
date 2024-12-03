@@ -17,6 +17,7 @@ public class HomePageFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_page_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         Button buttonLoginView = view.findViewById(R.id.buttonLoginView);
         Button buttonSignupView = view.findViewById(R.id.buttonSignupView);
 

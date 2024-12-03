@@ -19,6 +19,7 @@ public class ExampleFeatureFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.example_feature_fragment, container, false);
 
+
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.tracker) {
@@ -40,6 +41,7 @@ public class ExampleFeatureFragment extends Fragment {
 
 
 
+        ((MainActivity) getActivity()).showNavigationBar(true);
 
         return view;
     }

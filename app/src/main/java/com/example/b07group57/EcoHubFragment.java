@@ -17,7 +17,6 @@ public class EcoHubFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.eco_hub_fragment, container, false);
-
         // Link each button to its URL
         setupButton(view.findViewById(R.id.sustainabilityBasicsButton), "https://planetze.io/");
         setupButton(view.findViewById(R.id.climateChangeButton), "https://planetze.io/");
@@ -26,6 +25,7 @@ public class EcoHubFragment extends Fragment {
         setupButton(view.findViewById(R.id.ecoProductsButton), "https://planetze.io/");
         setupButton(view.findViewById(R.id.sustainableFashionButton), "https://planetze.io/");
 
+        ((MainActivity) getActivity()).showNavigationBar(true);
         return view;
     }
 

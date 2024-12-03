@@ -19,6 +19,7 @@ public class LogoutConfirmationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.logout_confirmation_fragment, container, false);
 
+        ((MainActivity) getActivity()).showNavigationBar(false);
         // Start a timer to navigate back to the home page after 3 seconds
         new Handler(Looper.getMainLooper()).postDelayed(this::navigateToHomePage, 3000); // 3 seconds
 
